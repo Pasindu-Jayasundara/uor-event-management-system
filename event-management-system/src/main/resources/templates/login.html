@@ -6,16 +6,16 @@
 </head>
 <body>
 
-<form method="post" th:action="@{/login}">
+<form method="post" th:action="@{/login}" th:object="${loginDto}">
 
     <div>
         <label>Email:</label>
-        <input type="text" name="email" />
+        <input type="text" th:field="*{email}" />
     </div>
 
     <div>
         <label>Password:</label>
-        <input type="password" name="password" />
+        <input type="password" th:field="*{password}" />
     </div>
 
     <button type="submit">Login</button>

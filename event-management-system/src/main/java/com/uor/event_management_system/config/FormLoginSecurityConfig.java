@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configurers.FormLoginC
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -20,6 +22,11 @@ import java.io.IOException;
 
 @Configuration
 public class FormLoginSecurityConfig {
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,7 +44,7 @@ public class FormLoginSecurityConfig {
             public void customize(FormLoginConfigurer<HttpSecurity> httpSecurityFormLoginConfigurer) {
 
                 httpSecurityFormLoginConfigurer
-                        .loginPage("/login")
+                        .loginPage("/login-page")
                         .usernameParameter("email")
                         .passwordParameter("password")
                         .successHandler(new AuthenticationSuccessHandler() {
