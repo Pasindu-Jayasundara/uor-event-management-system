@@ -32,7 +32,7 @@ public class UserEntity implements UserDetails {
     @Column(unique = true) @Length(max = 45) @NonNull
     private String email;
 
-    @Length(max = 45) @NonNull
+    @Column(nullable = false)
     private String password;
 
     @Length(max = 12) @NonNull

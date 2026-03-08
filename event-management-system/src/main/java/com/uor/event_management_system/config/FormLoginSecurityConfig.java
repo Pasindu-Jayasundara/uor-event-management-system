@@ -44,7 +44,7 @@ public class FormLoginSecurityConfig {
             public void customize(FormLoginConfigurer<HttpSecurity> httpSecurityFormLoginConfigurer) {
 
                 httpSecurityFormLoginConfigurer
-                        .loginPage("/login-page")
+                        .loginPage("/login")
                         .usernameParameter("email")
                         .passwordParameter("password")
                         .successHandler(new AuthenticationSuccessHandler() {
