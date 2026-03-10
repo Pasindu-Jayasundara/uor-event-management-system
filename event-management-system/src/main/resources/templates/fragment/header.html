@@ -18,29 +18,29 @@
         <th:block th:if="${user.role.role == 'ROLE_ADMIN'}">
             <div class="d-flex justify-content-center align-items-center selected px-3 py-2 rounded" role="button">
 <!--                <img src="../../../static/icon/dashboard-Icon.svg">-->
-                <img th:src="@{/icon/dashboard-Icon.svg}">
+                <img th:src="@{/icon/dashboard/dashboard-Icon.svg}">
                 <span class="text-white ps-2">Dashboard</span>
             </div>
             <div class="d-flex justify-content-center align-items-center px-3 py-2 rounded" role="button">
 <!--                <img src="../../../static/icon/manageevent-Icon.svg">-->
-                <img th:src="@{/icon/manageevent-Icon.svg}">
+                <img th:src="@{/icon/dashboard/manageevent-Icon.svg}">
                 <span class="text-white ps-2">Manage Events</span>
             </div>
             <div class="d-flex justify-content-center align-items-center px-3 py-2 rounded" role="button">
 <!--                <img src="../../../static/icon/registration-Icon.svg">-->
-                <img th:src="@{/icon/registration-Icon.svg}">
+                <img th:src="@{/icon/dashboard/registration-Icon.svg}">
                 <span class="text-white ps-2">Registrations</span>
             </div>
         </th:block>
         <th:block th:if="${user.role.role == 'ROLE_USER'}">
             <div class="d-flex justify-content-center align-items-center px-3 py-2 rounded selected" role="button">
 <!--                <img src="../../../static/icon/manageevent-Icon.svg">-->
-                <img th:src="@{/icon/manageevent-Icon.svg}">
+                <img th:src="@{/icon/dashboard/manageevent-Icon.svg}">
                 <span class="text-white ps-2">Events</span>
             </div>
             <div class="d-flex justify-content-center align-items-center px-3 py-2 rounded" role="button">
 <!--                <img src="../../../static/icon/dashboard-Icon.svg">-->
-                <img th:src="@{/icon/dashboard-Icon.svg}">
+                <img th:src="@{/icon/dashboard/dashboard-Icon.svg}">
                 <span class="text-white ps-2">My Dashboard</span>
             </div>
         </th:block>
