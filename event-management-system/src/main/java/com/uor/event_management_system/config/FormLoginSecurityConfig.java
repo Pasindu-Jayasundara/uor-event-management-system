@@ -37,6 +37,7 @@ public class FormLoginSecurityConfig {
 
                 authorizationManagerRequestMatcherRegistry
                         .requestMatchers("/admin/**","/user/**").authenticated()
+                        .requestMatchers("/css/**").permitAll()
                         .anyRequest().permitAll();
             }
         }).formLogin(new Customizer<FormLoginConfigurer<HttpSecurity>>() {
@@ -44,7 +45,8 @@ public class FormLoginSecurityConfig {
             public void customize(FormLoginConfigurer<HttpSecurity> httpSecurityFormLoginConfigurer) {
 
                 httpSecurityFormLoginConfigurer
-                        .loginPage("/login")
+                        .loginPage("/login-page")
+                        .loginProcessingUrl("/login")
                         .usernameParameter("email")
                         .passwordParameter("password")
                         .successHandler(new AuthenticationSuccessHandler() {
