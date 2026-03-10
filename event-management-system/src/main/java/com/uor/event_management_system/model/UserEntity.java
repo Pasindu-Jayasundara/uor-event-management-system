@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,11 +22,11 @@ public class UserEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Length(max = 45) @NonNull
-    private String first_name;
+    @Length(max = 45) @NonNull @Column(name = "first_name")
+    private String firstName;
 
-    @Length(max = 45) @NonNull
-    private String last_name;
+    @Length(max = 45) @NonNull @Column(name = "last_name")
+    private String lastName;
 
     @Column(unique = true) @Length(max = 45) @NonNull
     private String email;
@@ -40,11 +39,11 @@ public class UserEntity implements UserDetails {
 
     @ManyToOne
     @JoinColumn(name = "role_id",nullable = false)
-    private RoleEntity role_id;
+    private RoleEntity role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role_id.getRole()));
+        return List.of(new SimpleGrantedAuthority(role.getRole()));
     }
 
     @Override
