@@ -2,52 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Common Header</title>
+    <title>Header</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css" integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" th:href="@{/css/header.css}" />
+<!--    <link rel="stylesheet" href="../../../static/css/header.css"/>-->
 </head>
 <body>
 
-<div class="d-flex justify-content-between align-items-center header-background">
-<!--  left  -->
-    <div class="d-flex justify-content-center align-items-center">
-        <div class="d-flex justify-content-center align-items-center bg-warning p-5">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-mortarboard" viewBox="0 0 16 16">
+<div th:fragment="userHeader(user)" class="d-flex justify-content-between align-items-center header-background py-2 px-3">
+    <!--  left  -->
+    <div class="d-flex justify-content-center align-items-center" role="button">
+        <div class="d-flex justify-content-center align-items-center bg-warning p-2 m-2 rounded ">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#b02a37" class="bi bi-mortarboard" viewBox="0 0 16 16">
                 <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z"/>
                 <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z"/>
             </svg>
         </div>
         <div class="d-flex flex-column justify-content-center align-items-start">
             <div class="text-white fw-bold">UniEvents</div>
-            <div class="text-muted">University Event Portal</div>
+            <div class="text-white-50">University Event Portal</div>
         </div>
     </div>
-<!--  middle  -->
-    <div>
-        <div>
-            <div></div>
-            <div></div>
-        </div>
-        <div>
-            <div></div>
-            <div></div>
-        </div>
-        <div>
-            <div></div>
-            <div></div>
-        </div>
+    <!--  middle  -->
+    <div class="d-flex justify-content-center align-items-center">
+        <th:block th:if="${user.role.role == 'ROLE_ADMIN'}">
+            <div class="d-flex justify-content-center align-items-center selected px-3 py-2 rounded" role="button">
+<!--                <img src="../../../static/icon/dashboard-Icon.svg">-->
+                <img th:src="@{/icon/dashboard-Icon.svg}">
+                <span class="text-white ps-2">Dashboard</span>
+            </div>
+            <div class="d-flex justify-content-center align-items-center px-3 py-2 rounded" role="button">
+<!--                <img src="../../../static/icon/manageevent-Icon.svg">-->
+                <img th:src="@{/icon/manageevent-Icon.svg}">
+                <span class="text-white ps-2">Manage Events</span>
+            </div>
+            <div class="d-flex justify-content-center align-items-center px-3 py-2 rounded" role="button">
+<!--                <img src="../../../static/icon/registration-Icon.svg">-->
+                <img th:src="@{/icon/registration-Icon.svg}">
+                <span class="text-white ps-2">Registrations</span>
+            </div>
+        </th:block>
+        <th:block th:if="${user.role.role == 'ROLE_USER'}">
+            <div class="d-flex justify-content-center align-items-center px-3 py-2 rounded selected" role="button">
+<!--                <img src="../../../static/icon/manageevent-Icon.svg">-->
+                <img th:src="@{/icon/manageevent-Icon.svg}">
+                <span class="text-white ps-2">Events</span>
+            </div>
+            <div class="d-flex justify-content-center align-items-center px-3 py-2 rounded" role="button">
+<!--                <img src="../../../static/icon/dashboard-Icon.svg">-->
+                <img th:src="@{/icon/dashboard-Icon.svg}">
+                <span class="text-white ps-2">My Dashboard</span>
+            </div>
+        </th:block>
     </div>
-<!--  right  -->
-    <div>
-        <div>
-            <div></div>
-            <div></div>
+    <!--  right  -->
+    <div class="d-flex justify-content-center align-items-center px-3 py-2 rounded" role="button">
+        <div class="d-flex justify-content-center align-items-center account-type rounded-5 px-3 py-1" role="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+                <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
+                <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
+            </svg>
+            <span class="account-type ps-2" th:text="${user.role.role == 'ROLE_ADMIN'? 'Admin' : 'Student' }"></span>
         </div>
-        <div></div>
-        <div>
-            <div></div>
-            <div></div>
+        <div class="d-flex justify-content-center align-items-center" role="button">
+            <span class="account-type px-2 py-1 rounded-5 ms-2 fs-6" th:text="${user.firstName[0]+user.lastName[0]}">AJ</span>
+            <span class="text-white-50 ps-1" th:text="${user.firstName}">Alex</span>
         </div>
     </div>
 </div>
