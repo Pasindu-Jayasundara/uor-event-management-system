@@ -71,8 +71,13 @@
         <div class="fw-bold fs-2">Sign In</div>
         <div class="fs-6 text-black-50">Enter your credentials to access the portal</div>
     </div>
+
     <form method="post" th:action="@{/login}" th:object="${loginDto}"
           class="d-flex flex-column justify-content-start align-items-start mt-5 pt-3 w-75">
+
+        <th:block th:if="${param.msg}">
+            <span th:text="${param.msg}" class="d-flex align-self-start text-danger fs-6 mb-3"></span>
+        </th:block>
 
         <div class="mb-4 w-100">
             <label for="email" class="form-label fw-bold">Email address</label>
