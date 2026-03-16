@@ -75,13 +75,13 @@
 <!--right-->
 <div class="d-flex flex-column min-vh-100 col-6 bg-white justify-content-center align-items-center">
 
-    <th:block th:if="${param.containsKey('step') && param.get('step') ==2}">
-        <th:block th:replace="~{fragment/register/step-2 :: register-step-2(registerDto, errorMsg, facultyDepartmentDtoList)}"></th:block>
+    <th:block th:if="${step ==2}">
+        <th:block th:replace="~{fragment/register/step-2 :: register-step-2(${registerDto}, ${facultyDepartmentList})}"></th:block>
     </th:block>
 
-    <th:unless>
+    <th:blick th:if="${step != 2}">
         <th:block th:replace="~{fragment/register/step-1 :: register-step-1(${registerDto})}"></th:block>
-    </th:unless>
+    </th:blick>
 
     <th:block th:if="${errorMsg}">
         <span th:text="${errorMsg}" class="d-flex align-self-start text-danger fs-6 mb-3"></span>

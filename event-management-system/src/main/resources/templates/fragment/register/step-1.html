@@ -14,7 +14,8 @@
     </div>
 
     <!--    <form method="post" th:action="@{/register}" th:object="${registerDto}"-->
-    <form th:object="${registerDto}" class="d-flex flex-column justify-content-start align-items-start mt-5 pt-3 w-100">
+<!--    <form th:object="${registerDto}" class="d-flex flex-column justify-content-start align-items-start mt-5 pt-3 w-100">-->
+        <form th:action="@{/register-page}" th:object="${registerDto}" method="post" class="d-flex flex-column justify-content-start align-items-start mt-5 pt-3 w-100">
 
         <div class="d-flex flex-row align-items-center justify-content-between gap-2 w-100">
 
@@ -85,15 +86,16 @@
 
         </div>
 
-<!--        <form th:action="@{/register-page(step=2)}" method="post" class="w-100">-->
-            <button
-                    class="w-100 rounded-3 py-2 login-left-bg border-0 mt-5">
-            <span class="fs-6 fw-bold text-white d-flex flex-row justify-content-center align-items-center">
-                Continue
-                <i class="bi bi-arrow-right-short fw-bold fs-2"></i>
-            </span>
-<!--            </button>-->
-        </form>
+<!--        <form th:action="@{/register-page(step=2)}" th:object="${registerDto}" method="post" class="w-100">-->
+            <!-- Your inputs here -->
+
+            <button type="submit" class="w-100 rounded-3 py-2 login-left-bg border-0 mt-5">
+        <span class="fs-6 fw-bold text-white d-flex flex-row justify-content-center align-items-center">
+            Continue
+            <i class="bi bi-arrow-right-short fw-bold fs-2"></i>
+        </span>
+            </button>
+<!--        </form>-->
 
 
     </form>

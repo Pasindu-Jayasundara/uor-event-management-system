@@ -6,14 +6,14 @@
 </head>
 <body>
 
-<div th:fragment="register-step-2(registerDto, errorMsg, facultyDepartmentList)">
+<th:block th:fragment="register-step-2(registerDto, facultyDepartmentList)">
 
     <div class="d-flex flex-column justify-content-center align-items-start w-75">
         <div class="fw-bold fs-2">Academic Details</div>
         <div class="fs-6 text-black-50">Step 2 of 2 — Your academic information</div>
     </div>
 
-    <div th:object="${registerDto}"
+    <form th:object="${registerDto}" th:action="@{/register}" method="post"
           class="d-flex flex-column justify-content-start align-items-start mt-5 pt-3 w-75">
 
         <th:block th:if="${errorMsg}">
@@ -87,9 +87,9 @@
                 </span>
         </button>
 
-    </div>
+    </form>
 
-</div>
+</th:block>
 
 </body>
 </html>

@@ -46,13 +46,14 @@ public class CommonPagePathMapping {
     }
 
     @PostMapping("/register-page")
-    public String registerPage_2(@RequestParam(value = "step") Integer step, Model model){
+    public String registerPage_2(@ModelAttribute("registerDto") RegisterDto registerDto, Model model){
 
-        if(!model.containsAttribute("registerDto")){
-            model.addAttribute("registerDto", new RegisterDto());
-        }else{
-            model.addAttribute("registerDto", model.getAttribute("registerDto"));
-        }
+//        if(!model.containsAttribute("registerDto")){
+//            model.addAttribute("registerDto", new RegisterDto());
+//        }else{
+        model.addAttribute("registerDto", registerDto);
+        model.addAttribute("step", 2);
+//        }
 //
 //        if(step != null && step == 2){
             List<FacultyEntity> facultyDepartmentList = facultyService.getAllFacultiesWithDepartments();
