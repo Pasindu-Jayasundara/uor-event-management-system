@@ -13,16 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 @Controller
+@SessionAttributes("registerDto")
 public class CommonPagePathMapping {
 
     @Autowired
@@ -50,9 +49,8 @@ public class CommonPagePathMapping {
     }
 
     @PostMapping("/register-page")
-    public String registerPage_2(@ModelAttribute("registerDto") RegisterDto registerDto, Model model) {
+    public String registerPage(@ModelAttribute("registerDto") RegisterDto registerDto, Model model) {
 
-        model.addAttribute("registerDto", registerDto);
         model.addAttribute("step", 2);
 
         List<FacultyDepartmentDto> facultyDepartmentList = new ArrayList<>();
@@ -77,10 +75,11 @@ public class CommonPagePathMapping {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute("registerDto") RegisterDto registerDto, Model model) {
+    public String register(@ModelAttribute("registerDto") RegisterDto registerDto, Model model, SessionStatus sessionStatus) {
         String status = registerUserService.registerUser(registerDto);
 
         if (status.equals("success")) {
+            sessionStatus.setComplete();
             return "redirect:/login-page";
         } else {
             model.addAttribute("errorMsg", "Registration failed. Please try again.");

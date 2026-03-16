@@ -57,21 +57,28 @@
         <div class="mb-4 w-100">
             <label class="form-label fw-bold">Year of Study</label>
 
-            <div>
-                <input type="radio" class="btn-check" name="options-base" id="option5" autocomplete="off" checked>
-                <label class="btn chip-text" for="option5">Year 1</label>
+            <div class="d-flex flex-wrap gap-2">
 
-                <input type="radio" class="btn-check" name="options-base" id="option6" autocomplete="off">
-                <label class="btn chip-text" for="option6">Year 2</label>
+                <input type="radio" class="btn-check" name="studyYear" id="year1"
+                       th:field="*{studyYear}" value="1" autocomplete="off">
+                <label class="btn chip-text" for="year1">Year 1</label>
 
-                <input type="radio" class="btn-check" name="options-base" id="option8" autocomplete="off">
-                <label class="btn chip-text" for="option8">Year 3</label>
+                <input type="radio" class="btn-check" name="studyYear" id="year2"
+                       th:field="*{studyYear}" value="2" autocomplete="off">
+                <label class="btn chip-text" for="year2">Year 2</label>
 
-                <input type="radio" class="btn-check" name="options-base" id="option9" autocomplete="off">
-                <label class="btn chip-text" for="option9">Year 4</label>
+                <input type="radio" class="btn-check" name="studyYear" id="year3"
+                       th:field="*{studyYear}" value="3" autocomplete="off">
+                <label class="btn chip-text" for="year3">Year 3</label>
 
-                <input type="radio" class="btn-check" name="options-base" id="option10" autocomplete="off">
-                <label class="btn chip-text" for="option10">Year 5</label>
+                <input type="radio" class="btn-check" name="studyYear" id="year4"
+                       th:field="*{studyYear}" value="4" autocomplete="off">
+                <label class="btn chip-text" for="year4">Year 4</label>
+
+                <input type="radio" class="btn-check" name="studyYear" id="year5"
+                       th:field="*{studyYear}" value="5" autocomplete="off">
+                <label class="btn chip-text" for="year5">Year 5</label>
+
             </div>
         </div>
 
