@@ -30,12 +30,13 @@ public class RegisterUserService {
         RoleEntity role = roleRepository.findRoleByRole(registerDto.getRole());
 
         UserEntity newUser = new UserEntity();
-        newUser.setFirstName(registerDto.getFirst_name());
-        newUser.setLastName(registerDto.getLast_name());
+        newUser.setFirstName(registerDto.getFirstName());
+        newUser.setLastName(registerDto.getLastName());
         newUser.setEmail(registerDto.getEmail());
         newUser.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-        newUser.setNic(registerDto.getNic());
+        newUser.setStudyYear(registerDto.getStudyYear());
         newUser.setRole(role);
+        newUser.setDepartment(registerDto.getDepartment());
 
         try {
             userRepository.save(newUser);

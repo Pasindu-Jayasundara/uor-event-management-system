@@ -34,12 +34,16 @@ public class UserEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @Length(max = 12) @NonNull
-    private String nic;
-
     @ManyToOne
     @JoinColumn(name = "role_id",nullable = false)
     private RoleEntity role;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private DepartmentEntity department;
+
+    @Column(name = "study_year", nullable = false)
+    private int studyYear;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
