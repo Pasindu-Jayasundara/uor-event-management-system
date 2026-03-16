@@ -6,16 +6,15 @@
 </head>
 <body>
 
-<th:block th:fragment="register-step-1(registerDto)" >
+<th:block th:fragment="register-step-1">
 
     <div class="d-flex flex-column justify-content-center align-items-start w-75">
         <div class="fw-bold fs-2">Create Account</div>
         <div class="fs-6 text-black-50">Step 1 of 2 — Account credentials</div>
     </div>
 
-    <!--    <form method="post" th:action="@{/register}" th:object="${registerDto}"-->
-<!--    <form th:object="${registerDto}" class="d-flex flex-column justify-content-start align-items-start mt-5 pt-3 w-100">-->
-        <form th:action="@{/register-page}" th:object="${registerDto}" method="post" class="d-flex flex-column justify-content-start align-items-start mt-5 pt-3 w-100">
+    <form th:action="@{/register-page}" th:object="${registerDto}" method="post"
+          class="d-flex flex-column justify-content-start align-items-start mt-5 pt-3 w-100">
 
         <div class="d-flex flex-row align-items-center justify-content-between gap-2 w-100">
 
@@ -26,7 +25,7 @@
                         <i class="bi bi-person text-black-50"></i>
                     </span>
                     <input type="text" class="form-control" id="fname" aria-describedby="e-addon-wrapping"
-                           th:field="${registerDto.firstName}"
+                           th:field="*{firstName}"
                            placeholder="e.g. Alex">
                 </div>
             </div>
@@ -38,7 +37,7 @@
                         <i class="bi bi-person text-black-50"></i>
                     </span>
                     <input type="text" class="form-control" id="lname" aria-describedby="l-addon-wrapping"
-                           th:field="${registerDto.lastName}"
+                           th:field="*{lastName}"
                            placeholder="e.g. Johnson">
                 </div>
             </div>
@@ -52,7 +51,7 @@
                         <i class="bi bi-envelope text-black-50"></i>
                     </span>
                 <input type="email" class="form-control w-100" id="email" aria-describedby="-addon-wrapping"
-                       th:field="${registerDto.email}" placeholder="you@fot.ruh.ac.lk">
+                       th:field="*{email}" placeholder="you@fot.ruh.ac.lk">
             </div>
         </div>
 
@@ -63,7 +62,7 @@
                         <i class="bi bi-lock text-black-50"></i>
                     </span>
                 <input type="password" class="form-control w-100" id="pwd1" aria-describedby="p1-addon-wrapping"
-                       th:field="${registerDto.password}"
+                       th:field="*{password}"
                        placeholder="Min. 8 characters">
             </div>
         </div>
@@ -75,7 +74,7 @@
                         <i class="bi bi-lock text-black-50"></i>
                     </span>
                 <input type="password" class="form-control w-100" id="pwd2" aria-describedby="p2-addon-wrapping"
-                       th:field="${registerDto.confirmPassword}"
+                       th:field="*{confirmPassword}"
                        placeholder="Re-enter your password">
             </div>
             <!--            <th:block th:if="${registerDto.password == registerDto.confirmPassword}">-->
@@ -86,16 +85,12 @@
 
         </div>
 
-<!--        <form th:action="@{/register-page(step=2)}" th:object="${registerDto}" method="post" class="w-100">-->
-            <!-- Your inputs here -->
-
-            <button type="submit" class="w-100 rounded-3 py-2 login-left-bg border-0 mt-5">
-        <span class="fs-6 fw-bold text-white d-flex flex-row justify-content-center align-items-center">
-            Continue
-            <i class="bi bi-arrow-right-short fw-bold fs-2"></i>
-        </span>
-            </button>
-<!--        </form>-->
+        <button type="submit" class="w-100 rounded-3 py-2 login-left-bg border-0 mt-5">
+            <span class="fs-6 fw-bold text-white d-flex flex-row justify-content-center align-items-center">
+                Continue
+                <i class="bi bi-arrow-right-short fw-bold fs-2"></i>
+            </span>
+        </button>
 
 
     </form>

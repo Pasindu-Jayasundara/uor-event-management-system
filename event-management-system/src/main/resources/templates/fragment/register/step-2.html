@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<th:block th:fragment="register-step-2(registerDto, facultyDepartmentList)">
+<th:block th:fragment="register-step-2">
 
     <div class="d-flex flex-column justify-content-center align-items-start w-75">
         <div class="fw-bold fs-2">Academic Details</div>
@@ -15,10 +15,6 @@
 
     <form th:object="${registerDto}" th:action="@{/register}" method="post"
           class="d-flex flex-column justify-content-start align-items-start mt-5 pt-3 w-75">
-
-        <th:block th:if="${errorMsg}">
-            <span th:text="${errorMsg}" class="d-flex align-self-start text-danger fs-6 mb-3"></span>
-        </th:block>
 
         <div class="d-flex flex-column align-items-center justify-content-between gap-2 w-100">
 
@@ -29,7 +25,7 @@
                         #
                     </span>
                     <input type="text" class="form-control" id="id" aria-describedby="id-addon-wrapping"
-                           th:field="${registerDto.studentId}" placeholder="e.g. TG/20xx/xxxx">
+                           th:field="*{studentId}" placeholder="e.g. TG/20xx/xxxx">
                 </div>
             </div>
 
@@ -37,11 +33,11 @@
 
                 <div class="d-flex flex-column mb-4 col-6">
                     <label for="faculty" class="form-label fw-bold">Faculty</label>
-                    <select class="form-select" id="faculty" th:field="${registerDto.faculty}">
+                    <select class="form-select" id="faculty" th:field="*{faculty}">
                         <option value="">Select a faculty</option>
 
-                        <element th:each="faculty : ${facultyDepartmentList}">
-                            <option th:text="${faculty.faculty}" th:value="${faculty.faculty}"></option>
+                        <element th:each="dto : ${facultyDepartmentList}">
+                            <option th:text="${dto.faculty.faculty}" th:value="${dto.faculty.id}"></option>
                         </element>
                     </select>
                 </div>
@@ -49,7 +45,7 @@
 
                 <div class="d-flex flex-column mb-4 col-6">
                     <label for="department" class="form-label fw-bold">Department</label>
-                    <select class="form-select" id="department" th:field="${registerDto.department}">
+                    <select class="form-select" id="department" th:field="*{department}">
                         <option value="">Select a department</option>
                     </select>
                 </div>
@@ -88,6 +84,10 @@
         </button>
 
     </form>
+
+    <script th:inline="javascript">
+        window.facultyDepartmentList = /*[[${facultyDepartmentList}]]*/ [];
+    </script>
 
 </th:block>
 

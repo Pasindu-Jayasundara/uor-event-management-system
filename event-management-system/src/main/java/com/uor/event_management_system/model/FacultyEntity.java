@@ -15,6 +15,6 @@ public class FacultyEntity {
     @Id
     private int id;
     private String faculty;
-    @OneToMany(mappedBy = "faculty")
-    private List<DepartmentEntity> departments;
+//    @OneToMany(mappedBy = "faculty")
+//    private List<DepartmentEntity> departments;
 }

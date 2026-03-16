@@ -13,10 +13,7 @@ public class FacultyService {
     @Autowired
     private FacultyRepository facultyRepository;
 
-    @Autowired
-    private DepartmentService departmentService;
-
-    public List<FacultyEntity> getAllFacultiesWithDepartments(){
+    public List<FacultyEntity> getAllFaculties(){
         return facultyRepository.findAll();
     }
 }
