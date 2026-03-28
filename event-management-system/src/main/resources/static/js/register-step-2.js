@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const facultySelect    = document.getElementById('faculty');
+    departmentBasedOnFaculty();
+});
+
+function departmentBasedOnFaculty() {
+    const facultySelect = document.getElementById('faculty');
     const departmentSelect = document.getElementById('department');
 
     // Access the data we passed from Thymeleaf
@@ -34,4 +38,4 @@ document.addEventListener('DOMContentLoaded', () => {
     if (facultySelect.value) {
         facultySelect.dispatchEvent(new Event('change'));
     }
-});
+}
