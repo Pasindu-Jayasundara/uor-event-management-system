@@ -16,6 +16,10 @@
     <form th:action="@{/register-page}" th:object="${registerDto}" method="post"
           class="d-flex flex-column justify-content-start align-items-start mt-5 pt-3 w-100">
 
+        <th:block th:if="${errorMsg}">
+            <span th:text="${errorMsg}" class="d-flex align-self-start text-danger fs-6 mb-3"></span>
+        </th:block>
+
         <div class="d-flex flex-row align-items-center justify-content-between gap-2 w-100">
 
             <div class="d-flex flex-column mb-4 col-6">
@@ -56,6 +60,17 @@
         </div>
 
         <div class="mb-4 w-100">
+            <label for="accountType" class="form-label fw-bold">Account Type</label>
+            <select class="form-select" id="accountType" th:field="*{accountType}">
+                <option value="">Select a Account Type</option>
+
+                <th:block th:each="item : ${accountTypeList}">
+                    <option th:text="${item.type}" th:value="${item.id}"></option>
+                </th:block>
+            </select>
+        </div>
+
+        <div class="mb-4 w-100">
             <label for="pwd1" class="form-label fw-bold">Password</label>
             <div class="input-group flex-nowrap">
                     <span class="input-group-text" id="p1-addon-wrapping">
@@ -70,30 +85,32 @@
         <div class="mb-4 w-100">
             <label for="pwd2" class="form-label fw-bold">Confirm Password</label>
             <div class="input-group flex-nowrap">
-                    <span class="input-group-text" id="p2-addon-wrapping">
-                        <i class="bi bi-lock text-black-50"></i>
-                    </span>
-                <input type="password" class="form-control w-100" id="pwd2" aria-describedby="p2-addon-wrapping"
-                       th:field="*{confirmPassword}"
+        <span class="input-group-text">
+            <i class="bi bi-lock text-black-50"></i>
+        </span>
+                <input type="password" class="form-control w-100"
+                       th:field="*{confirmPassword}" id="pwd2"
                        placeholder="Re-enter your password">
             </div>
-            <!--            <th:block th:if="${registerDto.password == registerDto.confirmPassword}">-->
-            <!--                <p class="text-success fs-6">-->
-            <!--                    Password Match-->
-            <!--                </p>-->
-            <!--            </th:block>-->
+
+            <p id="passwordMessage" class="fs-6"></p>
+        </div>
+
+        <div id="buttonContainer" class="w-100">
+
+            <div id="continueBtn">
+                <th:block th:replace="~{fragment/register/continue-btn :: continue-btn}"></th:block>
+            </div>
+
+            <div id="registerBtn" style="display: none;">
+                <th:block th:replace="~{fragment/register/register-btn :: register-btn}"></th:block>
+            </div>
 
         </div>
 
-        <button type="submit" class="w-100 rounded-3 py-2 login-left-bg border-0 mt-5">
-            <span class="fs-6 fw-bold text-white d-flex flex-row justify-content-center align-items-center">
-                Continue
-                <i class="bi bi-arrow-right-short fw-bold fs-2"></i>
-            </span>
-        </button>
-
-
     </form>
+
+    <script th:src="@{/js/register-step-1.js}"></script>
 
 </th:block>
 

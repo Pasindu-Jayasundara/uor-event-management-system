@@ -2,22 +2,20 @@ package com.uor.event_management_system.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 
 @Entity
-@Table(name = "role")
+@Table(name = "account_type")
 
 @Getter @Setter
-public class RoleEntity implements Serializable {
+public class AccountTypeEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Length(max = 45) @NonNull
-    private String role;
+    @Column(name = "type", nullable = false, length = 45)
+    private String type;
 }

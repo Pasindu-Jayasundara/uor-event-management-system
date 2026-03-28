@@ -33,7 +33,7 @@
 
                 <div class="d-flex flex-column mb-4 col-6">
                     <label for="faculty" class="form-label fw-bold">Faculty</label>
-                    <select class="form-select" id="faculty" th:field="*{faculty}">
+                    <select class="form-select" id="faculty" th:field="*{facultyId}">
                         <option value="">Select a faculty</option>
 
                         <element th:each="dto : ${facultyDepartmentList}">
@@ -83,18 +83,23 @@
         </div>
 
 
-        <button type="submit" class="w-100 rounded-3 py-2 login-left-bg border-0 mt-5">
-                <span class="fs-6 fw-bold text-white d-flex flex-row justify-content-center align-items-center">
-                    Create Account
-                    <i class="bi bi-arrow-right-short fw-bold fs-2"></i>
-                </span>
-        </button>
+<!--        <button type="submit" class="w-100 rounded-3 py-2 login-left-bg border-0 mt-5">-->
+<!--                <span class="fs-6 fw-bold text-white d-flex flex-row justify-content-center align-items-center">-->
+<!--                    Create Account-->
+<!--                    <i class="bi bi-arrow-right-short fw-bold fs-2"></i>-->
+<!--                </span>-->
+<!--        </button>-->
+
+        <th:block th:replace="~{fragment/register/register-btn :: register-btn}"></th:block>
 
     </form>
+
 
     <script th:inline="javascript">
         window.facultyDepartmentList = /*[[${facultyDepartmentList}]]*/ [];
     </script>
+
+    <script th:src="@{/js/register-step-2.js}"></script>
 
 </th:block>
 

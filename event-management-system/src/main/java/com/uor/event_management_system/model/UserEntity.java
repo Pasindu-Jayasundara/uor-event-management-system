@@ -1,5 +1,6 @@
 package com.uor.event_management_system.model;
 
+import com.uor.event_management_system.util.AccountType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NonNull;
@@ -9,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,7 +18,7 @@ import java.util.List;
 @Table(name="user")
 
 @Getter @Setter
-public class UserEntity implements UserDetails {
+public class UserEntity implements UserDetails, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,11 +41,21 @@ public class UserEntity implements UserDetails {
     private RoleEntity role;
 
     @ManyToOne
-    @JoinColumn(name = "department_id")
-    private DepartmentEntity department;
+    @JoinColumn(name = "account_type_id",nullable = false)
+    private AccountTypeEntity accountType;
 
-    @Column(name = "study_year", nullable = false)
-    private int studyYear;
+//    @ManyToOne
+//    @JoinColumn(name = "department_id")
+//    private DepartmentEntity department;
+
+//    @Column(name = "study_year", nullable = false)
+//    private int studyYear;
+
+    @OneToOne(mappedBy = "user")
+    private StaffProfileEntity staffProfile;
+
+    @OneToOne(mappedBy = "user")
+    private UndergraduateProfileEntity undergraduateProfile;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -72,6 +84,13 @@ public class UserEntity implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+
+        String type = accountType.getType();
+        System.out.println(type);
+        if (type.equals(AccountType.PROFILE_STAFF.name())) {
+            return staffProfile != null && staffProfile.getVerified() == 1;
+        }
+
+        return true; // undergraduate allowed
     }
 }
