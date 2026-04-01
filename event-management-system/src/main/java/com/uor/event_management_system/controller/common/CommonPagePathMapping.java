@@ -3,27 +3,31 @@ package com.uor.event_management_system.controller.common;
 import com.uor.event_management_system.dto.FacultyDepartmentDto;
 import com.uor.event_management_system.dto.LoginDto;
 import com.uor.event_management_system.dto.RegisterDto;
+import com.uor.event_management_system.dto.RegisterUndergraduateDto;
 import com.uor.event_management_system.model.DepartmentEntity;
 import com.uor.event_management_system.model.FacultyEntity;
-import com.uor.event_management_system.repository.DepartmentRepository;
+import com.uor.event_management_system.model.UserEntity;
 import com.uor.event_management_system.service.AccountTypeService;
 import com.uor.event_management_system.service.DepartmentService;
 import com.uor.event_management_system.service.FacultyService;
 import com.uor.event_management_system.service.RegisterUserService;
-import com.uor.event_management_system.util.UserRole;
+import com.uor.event_management_system.enums.UserRole;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 @Controller
-@SessionAttributes("registerDto")
+@SessionAttributes({"registerDto","registerUndergraduateDto"})
 public class CommonPagePathMapping {
 
     @Autowired
@@ -58,32 +62,26 @@ public class CommonPagePathMapping {
     }
 
     @PostMapping("/register-page")
-    public String registerPage(@ModelAttribute("registerDto") RegisterDto registerDto, Model model) {
+    public String registerPage(@Valid @ModelAttribute("registerDto") RegisterDto registerDto, BindingResult result, Model model) {
 
-        if(registerDto.getAccountType().equals("2")){// staff
+        if (result.hasErrors()) {
+            model.addAttribute("accountTypeList", accountTypeService.getAllAccountTypes());
+            model.addAttribute("step", 1);
+
+            return "register";
+        }
+
+        if("2".equals(String.valueOf(registerDto.getAccountType()))){// staff
 
             registerDto.setRole(UserRole.ROLE_STAFF.name());
             return "redirect:/register";
 
         }else{ // undergraduate
 
-            List<FacultyDepartmentDto> facultyDepartmentList = new ArrayList<>();
-
-            facultyService.getAllFaculties().forEach(new Consumer<FacultyEntity>() {
-                @Override
-                public void accept(FacultyEntity facultyEntity) {
-
-                    List<DepartmentEntity> departments = departmentService.getDepartmentsByFacultyId(facultyEntity.getId());
-
-                    FacultyDepartmentDto facultyDepartmentDto = new FacultyDepartmentDto();
-                    facultyDepartmentDto.setFaculty(facultyEntity);
-                    facultyDepartmentDto.setDepartments(departments);
-
-                    facultyDepartmentList.add(facultyDepartmentDto);
-                }
-            });
+            List<FacultyDepartmentDto> facultyDepartmentList = getFacultyDepartmentList();
 
             model.addAttribute("facultyDepartmentList", facultyDepartmentList);
+            model.addAttribute("registerUndergraduateDto", new RegisterUndergraduateDto());
             model.addAttribute("step", 2);
 
             return "register";
@@ -92,10 +90,26 @@ public class CommonPagePathMapping {
     }
 
     @PostMapping("/register")
-    public String undergraduateRegister(@ModelAttribute("registerDto") RegisterDto registerDto, Model model, SessionStatus sessionStatus) {
-        String status = registerUserService.registerUser(registerDto);
+    public String undergraduateRegister(@ModelAttribute("registerDto") RegisterDto registerDto,
+                                        @Valid @ModelAttribute("registerUndergraduateDto") RegisterUndergraduateDto registerUndergraduateDto, BindingResult result, Model model, SessionStatus sessionStatus) {
 
-        if (status.equals("success")) {
+        if (result.hasErrors()) {
+
+            List<FacultyDepartmentDto> facultyDepartmentList = getFacultyDepartmentList();
+            model.addAttribute("facultyDepartmentList",facultyDepartmentList);
+            model.addAttribute("step", 2);
+
+            return "register";
+        }
+
+        HashMap<String, Optional<UserEntity>> statusMap = registerUserService.registerUser(registerDto);
+
+        boolean userSaved = false;
+        if(statusMap.containsKey("User saved")){
+            userSaved = registerUserService.registerUndergraduateUser(statusMap.get("User saved").get(),registerUndergraduateDto);
+        }
+
+        if (userSaved) {
             sessionStatus.setComplete();
             return "redirect:/login-page";
         } else {
@@ -105,15 +119,48 @@ public class CommonPagePathMapping {
     }
 
     @GetMapping("/register")
-    public String staffRegister(@ModelAttribute("registerDto") RegisterDto registerDto, Model model, SessionStatus sessionStatus) {
-        String status = registerUserService.registerUser(registerDto);
+    public String staffRegister(@Valid @ModelAttribute("registerDto") RegisterDto registerDto, BindingResult result, Model model, SessionStatus sessionStatus) {
 
-        if (status.equals("success")) {
+        if (result.hasErrors()) {
+
+            model.addAttribute("accountTypeList",accountTypeService.getAllAccountTypes());
+            model.addAttribute("step", 1);
+
+            return "register";
+        }
+
+        HashMap<String, Optional<UserEntity>> statusMap = registerUserService.registerUser(registerDto);
+        boolean userSaved = false;
+        if(statusMap.containsKey("User saved")){
+            userSaved = registerUserService.registerStaffUser(statusMap.get("User saved").get());
+        }
+
+        if (userSaved) {
             sessionStatus.setComplete();
             return "redirect:/login-page";
         } else {
             model.addAttribute("errorMsg", "Registration failed. Please try again.");
             return "redirect:/login-page";
         }
+    }
+
+    private List<FacultyDepartmentDto> getFacultyDepartmentList(){
+
+        List<FacultyDepartmentDto> facultyDepartmentList = new ArrayList<>();
+
+        facultyService.getAllFaculties().forEach(new Consumer<FacultyEntity>() {
+            @Override
+            public void accept(FacultyEntity facultyEntity) {
+
+                List<DepartmentEntity> departments = departmentService.getDepartmentsByFacultyId(facultyEntity.getId());
+
+                FacultyDepartmentDto facultyDepartmentDto = new FacultyDepartmentDto();
+                facultyDepartmentDto.setFaculty(facultyEntity);
+                facultyDepartmentDto.setDepartments(departments);
+
+                facultyDepartmentList.add(facultyDepartmentDto);
+            }
+        });
+        return facultyDepartmentList;
     }
 }

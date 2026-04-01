@@ -2,7 +2,7 @@ package com.uor.event_management_system.config.login;
 
 import com.uor.event_management_system.filter.LoginFilter;
 import com.uor.event_management_system.model.UserEntity;
-import com.uor.event_management_system.util.UserRole;
+import com.uor.event_management_system.enums.UserRole;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

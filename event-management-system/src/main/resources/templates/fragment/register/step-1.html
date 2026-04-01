@@ -16,33 +16,39 @@
     <form th:action="@{/register-page}" th:object="${registerDto}" method="post"
           class="d-flex flex-column justify-content-start align-items-start mt-5 pt-3 w-100">
 
-        <th:block th:if="${errorMsg}">
-            <span th:text="${errorMsg}" class="d-flex align-self-start text-danger fs-6 mb-3"></span>
-        </th:block>
-
         <div class="d-flex flex-row align-items-center justify-content-between gap-2 w-100">
 
             <div class="d-flex flex-column mb-4 col-6">
                 <label for="fname" class="form-label fw-bold">First Name</label>
-                <div class="input-group flex-nowrap">
+                <div class="d-flex flex-column">
+                    <div class="input-group flex-nowrap">
                     <span class="input-group-text" id="e-addon-wrapping">
                         <i class="bi bi-person text-black-50"></i>
                     </span>
-                    <input type="text" class="form-control" id="fname" aria-describedby="e-addon-wrapping"
-                           th:field="*{firstName}"
-                           placeholder="e.g. Alex">
+                        <input type="text" class="form-control" id="fname" aria-describedby="e-addon-wrapping"
+                               th:field="*{firstName}"
+                               placeholder="e.g. Alex">
+
+                    </div>
+                    <span th:if="${#fields.hasErrors('firstName')}"
+                          th:errors="*{firstName}" class="d-flex align-self-start text-danger fs-6"></span>
                 </div>
+
             </div>
 
             <div class="d-flex flex-column mb-4 col-5">
                 <label for="lname" class="form-label fw-bold">Last Name</label>
-                <div class="input-group flex-nowrap">
+                <div class="d-flex flex-column">
+                    <div class="input-group flex-nowrap">
                     <span class="input-group-text" id="l-addon-wrapping">
                         <i class="bi bi-person text-black-50"></i>
                     </span>
-                    <input type="text" class="form-control" id="lname" aria-describedby="l-addon-wrapping"
-                           th:field="*{lastName}"
-                           placeholder="e.g. Johnson">
+                        <input type="text" class="form-control" id="lname" aria-describedby="l-addon-wrapping"
+                               th:field="*{lastName}"
+                               placeholder="e.g. Johnson">
+                    </div>
+                    <span th:if="${#fields.hasErrors('lastName')}"
+                          th:errors="*{lastName}" class="d-flex align-self-start text-danger fs-6"></span>
                 </div>
             </div>
 
@@ -50,50 +56,66 @@
 
         <div class="mb-4 w-100">
             <label for="email" class="form-label fw-bold">Email address</label>
-            <div class="input-group flex-nowrap">
+            <div class="d-flex flex-column">
+                <div class="input-group flex-nowrap">
                     <span class="input-group-text" id="-addon-wrapping">
                         <i class="bi bi-envelope text-black-50"></i>
                     </span>
-                <input type="email" class="form-control w-100" id="email" aria-describedby="-addon-wrapping"
-                       th:field="*{email}" placeholder="you@fot.ruh.ac.lk">
+                    <input type="email" class="form-control w-100" id="email" aria-describedby="-addon-wrapping"
+                           th:field="*{email}" placeholder="you@fot.ruh.ac.lk">
+                </div>
+                <span th:if="${#fields.hasErrors('email')}"
+                      th:errors="*{email}" class="d-flex align-self-start text-danger fs-6"></span>
             </div>
         </div>
 
         <div class="mb-4 w-100">
             <label for="accountType" class="form-label fw-bold">Account Type</label>
-            <select class="form-select" id="accountType" th:field="*{accountType}">
-                <option value="">Select a Account Type</option>
+            <div class="d-flex flex-column">
+                <select class="form-select" id="accountType" th:field="*{accountType}">
+                    <option value="">Select a Account Type</option>
 
-                <th:block th:each="item : ${accountTypeList}">
-                    <option th:text="${item.type}" th:value="${item.id}"></option>
-                </th:block>
-            </select>
+                    <th:block th:each="item : ${accountTypeList}">
+                        <option th:text="${item.type}" th:value="${item.id}"></option>
+                    </th:block>
+                </select>
+                <span th:if="${#fields.hasErrors('accountType')}"
+                      th:errors="*{accountType}" class="d-flex align-self-start text-danger fs-6"></span>
+            </div>
         </div>
 
         <div class="mb-4 w-100">
             <label for="pwd1" class="form-label fw-bold">Password</label>
-            <div class="input-group flex-nowrap">
+            <div class="d-flex flex-column">
+                <div class="input-group flex-nowrap">
                     <span class="input-group-text" id="p1-addon-wrapping">
                         <i class="bi bi-lock text-black-50"></i>
                     </span>
-                <input type="password" class="form-control w-100" id="pwd1" aria-describedby="p1-addon-wrapping"
-                       th:field="*{password}"
-                       placeholder="Min. 8 characters">
+                    <input type="password" class="form-control w-100" id="pwd1" aria-describedby="p1-addon-wrapping"
+                           th:field="*{password}"
+                           placeholder="Min. 8 characters">
+                </div>
+                <span th:if="${#fields.hasErrors('password')}"
+                      th:errors="*{password}" class="d-flex align-self-start text-danger fs-6"></span>
             </div>
         </div>
 
         <div class="mb-4 w-100">
             <label for="pwd2" class="form-label fw-bold">Confirm Password</label>
-            <div class="input-group flex-nowrap">
-        <span class="input-group-text">
-            <i class="bi bi-lock text-black-50"></i>
-        </span>
-                <input type="password" class="form-control w-100"
-                       th:field="*{confirmPassword}" id="pwd2"
-                       placeholder="Re-enter your password">
-            </div>
+            <div class="d-flex flex-column">
+                <div class="input-group flex-nowrap">
+                <span class="input-group-text">
+                    <i class="bi bi-lock text-black-50"></i>
+                </span>
+                    <input type="password" class="form-control w-100"
+                           th:field="*{confirmPassword}" id="pwd2"
+                           placeholder="Re-enter your password">
+                </div>
 
-            <p id="passwordMessage" class="fs-6"></p>
+                <p id="passwordMessage" class="fs-6"></p>
+                <span th:if="${#fields.hasErrors('confirmPassword')}"
+                      th:errors="*{confirmPassword}" class="d-flex align-self-start text-danger fs-6"></span>
+            </div>
         </div>
 
         <div id="buttonContainer" class="w-100">

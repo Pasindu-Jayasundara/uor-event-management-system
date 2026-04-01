@@ -75,7 +75,10 @@
 </div>
 
 <!--right-->
-<div class="d-flex flex-column min-vh-100 col-6 bg-white justify-content-start align-items-center pt-4">
+<div class="d-flex flex-column min-vh-100 col-6 bg-white justify-content-start align-items-center py-4 w-50 px-4">
+
+    <span th:if="${errorMsg}"
+          th:text="${errorMsg}" class="d-flex align-self-start text-danger fs-6"></span>
 
     <th:block th:if="${step ==2}">
         <th:block
