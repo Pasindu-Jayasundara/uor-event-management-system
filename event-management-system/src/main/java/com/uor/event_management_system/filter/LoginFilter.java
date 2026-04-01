@@ -29,6 +29,25 @@ public class LoginFilter extends OncePerRequestFilter {
 
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String servletPath = request.getServletPath();
+        String method = request.getMethod();
+
+        // Always filter requests to the login page
+        if ("/login-page".equals(servletPath)) {
+            return false;
+        }
+
+        // Filter POST requests to the login endpoint
+        if ("POST".equalsIgnoreCase(method) && "/login".equals(servletPath)) {
+            return false;
+        }
+
+        // Skip filtering for all other requests
+        return true;
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         // 1. Check if user is ALREADY logged in
