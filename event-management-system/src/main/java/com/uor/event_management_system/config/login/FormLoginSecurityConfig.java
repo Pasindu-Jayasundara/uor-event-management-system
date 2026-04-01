@@ -1,5 +1,6 @@
-package com.uor.event_management_system.config;
+package com.uor.event_management_system.config.login;
 
+import com.uor.event_management_system.filter.LoginFilter;
 import com.uor.event_management_system.model.UserEntity;
 import com.uor.event_management_system.util.UserRole;
 import jakarta.servlet.ServletException;
@@ -14,7 +15,6 @@ import org.springframework.security.config.annotation.web.configurers.FormLoginC
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -33,6 +33,8 @@ public class FormLoginSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http.addFilterBefore(new LoginFilter(),org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeHttpRequests(new Customizer<AuthorizeHttpRequestsConfigurer<org.springframework.security.config.annotation.web.builders.HttpSecurity>.AuthorizationManagerRequestMatcherRegistry>() {
             @Override
