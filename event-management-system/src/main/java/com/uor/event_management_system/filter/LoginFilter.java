@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 public class LoginFilter extends OncePerRequestFilter {
 
-    final static PasswordValidator passwordValidator = new PasswordValidator(Arrays.asList(
+    private final static PasswordValidator passwordValidator = new PasswordValidator(Arrays.asList(
             new LengthRule(8, 30),
             new CharacterRule(EnglishCharacterData.UpperCase, 1),
             new CharacterRule(EnglishCharacterData.LowerCase, 1),
@@ -24,6 +24,9 @@ public class LoginFilter extends OncePerRequestFilter {
             new CharacterRule(EnglishCharacterData.Special, 1),
             new WhitespaceRule()
     ));
+
+    private final static String ruhunaRegex = "^[a-zA-Z0-9._%+-]+@[a-z0-9]+\\.ruh\\.ac\\.lk$";
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -48,8 +51,6 @@ public class LoginFilter extends OncePerRequestFilter {
                 response.sendRedirect("/login-page?msg="+ URLEncoder.encode("Provide Authentication Details","UTF-8"));
                 return;
             }
-
-            String ruhunaRegex = "^[a-zA-Z0-9._%+-]+@[a-z0-9]+\\.ruh\\.ac\\.lk$";
 
             if (!email.toLowerCase().matches(ruhunaRegex)) {
                 response.sendRedirect("/login-page?msg="+ URLEncoder.encode("Must use a valid University of Ruhuna email","UTF-8"));
