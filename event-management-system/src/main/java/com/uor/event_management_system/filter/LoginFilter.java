@@ -33,11 +33,6 @@ public class LoginFilter extends OncePerRequestFilter {
         String servletPath = request.getServletPath();
         String method = request.getMethod();
 
-        // Always filter requests to the login page
-        if ("/login-page".equals(servletPath)) {
-            return false;
-        }
-
         // Filter POST requests to the login endpoint
         if ("POST".equalsIgnoreCase(method) && "/login".equals(servletPath)) {
             return false;
