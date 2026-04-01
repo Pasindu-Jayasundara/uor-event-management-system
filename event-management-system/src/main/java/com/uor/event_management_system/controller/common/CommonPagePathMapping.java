@@ -168,4 +168,9 @@ public class CommonPagePathMapping {
     public String forgotPasswordPage(){
         return "forgot-password";
     }
+
+    @GetMapping("/et")
+    public String et(){
+        return "email/forgot-password-email-template";
+    }
 }
