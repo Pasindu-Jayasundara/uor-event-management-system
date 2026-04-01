@@ -92,7 +92,7 @@
         <div class="mb-4 w-100">
             <sapn class="d-flex flex-row justify-content-between">
                 <label for="pwd" class="form-label fw-bold">Password</label>
-                <a class="fs-6 forgot-password">Forgot Password?</a>
+                <a class="fs-6 forgot-password" type="button" th:href="@{/forgot-password-page}">Forgot Password?</a>
             </sapn>
             <div class="input-group flex-nowrap">
                         <span class="input-group-text" id="addon-wrapping">
@@ -130,6 +130,8 @@
 
 
 </div>
+
+<script th:src="@{/js/login/login.js}"></script>
 
 </body>
 </html>

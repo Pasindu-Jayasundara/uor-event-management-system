@@ -163,4 +163,9 @@ public class CommonPagePathMapping {
         });
         return facultyDepartmentList;
     }
+
+    @GetMapping("/forgot-password-page")
+    public String forgotPasswordPage(){
+        return "forgot-password";
+    }
 }
