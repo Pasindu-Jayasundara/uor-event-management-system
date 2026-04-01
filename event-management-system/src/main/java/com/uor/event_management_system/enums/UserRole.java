@@ -1,4 +1,4 @@
-package com.uor.event_management_system.util;
+package com.uor.event_management_system.enums;
 
 public enum UserRole {
     ROLE_USER,

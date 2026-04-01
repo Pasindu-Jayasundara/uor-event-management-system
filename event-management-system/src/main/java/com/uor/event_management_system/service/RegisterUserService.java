@@ -1,13 +1,16 @@
 package com.uor.event_management_system.service;
 
 import com.uor.event_management_system.dto.RegisterDto;
+import com.uor.event_management_system.dto.RegisterUndergraduateDto;
 import com.uor.event_management_system.model.*;
 import com.uor.event_management_system.repository.*;
-import com.uor.event_management_system.util.AccountType;
+import com.uor.event_management_system.enums.AccountType;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 @Service
@@ -38,12 +41,13 @@ public class RegisterUserService {
     private StaffProfileRepository staffProfileRepository;
 
 
+    public HashMap<String, Optional<UserEntity>> registerUser(RegisterDto registerDto) {
 
+        HashMap<String, Optional<UserEntity>> hashMap = new HashMap<>();
 
-    public String registerUser(RegisterDto registerDto){
-
-        if(userRepository.findByEmail(registerDto.getEmail()).isPresent()) {
-            return "Already Registered in the System";
+        if (userRepository.findByEmail(registerDto.getEmail()).isPresent()) {
+            hashMap.put("Already Registered in the System", Optional.empty());
+            return hashMap;
         }
 
         RoleEntity role = roleRepository.findRoleByRole(registerDto.getRole());
@@ -52,8 +56,9 @@ public class RegisterUserService {
         System.out.println(registerDto.getAccountType());
 
         Optional<AccountTypeEntity> accountType = accountTypeRepository.findById(Integer.parseInt(registerDto.getAccountType()));
-        if(!accountType.isPresent()){
-            return "Wrong Account Type";
+        if (!accountType.isPresent()) {
+            hashMap.put("Wrong Account Type", Optional.empty());
+            return hashMap;
         }
 
         UserEntity newUser = new UserEntity();
@@ -64,53 +69,48 @@ public class RegisterUserService {
         newUser.setRole(role);
         newUser.setAccountType(accountType.get());
 
-        boolean isAccountTypeSaved = false, isUserSaved = false;
-
-        try{
-            newUser = userRepository.save(newUser);
-            isUserSaved = true;
+        try {
+            UserEntity user = userRepository.save(newUser);
+            hashMap.put("User saved", Optional.of(user));
+            return hashMap;
         } catch (Exception e) {
             e.printStackTrace();
-            return "User Saving Failed";
+            hashMap.put("User Saving Failed", Optional.empty());
+            return hashMap;
+        }
+    }
+
+    public boolean registerUndergraduateUser(UserEntity user, RegisterUndergraduateDto registerUndergraduateDto) {
+
+        Optional<DepartmentEntity> department = departmentRepository.findById(Integer.parseInt(registerUndergraduateDto.getDepartment()));
+        Optional<StudyYearEntity> studyYear = studyYearRepository.findById(Integer.parseInt(registerUndergraduateDto.getStudyYear()));
+
+        UndergraduateProfileEntity undergraduateProfileEntity = new UndergraduateProfileEntity();
+        undergraduateProfileEntity.setUser(user);
+        undergraduateProfileEntity.setDepartment(department.get());
+        undergraduateProfileEntity.setStudyYear(studyYear.get());
+
+        try {
+            undergraduateProfileRepository.save(undergraduateProfileEntity);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
 
-        if(accountType.get().getType().equalsIgnoreCase(AccountType.PROFILE_UNDERGRADUATE.name())){
+    }
 
-            Optional<DepartmentEntity> department = departmentRepository.findById(Integer.parseInt(registerDto.getDepartment()));
-            Optional<StudyYearEntity> studyYear = studyYearRepository.findById(Integer.parseInt(registerDto.getStudyYear()));
+    public boolean registerStaffUser(UserEntity newUser) {
 
-            if(department.isPresent() && studyYear.isPresent()){
+        StaffProfileEntity staffProfileEntity = new StaffProfileEntity();
+        staffProfileEntity.setUser(newUser);
 
-                UndergraduateProfileEntity undergraduateProfileEntity = new UndergraduateProfileEntity();
-                undergraduateProfileEntity.setUser(newUser);
-                undergraduateProfileEntity.setDepartment(department.get());
-                undergraduateProfileEntity.setStudyYear(studyYear.get());
-
-                try{
-                    undergraduateProfileRepository.save(undergraduateProfileEntity);
-                    isAccountTypeSaved = true;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }else{
-
-            StaffProfileEntity staffProfileEntity = new StaffProfileEntity();
-            staffProfileEntity.setUser(newUser);
-
-            try{
-                staffProfileRepository.save(staffProfileEntity);
-                isAccountTypeSaved = true;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        if(isAccountTypeSaved && isUserSaved){
-            return "success";
-        }else{
-            return "failed";
+        try {
+            staffProfileRepository.save(staffProfileEntity);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

@@ -57,7 +57,7 @@ public class LoginFilter extends OncePerRequestFilter {
 
         String servletPath = request.getServletPath();
         String method = request.getMethod();
-        
+
         if("POST".equalsIgnoreCase(method) && "/login".equals(servletPath)) {
 
             String email = request.getParameter("email");
