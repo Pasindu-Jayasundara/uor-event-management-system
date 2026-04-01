@@ -1,6 +1,7 @@
 package com.uor.event_management_system.util;
 
 
+import com.uor.event_management_system.dto.EmailDto;
 import com.uor.event_management_system.enums.EmailTemplateType;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -10,6 +11,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+
+import java.util.Map;
 
 @Service
 public class SendEmail{
@@ -20,20 +25,30 @@ public class SendEmail{
     @Value("${spring.mail.username}")
     private String fromEmail;
 
-    public void sendHtmlEmail(String to, String subject, EmailTemplateType emailTemplateType) throws MessagingException {
+    @Autowired
+    private TemplateEngine templateEngine;
+
+    public void sendHtmlEmail(EmailDto emailDto) throws MessagingException {
 
         MimeMessage message = javaMailSender.createMimeMessage();
-
-        // Pass 'true' to the helper constructor to indicate a multipart message (for attachments/HTML)
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
         helper.setFrom(fromEmail);
-        helper.setTo(to);
-        helper.setSubject(subject);
+        helper.setTo(emailDto.getTo());
+        helper.setSubject(emailDto.getSubject());
 
-        // Use 'true' in the second parameter of setText to enable HTML
-//        helper.setText(htmlBody, true);
+        // 1. Prepare Thymeleaf Context
+        Context context = new Context();
+        context.setVariables(emailDto.getVariables());
 
+        String htmlContent = "";
+
+        // 2. Select template and process it
+        if(emailDto.getEmailTemplateType() == EmailTemplateType.FORGOT_PASSWORD_EMAIL_TEMPLATE){
+            htmlContent = templateEngine.process("forgot-password-email-template", context);
+        }
+
+        helper.setText(htmlContent, true);
         javaMailSender.send(message);
     }
 
