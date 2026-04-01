@@ -33,11 +33,6 @@ public class LoginFilter extends OncePerRequestFilter {
         String servletPath = request.getServletPath();
         String method = request.getMethod();
 
-        // Always filter requests to the login page
-        if ("/login-page".equals(servletPath)) {
-            return false;
-        }
-
         // Filter POST requests to the login endpoint
         if ("POST".equalsIgnoreCase(method) && "/login".equals(servletPath)) {
             return false;
@@ -60,27 +55,32 @@ public class LoginFilter extends OncePerRequestFilter {
             return;
         }
 
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+        String servletPath = request.getServletPath();
+        String method = request.getMethod();
+        
+        if("POST".equalsIgnoreCase(method) && "/login".equals(servletPath)) {
 
-        if (email == null || email.isBlank() || password == null || password.isBlank()) {
-            response.sendRedirect("/login-page?msg=" + URLEncoder.encode("Provide Authentication Details", "UTF-8"));
-            return;
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+
+            if (email == null || email.isBlank() || password == null || password.isBlank()) {
+                response.sendRedirect("/login-page?msg=" + URLEncoder.encode("Provide Authentication Details", "UTF-8"));
+                return;
+            }
+
+            if (!email.toLowerCase().matches(ruhunaRegex)) {
+                response.sendRedirect("/login-page?msg=" + URLEncoder.encode("Must use a valid University of Ruhuna email", "UTF-8"));
+                return;
+            }
+
+            RuleResult result = passwordValidator.validate(new PasswordData(password));
+            if (!result.isValid()) {
+
+                String failureMessage = String.join(", ", passwordValidator.getMessages(result));
+                response.sendRedirect("/login-page?msg=" + URLEncoder.encode(failureMessage, "UTF-8"));
+                return;
+            }
         }
-
-        if (!email.toLowerCase().matches(ruhunaRegex)) {
-            response.sendRedirect("/login-page?msg=" + URLEncoder.encode("Must use a valid University of Ruhuna email", "UTF-8"));
-            return;
-        }
-
-        RuleResult result = passwordValidator.validate(new PasswordData(password));
-        if (!result.isValid()) {
-
-            String failureMessage = String.join(", ", passwordValidator.getMessages(result));
-            response.sendRedirect("/login-page?msg=" + URLEncoder.encode(failureMessage, "UTF-8"));
-            return;
-        }
-
         filterChain.doFilter(request, response);
 
     }
