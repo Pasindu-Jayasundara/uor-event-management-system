@@ -10,11 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-
-import java.util.Map;
 
 @Service
 public class SendEmail{
@@ -28,6 +27,7 @@ public class SendEmail{
     @Autowired
     private TemplateEngine templateEngine;
 
+    @Async
     public void sendHtmlEmail(EmailDto emailDto) throws MessagingException {
 
         MimeMessage message = javaMailSender.createMimeMessage();
@@ -45,7 +45,7 @@ public class SendEmail{
 
         // 2. Select template and process it
         if(emailDto.getEmailTemplateType() == EmailTemplateType.FORGOT_PASSWORD_EMAIL_TEMPLATE){
-            htmlContent = templateEngine.process("forgot-password-email-template", context);
+            htmlContent = templateEngine.process("email/forgot-password-email-template", context);
         }
 
         helper.setText(htmlContent, true);

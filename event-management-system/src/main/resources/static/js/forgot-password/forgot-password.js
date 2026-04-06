@@ -1,138 +1,105 @@
-let currentStep = 1;
-let resendInterval = null;
+document.addEventListener('DOMContentLoaded', () => {
 
-function goToStep(step) {
-    // Hide all panels
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    document.getElementById('panel-' + step).classList.add('active');
+    // ── OTP box logic ──────────────────────────────────────────
+    const otpInputs = document.querySelectorAll('.otp-input');
+    const hiddenOtp = document.getElementById('otpInput');
 
-    // Update step indicators
-    for (let i = 1; i <= 3; i++) {
-        const circle = document.getElementById('step-circle-' + i);
-        const label = document.getElementById('step-label-' + i);
-        circle.classList.remove('active', 'completed');
-        label.classList.remove('active');
-
-        if (i < step) {
-            circle.classList.add('completed');
-            circle.innerHTML = '<i class="bi bi-check"></i>';
-        } else if (i === step) {
-            circle.classList.add('active');
-            circle.innerHTML = i;
-            label.classList.add('active');
-        } else {
-            circle.innerHTML = i;
+    function syncHidden() {
+        if (hiddenOtp) {
+            hiddenOtp.value = [...otpInputs].map(i => i.value).join('');
         }
     }
 
-    // Update lines
-    for (let i = 1; i <= 2; i++) {
-        const line = document.getElementById('line-' + i);
-        if (i < step) {
-            line.classList.add('completed');
-        } else {
-            line.classList.remove('completed');
-        }
+    otpInputs.forEach((input, index) => {
+
+        // Typing digit-by-digit
+        input.addEventListener('input', () => {
+            input.value = input.value.replace(/[^0-9]/g, '').slice(-1); // keep only last digit
+            input.classList.toggle('filled', !!input.value);
+            if (input.value && index < otpInputs.length - 1) {
+                otpInputs[index + 1].focus();
+            }
+            syncHidden();
+        });
+
+        // Backspace to go back
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && !input.value && index > 0) {
+                otpInputs[index - 1].value = '';
+                otpInputs[index - 1].classList.remove('filled');
+                otpInputs[index - 1].focus();
+                syncHidden();
+            }
+        });
+
+        // Paste handling — distributes digits across boxes
+        input.addEventListener('paste', (e) => {
+            e.preventDefault();
+            const pasted = e.clipboardData.getData('text').replace(/[^0-9]/g, '');
+            if (!pasted) return;
+
+            pasted.split('').forEach((digit, i) => {
+                const target = otpInputs[index + i];
+                if (target) {
+                    target.value = digit;
+                    target.classList.add('filled');
+                }
+            });
+
+            // Focus the box after the last pasted digit (or last box)
+            const nextFocus = Math.min(index + pasted.length, otpInputs.length - 1);
+            otpInputs[nextFocus].focus();
+            syncHidden();
+        });
+    });
+
+    // Also sync before the form actually submits (safety net)
+    const otpForm = document.getElementById('panel-2');
+    if (otpForm) {
+        otpForm.addEventListener('submit', (e) => {
+            syncHidden();
+            if (hiddenOtp && hiddenOtp.value.length !== 6) {
+                e.preventDefault();
+                // optionally show an error
+            }
+        });
     }
 
-    currentStep = step;
+    // ── Password strength ──────────────────────────────────────
+    const pwd = document.getElementById('new-pwd');
+    if (pwd) {
+        pwd.addEventListener('input', () => checkStrength(pwd.value));
+    }
+});
+
+function checkStrength(val) {
+    const fill = document.getElementById('strength-fill');
+    const text = document.getElementById('strength-text');
+    if (!fill || !text) return;
+
+    let score = 0;
+    if (val.length >= 8)           score++;
+    if (/[A-Z]/.test(val))         score++;
+    if (/[0-9]/.test(val))         score++;
+    if (/[^A-Za-z0-9]/.test(val))  score++;
+
+    const levels = ['Weak', 'Fair', 'Good', 'Strong'];
+    const colors = ['#e53935', '#fb8c00', '#43a047', '#1e88e5'];
+    const widths = ['25%', '50%', '75%', '100%'];
+
+    if (val.length === 0) {
+        fill.style.width = '0';
+        text.innerText = '';
+    } else {
+        fill.style.width   = widths[score - 1]  || '25%';
+        fill.style.background = colors[score - 1] || '#e53935';
+        text.innerText     = levels[score - 1]  || 'Weak';
+    }
 }
 
-function goToStep2() {
-    const email = document.getElementById('email').value.trim();
-    const emailError = document.getElementById('email-error');
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!email || !emailRegex.test(email)) {
-        emailError.classList.remove('d-none');
-        document.getElementById('email').classList.add('is-invalid');
-        return;
-    }
-    emailError.classList.add('d-none');
-    document.getElementById('email').classList.remove('is-invalid');
-
-    document.getElementById('display-email').textContent = email;
-    goToStep(2);
-    startResendTimer();
-}
-
-function goToStep3() {
-    const inputs = document.querySelectorAll('.otp-input');
-    let otp = '';
-    inputs.forEach(inp => otp += inp.value);
-
-    if (otp.length < 6) {
-        document.getElementById('otp-error').classList.remove('d-none');
-        return;
-    }
-    document.getElementById('otp-error').classList.add('d-none');
-    goToStep(3);
-}
-
-function submitReset() {
-    const newPwd = document.getElementById('new-pwd').value;
-    const confirmPwd = document.getElementById('confirm-pwd').value;
-    const matchError = document.getElementById('pwd-match-error');
-
-    if (newPwd.length < 6) {
-        document.getElementById('new-pwd').classList.add('is-invalid');
-        return;
-    }
-    document.getElementById('new-pwd').classList.remove('is-invalid');
-
-    if (newPwd !== confirmPwd) {
-        matchError.classList.remove('d-none');
-        document.getElementById('confirm-pwd').classList.add('is-invalid');
-        return;
-    }
-    matchError.classList.add('d-none');
-    document.getElementById('confirm-pwd').classList.remove('is-invalid');
-
-    // Show success
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    document.getElementById('panel-4').classList.add('active');
-
-    // Update all steps to completed
-    for (let i = 1; i <= 3; i++) {
-        const circle = document.getElementById('step-circle-' + i);
-        const label = document.getElementById('step-label-' + i);
-        circle.classList.remove('active');
-        circle.classList.add('completed');
-        circle.innerHTML = '<i class="bi bi-check"></i>';
-        label.classList.remove('active');
-    }
-    document.getElementById('line-1').classList.add('completed');
-    document.getElementById('line-2').classList.add('completed');
-}
-
-function startResendTimer() {
-    const btn = document.getElementById('resend-btn');
-    const timerEl = document.getElementById('timer');
-    let seconds = 60;
-
-    btn.classList.add('disabled');
-    timerEl.textContent = seconds;
-
-    if (resendInterval) clearInterval(resendInterval);
-
-    resendInterval = setInterval(() => {
-        seconds--;
-        timerEl.textContent = seconds;
-        if (seconds <= 0) {
-            clearInterval(resendInterval);
-            btn.classList.remove('disabled');
-            btn.innerHTML = 'Resend Code';
-            btn.onclick = () => {
-                btn.innerHTML = 'Resend in <span id="timer">60</span>s';
-                startResendTimer();
-            };
-        }
-    }, 1000);
-}
-
-function togglePassword(fieldId, iconEl) {
-    const input = document.getElementById(fieldId);
-    const icon = iconEl.querySelector('i');
+function togglePassword(id, btn) {
+    const input = document.getElementById(id);
+    const icon  = btn.querySelector('i');
     if (input.type === 'password') {
         input.type = 'text';
         icon.classList.replace('bi-eye', 'bi-eye-slash');
@@ -141,48 +108,3 @@ function togglePassword(fieldId, iconEl) {
         icon.classList.replace('bi-eye-slash', 'bi-eye');
     }
 }
-
-function checkStrength(value) {
-    const fill = document.getElementById('strength-fill');
-    const text = document.getElementById('strength-text');
-    let strength = 0;
-    if (value.length >= 8) strength++;
-    if (/[A-Z]/.test(value)) strength++;
-    if (/[0-9]/.test(value)) strength++;
-    if (/[^A-Za-z0-9]/.test(value)) strength++;
-
-    const levels = [
-        { width: '0%', color: '#dee2e6', label: '' },
-        { width: '25%', color: '#dc3545', label: 'Weak' },
-        { width: '50%', color: '#fd7e14', label: 'Fair' },
-        { width: '75%', color: '#ffc107', label: 'Good' },
-        { width: '100%', color: '#198754', label: 'Strong' },
-    ];
-    const level = value.length === 0 ? 0 : Math.max(1, strength);
-    fill.style.width = levels[level].width;
-    fill.style.backgroundColor = levels[level].color;
-    text.textContent = levels[level].label;
-    text.style.color = levels[level].color;
-}
-
-// OTP auto-advance
-document.addEventListener('DOMContentLoaded', () => {
-    const otpInputs = document.querySelectorAll('.otp-input');
-    otpInputs.forEach((input, index) => {
-        input.addEventListener('input', () => {
-            input.value = input.value.replace(/[^0-9]/g, '');
-            if (input.value) {
-                input.classList.add('filled');
-                if (index < otpInputs.length - 1) otpInputs[index + 1].focus();
-            } else {
-                input.classList.remove('filled');
-            }
-        });
-        input.addEventListener('keydown', (e) => {
-            if (e.key === 'Backspace' && !input.value && index > 0) {
-                otpInputs[index - 1].focus();
-                otpInputs[index - 1].classList.remove('filled');
-            }
-        });
-    });
-});
