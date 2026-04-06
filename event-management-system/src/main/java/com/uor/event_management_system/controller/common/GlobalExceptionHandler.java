@@ -11,6 +11,7 @@ public class GlobalExceptionHandler {
     public String handleAll(Exception ex, Model model) {
 //            model.addAttribute("exception", ex.getClass().getName() + ": " + ex.getMessage());
         ex.printStackTrace();
+
         model.addAttribute("errorId", "ERR-" + System.currentTimeMillis());
         return "error"; // resolves to templates/error.html
     }
