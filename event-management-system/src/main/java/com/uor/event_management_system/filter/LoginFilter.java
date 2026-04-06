@@ -37,6 +37,11 @@ public class LoginFilter extends OncePerRequestFilter {
         if ("POST".equalsIgnoreCase(method) && "/login".equals(servletPath)) {
             return false;
         }
+
+        if ("GET".equalsIgnoreCase(method) && "/login-page".equals(servletPath)) {
+            return false;
+        }
+
         // Skip filtering for all other requests
         return true;
     }
