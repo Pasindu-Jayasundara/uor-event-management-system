@@ -41,7 +41,8 @@ public class FormLoginSecurityConfig {
             public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authorizationManagerRequestMatcherRegistry) {
 
                 authorizationManagerRequestMatcherRegistry
-                        .requestMatchers("/admin/**", "/user/**").authenticated()
+                        .requestMatchers("/admin/**").hasAnyAuthority(UserRole.ROLE_ADMIN.name())
+                        .requestMatchers("/user/**").hasAnyAuthority(UserRole.ROLE_USER.name())
                         .requestMatchers("/css/**").permitAll()
                         .anyRequest().permitAll();
             }

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>500 – Internal Server Error</title>
+    <title th:text="${status} + ' – ' + ${error}"></title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css"
           integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA=="
@@ -72,12 +72,10 @@
         </div>
 
         <!-- Error Code -->
-        <div class="error-code">500</div>
+        <div class="error-code" th:text="${status}"></div>
 
-        <div class="fw-bold fs-2 mb-2">Internal Server Error</div>
-        <div class="text-black-50 fs-6 mb-3" style="max-width:380px;line-height:1.6;">
-            An unexpected error occurred while processing your request.
-            Our engineers have been automatically notified.
+        <div class="fw-bold fs-2 mb-2" th:text="${error}"></div>
+        <div class="text-black-50 fs-6 mb-3" style="max-width:380px;line-height:1.6;" th:text="${message}">
         </div>
 
         <!-- Error ID badge -->
