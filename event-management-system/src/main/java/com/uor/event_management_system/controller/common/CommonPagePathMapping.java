@@ -290,15 +290,4 @@ public class CommonPagePathMapping {
         model.addAttribute("step", 1);
         return "forgot-password";
     }
-
-    @ControllerAdvice
-    public class GlobalExceptionHandler {
-
-        @ExceptionHandler(Exception.class)
-        public String handleAll(Exception ex, Model model) {
-//            model.addAttribute("exception", ex.getClass().getName() + ": " + ex.getMessage());
-            model.addAttribute("errorId", "ERR-" + System.currentTimeMillis());
-            return "error"; // resolves to templates/error.html
-        }
-    }
 }
