@@ -16,33 +16,43 @@
     <!--  middle  -->
     <div class="d-flex justify-content-center align-items-center">
         <th:block th:if="${user.role.role == 'ROLE_ADMIN'}">
-            <div class="d-flex justify-content-center align-items-center selected px-3 py-2 rounded" role="button">
+            <a th:href="@{/admin/dashboard}" class="nav-link-custom d-flex justify-content-center align-items-center selected px-3 py-2 rounded text-decoration-none" role="button">
 <!--                <img src="../../../static/icon/dashboard-Icon.svg">-->
                 <img th:src="@{/icon/dashboard/dashboard-Icon.svg}">
                 <span class="text-white ps-2">Dashboard</span>
-            </div>
-            <div class="d-flex justify-content-center align-items-center px-3 py-2 rounded" role="button">
+            </a>
+            <a th:href="@{/admin/manage-event}" class="nav-link-custom d-flex justify-content-center align-items-center px-3 py-2 rounded text-decoration-none" role="button">
 <!--                <img src="../../../static/icon/manageevent-Icon.svg">-->
                 <img th:src="@{/icon/dashboard/manageevent-Icon.svg}">
                 <span class="text-white ps-2">Manage Events</span>
-            </div>
-            <div class="d-flex justify-content-center align-items-center px-3 py-2 rounded" role="button">
+            </a>
+            <a th:href="@{/admin/registration}" class="nav-link-custom d-flex justify-content-center align-items-center px-3 py-2 rounded text-decoration-none" role="button">
 <!--                <img src="../../../static/icon/registration-Icon.svg">-->
                 <img th:src="@{/icon/dashboard/registration-Icon.svg}">
                 <span class="text-white ps-2">Registrations</span>
-            </div>
+            </a>
+            <a th:href="@{/admin/approval}" class="nav-link-custom d-flex justify-content-center align-items-center px-3 py-2 rounded text-decoration-none" role="button">
+                <!--                <img src="../../../static/icon/registration-Icon.svg">-->
+                <img width="18" th:src="@{/icon/dashboard/check-circle.png}">
+                <span class="text-white ps-2">Approvals</span>
+            </a>
         </th:block>
-        <th:block th:if="${user.role.role == 'ROLE_USER'}">
-            <div class="d-flex justify-content-center align-items-center px-3 py-2 rounded selected" role="button">
+        <th:block th:if="${user.role.role == 'ROLE_USER' || user.role.role == 'ROLE_STAFF'}">
+            <a th:href="@{/user/event}" class="nav-link-custom d-flex justify-content-center align-items-center px-3 py-2 rounded selected text-decoration-none" role="button">
 <!--                <img src="../../../static/icon/manageevent-Icon.svg">-->
                 <img th:src="@{/icon/dashboard/manageevent-Icon.svg}">
                 <span class="text-white ps-2">Events</span>
-            </div>
-            <div class="d-flex justify-content-center align-items-center px-3 py-2 rounded" role="button">
+            </a>
+            <a th:href="@{/user/dashboard}" class="nav-link-custom d-flex justify-content-center align-items-center px-3 py-2 rounded text-decoration-none" role="button">
 <!--                <img src="../../../static/icon/dashboard-Icon.svg">-->
                 <img th:src="@{/icon/dashboard/dashboard-Icon.svg}">
-                <span class="text-white ps-2">My Dashboard</span>
-            </div>
+                <span class="text-white ps-2">Dashboard</span>
+            </a>
+            <a th:href="@{/user/my-registration}" class="nav-link-custom d-flex justify-content-center align-items-center px-3 py-2 rounded text-decoration-none" role="button">
+                <!--                <img src="../../../static/icon/dashboard-Icon.svg">-->
+                <img th:src="@{/icon/dashboard/registration-Icon.svg}">
+                <span class="text-white ps-2">My Registrations</span>
+            </a>
         </th:block>
     </div>
     <!--  right  -->

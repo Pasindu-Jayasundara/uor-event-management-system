@@ -65,11 +65,11 @@ public class FormLoginSecurityConfig {
                                 if (role.equals(UserRole.ROLE_ADMIN.name())) {
                                     response.sendRedirect("/admin/dashboard");
                                 } else if (role.equals(UserRole.ROLE_USER.name())) {
-                                    response.sendRedirect("/user/dashboard");
+                                    response.sendRedirect("/user/event");
                                 } else if (role.equals(UserRole.ROLE_STAFF.name())) {
 
                                     if (user.isEnabled()) {
-                                        response.sendRedirect("/user/dashboard");
+                                        response.sendRedirect("/user/event");
                                     } else {
                                         response.sendRedirect("/login-page?error=true&msg=Account not verified");
                                     }
