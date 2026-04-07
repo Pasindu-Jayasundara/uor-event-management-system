@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "department")
 
 @Getter @Setter
-public class DepartmentEntity {
+public class DepartmentEntity implements Serializable {
 
     @Id
     private int id;
