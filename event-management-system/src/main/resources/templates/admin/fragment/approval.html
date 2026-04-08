@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UniEvents · Approval fragment </title>
+
+</head>
+<body>
+
+<th:block th:fragment="approval">
+
+    <div class="py-4 px-3">
+
+        <div class="approval-card-wrapper">
+
+            <!-- ========= 2. EVENT CREATION REQUESTS (full details, no eye button) ========= -->
+            <div class="acc-section">
+                <button class="acc-trigger" onclick="toggleAcc(this, 'create-body')" type="button">
+                    <div class="trigger-icon"><i class="bi bi-calendar-plus"></i></div>
+                    <div>
+                        <div class="trigger-label">Event Creation Requests</div>
+                        <div class="trigger-sub">Proposed events awaiting admin approval – view all details</div>
+                    </div>
+                    <div class="trigger-right">
+                        <span class="badge-pill badge-red-light"><span class="badge-dot dot-red"></span>2 pending</span>
+                        <i class="bi bi-chevron-down chevron"></i>
+                    </div>
+                </button>
+                <div class="acc-body" id="create-body">
+
+                    <!-- Event Creation Card 1: AI in Education Summit (full details) -->
+                    <div class="event-request-card">
+                        <div class="card-header">
+                            <div class="event-title">
+                                <i class="bi bi-cpu"></i> AI in Education Summit
+                            </div>
+                            <span class="badge-pill badge-warning"><span class="badge-dot dot-warning"></span> Pending approval</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="details-grid">
+                                <div class="detail-item">
+                                    <div class="detail-label"><i class="bi bi-person-circle"></i> Proposed by</div>
+                                    <div class="detail-value">Dr. Nimal Karunaratne (nimal@fot.ruh.ac.lk)</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label"><i class="bi bi-calendar-event"></i> Proposed Date</div>
+                                    <div class="detail-value">May 15, 2026 (9:00 AM – 5:00 PM)</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label"><i class="bi bi-people"></i> Target Audience</div>
+                                    <div class="detail-value">Staff & Students (max 200 participants)</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label"><i class="bi bi-geo-alt"></i> Location</div>
+                                    <div class="detail-value">Online + ICT Lab, Faculty of Technology</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label"><i class="bi bi-tag"></i> Event Category</div>
+                                    <div class="detail-value">Academic / Tech Conference</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label"><i class="bi bi-currency-dollar"></i> Budget Requested
+                                    </div>
+                                    <div class="detail-value">LKR 85,000 (speakers, refreshments)</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label"><i class="bi bi-card-text"></i> Description & Notes</div>
+                                <div class="description-text">
+                                    A full-day summit focusing on AI integration in higher education. Keynotes from
+                                    industry experts,
+                                    panel discussions, and hands-on workshops. Requires AV equipment and online
+                                    streaming setup.
+                                    Submitted additional resource list.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-action btn-approve"><i class="bi bi-check-lg"></i> Approve Event</button>
+                            <button class="btn-action btn-reject"><i class="bi bi-x-lg"></i> Reject Request</button>
+                        </div>
+                    </div>
+
+                    <!-- Event Creation Card 2: Campus Sports Fest 2026 (full details) -->
+                    <div class="event-request-card">
+                        <div class="card-header">
+                            <div class="event-title">
+                                <i class="bi bi-trophy"></i> Campus Sports Fest 2026
+                            </div>
+                            <span class="badge-pill badge-warning"><span class="badge-dot dot-warning"></span> Pending approval</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="details-grid">
+                                <div class="detail-item">
+                                    <div class="detail-label"><i class="bi bi-person-circle"></i> Proposed by</div>
+                                    <div class="detail-value">Ms. Ruwanthi Jayawardana (ruwanthi@stuaffairs.ruh.ac.lk)
+                                    </div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label"><i class="bi bi-calendar-event"></i> Proposed Date</div>
+                                    <div class="detail-value">June 5–7, 2026 (3 days)</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label"><i class="bi bi-people"></i> Target Audience</div>
+                                    <div class="detail-value">All students (estimated 500+ participants)</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label"><i class="bi bi-geo-alt"></i> Location</div>
+                                    <div class="detail-value">University Sports Complex, Grounds & Indoor Stadium</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label"><i class="bi bi-tag"></i> Event Category</div>
+                                    <div class="detail-value">Sports & Recreation</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label"><i class="bi bi-currency-dollar"></i> Budget Requested
+                                    </div>
+                                    <div class="detail-value">LKR 150,000 (equipment, prizes, medical support)</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label"><i class="bi bi-card-text"></i> Description & Notes</div>
+                                <div class="description-text">
+                                    Annual inter-faculty sports tournament including cricket, volleyball, athletics, and
+                                    table tennis.
+                                    Proposed schedule attached. Requires ground booking, first-aid team, and trophies.
+                                    Collaboration with
+                                    Sports Council.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-action btn-approve"><i class="bi bi-check-lg"></i> Approve Event</button>
+                            <button class="btn-action btn-reject"><i class="bi bi-x-lg"></i> Reject Request</button>
+                        </div>
+                    </div>
+
+                    <!-- additional note: no eye button anywhere -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleAcc(btn, bodyId) {
+            btn.classList.toggle('open');
+            const body = document.getElementById(bodyId);
+            if (body) body.classList.toggle('visible');
+        }
+    </script>
+</th:block>
+
+</body>
+</html>
