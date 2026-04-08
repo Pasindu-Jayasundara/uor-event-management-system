@@ -13,76 +13,6 @@
 
         <div class="approval-card-wrapper">
 
-            <!-- ========= 1. STAFF REGISTRATION (removed department, role, eye button) ========= -->
-            <div class="acc-section">
-                <button class="acc-trigger" onclick="toggleAcc(this, 'staff-body')" type="button">
-                    <div class="trigger-icon"><i class="bi bi-person-badge"></i></div>
-                    <div>
-                        <div class="trigger-label">Staff Platform Registration Requests</div>
-                        <div class="trigger-sub">Lecturers & staff awaiting platform access</div>
-                    </div>
-                    <div class="trigger-right">
-                        <span class="badge-pill badge-warning"><span
-                                class="badge-dot dot-warning"></span>2 pending</span>
-                        <i class="bi bi-chevron-down chevron"></i>
-                    </div>
-                </button>
-                <div class="acc-body" id="staff-body">
-                    <table class="approval-table">
-                        <thead>
-                        <tr>
-                            <th>Staff Member</th>
-                            <th>Submitted</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                                <div class="td-person"><span class="avatar">AP</span>
-                                    <div>
-                                        <div class="person-name">Dr. Ashan Perera</div>
-                                        <div class="person-email">a.perera@fot.ruh.ac.lk</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="muted">Apr 5, 2026</td>
-                            <td><span class="badge-pill badge-warning"><span class="badge-dot dot-warning"></span>Pending</span>
-                            </td>
-                            <td>
-                                <div class="d-flex gap-2">
-                                    <button class="btn-action btn-approve"><i class="bi bi-check-lg"></i> Approve
-                                    </button>
-                                    <button class="btn-action btn-reject"><i class="bi bi-x-lg"></i> Reject</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="td-person"><span class="avatar">DF</span>
-                                    <div>
-                                        <div class="person-name">Ms. Dilini Fernando</div>
-                                        <div class="person-email">d.fernando@fot.ruh.ac.lk</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="muted">Apr 6, 2026</td>
-                            <td><span class="badge-pill badge-warning"><span class="badge-dot dot-warning"></span>Pending</span>
-                            </td>
-                            <td>
-                                <div class="d-flex gap-2">
-                                    <button class="btn-action btn-approve"><i class="bi bi-check-lg"></i> Approve
-                                    </button>
-                                    <button class="btn-action btn-reject"><i class="bi bi-x-lg"></i> Reject</button>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
             <!-- ========= 2. EVENT CREATION REQUESTS (full details, no eye button) ========= -->
             <div class="acc-section">
                 <button class="acc-trigger" onclick="toggleAcc(this, 'create-body')" type="button">
@@ -213,7 +143,6 @@
     </div>
 
     <script>
-        // Toggle main accordion sections (Staff / Event Creation)
         function toggleAcc(btn, bodyId) {
             btn.classList.toggle('open');
             const body = document.getElementById(bodyId);

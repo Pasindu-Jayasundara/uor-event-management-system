@@ -38,4 +38,11 @@ public class AdminPagePathMapping {
         model.addAttribute("user", userDetails);
         return "admin/dashboard";
     }
+
+    @GetMapping("/manage-user")
+    public String manageUser(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        model.addAttribute("page", "manage-user");
+        model.addAttribute("user", userDetails);
+        return "admin/dashboard";
+    }
 }
