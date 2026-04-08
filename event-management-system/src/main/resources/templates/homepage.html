@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home_page</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+            rel="stylesheet"
+    />
+</head>
+<body>
+<div class="container">
+    <div class="card1">
+        <p class="hello">🎓 Welcome back, Alex!</p>
+        <h2>
+            Discover & Join<br />
+            University Events
+        </h2>
+        <p class="content">
+            Browse upcoming events, register to attend, download resources, and
+            track your participation — all in one place.
+        </p>
+        <div class="input-groups">
+
+            <form action="/search" method="GET">
+
+                <input
+                        type="text"
+                        name="keyword"
+                        placeholder="Search events, topics, locations...."
+                        class="searchbox"
+                        id="searchInput"
+                />
+                <div id="suggestions"></div>
+                <button type="submit" class="search-btn"><img src="./icon/homepage/Icon2.svg" /> Search</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card2">
+        <div>
+            <img src="./icon/homepage/Icon3.svg" />
+            <span>7</span>
+            <p>Total Events</p>
+        </div>
+
+        <div>
+            <img src="./icon/homepage/Icon4.svg" />
+            <span>7</span>
+            <p>Upcoming</p>
+        </div>
+
+        <div>
+            <img src="./icon/homepage/Icon5.svg" />
+            <span> 3</span>
+            <p>My Registrations</p>
+        </div>
+    </div>
+</div>
+
+<div class="container2">
+    <div class="menu">
+        <a href="/homepage"  th:classappend="${param.type == null} ? 'active' : ''">🌟All</a>
+        <a href="/category?type=1"   th:classappend="${param.type != null and param.type[0] == '1'} ? 'active' : ''">💻Technology</a>
+        <a href="/category?type=2"  th:classappend="${param.type != null and param.type[0] == '2'} ? 'active' : ''">📚Academic</a>
+        <a href="/category?type=3"    th:classappend="${param.type != null and param.type[0] == '3'} ? 'active' : ''">🏆Sports</a>
+        <a href="/category?type=4"   th:classappend="${param.type != null and param.type[0] == '4'} ? 'active' : ''">💼Career</a>
+        <a href="/category?type=5"   th:classappend="${param.type != null and param.type[0] == '5'} ? 'active' : ''">🎨Cultural</a>
+        <a href="/category?type=6"   th:classappend="${param.type != null and param.type[0] == '6'} ? 'active' : ''">🤝Social</a>
+
+        <div>
+            <p>Upcoming only</p>
+            <img src="./icon/homepage/Iconcontroll.svg" style="width: 16px; height: 16px" />
+            <select>
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="mercedes">Mercedes</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="countevent">
+        <p>7 events found</p>
+    </div>
+
+    <div class="events">
+
+        <div class="eventcard" th:each="event : ${events}">
+            <div class="evemain-image">
+                <img src="./icon/homepage/eventimg.jpg">
+            </div>
+
+            <div class="event_content">
+
+                <h3 th:text="${event.title}"></h3>
+                <p th:text="${event.eventDescription}"></p>
+                <div class="evcontainer">
+
+                    <div>
+                        <img src="./icon/homepage/evIcon.svg">
+                        <label th:text="${event.eventTime}"></label>
+                    </div>
+                    <div>
+                        <img src="./icon/homepage/evIcon2.svg">
+                        <label th:text="${event.eventLocation}"></label>
+                    </div>
+                    <div>
+                        <img src="./icon/homepage/evIcon3.svg">
+                        <label></label>
+                    </div>
+
+
+
+                </div>
+                <div class="percent-container">
+                    <div>
+                        <img src="./icon/homepage/evcontact.svg">
+                        <label>247/300</label>
+                    </div>
+
+                    <div>
+                        <label>53 spots left</label>
+                    </div>
+
+
+
+
+
+                </div>
+
+                <div class="bar">
+
+                </div>
+
+                <div class="register-event">
+                    <div>
+                        <link>Details <img src="./icon/homepage/Iink.svg">
+                    </div>
+                    <button>Register</button>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+    </div>
+
+</div>
+
+
+<script th:src="@{/js/home/script.js}"></script>
+</body>
+</html>
