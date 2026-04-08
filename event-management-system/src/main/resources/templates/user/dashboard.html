@@ -25,6 +25,10 @@
         <div th:replace="~{user/fragment/my-registration :: my-registration}"></div>
     </th:block>
 
+    <th:block th:case="'approval'">
+        <div th:replace="~{admin/fragment/approval :: approval}"></div>
+    </th:block>
+
 </th:block>
 
 <script th:src="@{/js/user/header.js}"></script>
