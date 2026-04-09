@@ -1,5 +1,6 @@
 package com.uor.event_management_system.controller.user;
 
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/user")
+@RolesAllowed("ROLE_USER")
 public class UserPagePathMapping {
 
     @GetMapping("/dashboard")

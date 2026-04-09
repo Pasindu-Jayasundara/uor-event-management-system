@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 @Getter
 @Setter
 public class UserEntity implements UserDetails, Serializable {
@@ -37,6 +37,9 @@ public class UserEntity implements UserDetails, Serializable {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(name = "enabled", columnDefinition = "TINYINT", nullable = false)
+    private int enabled;
 
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
@@ -63,22 +66,31 @@ public class UserEntity implements UserDetails, Serializable {
     }
 
     @Override
-    public boolean isAccountNonExpired() { return true; }
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
     @Override
-    public boolean isAccountNonLocked() { return true; }
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
     @Override
-    public boolean isCredentialsNonExpired() { return true; }
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
     @Override
     public boolean isEnabled() {
+
         if (accountType == null) return false;
 
         String type = accountType.getType();
         if (AccountType.PROFILE_STAFF.name().equals(type)) {
-            return staffProfile != null && staffProfile.getVerified() == 1;
+
+            return staffProfile != null && staffProfile.getVerified() == 1 && enabled == 1;
+        }else{
+            return enabled == 1;
         }
-        return true;
     }
 }

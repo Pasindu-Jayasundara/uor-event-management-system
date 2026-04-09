@@ -68,6 +68,8 @@ public class RegisterUserService {
         newUser.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         newUser.setRole(role);
         newUser.setAccountType(accountType.get());
+        newUser.setEnabled(1);
+
 
         try {
             UserEntity user = userRepository.save(newUser);
@@ -104,6 +106,7 @@ public class RegisterUserService {
 
         StaffProfileEntity staffProfileEntity = new StaffProfileEntity();
         staffProfileEntity.setUser(newUser);
+        staffProfileEntity.setVerified(0);
 
         try {
             staffProfileRepository.save(staffProfileEntity);
