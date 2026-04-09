@@ -37,6 +37,9 @@ public class RegisterDto {
     @NotBlank(message = "Please confirm your password")
     private String confirmPassword;
 
+    @NotBlank(message = "Enable criteria not fount")
+    private int enabled;
+
     @NotNull(message = "Role is required")
     private String role = UserRole.ROLE_USER.name();
 
