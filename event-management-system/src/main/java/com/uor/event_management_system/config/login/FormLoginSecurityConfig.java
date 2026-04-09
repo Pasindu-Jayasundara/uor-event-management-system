@@ -34,7 +34,7 @@ public class FormLoginSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.addFilterBefore(new LoginFilter(),org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new LoginFilter(), org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeHttpRequests(new Customizer<AuthorizeHttpRequestsConfigurer<org.springframework.security.config.annotation.web.builders.HttpSecurity>.AuthorizationManagerRequestMatcherRegistry>() {
             @Override
@@ -62,20 +62,18 @@ public class FormLoginSecurityConfig {
                                 String role = authentication.getAuthorities().iterator().next().getAuthority();
                                 UserEntity user = (UserEntity) authentication.getPrincipal();
 
-                                if (role.equals(UserRole.ROLE_ADMIN.name())) {
-                                    response.sendRedirect("/admin/dashboard");
-                                } else if (role.equals(UserRole.ROLE_USER.name())) {
-                                    response.sendRedirect("/user/event");
-                                } else if (role.equals(UserRole.ROLE_STAFF.name())) {
-
-                                    if (user.isEnabled()) {
+                                if (user.isEnabled()) {
+                                    if (role.equals(UserRole.ROLE_ADMIN.name())) {
+                                        response.sendRedirect("/admin/dashboard");
+                                    } else if (role.equals(UserRole.ROLE_USER.name())) {
+                                        response.sendRedirect("/user/event");
+                                    } else if (role.equals(UserRole.ROLE_STAFF.name())) {
                                         response.sendRedirect("/user/event");
                                     } else {
-                                        response.sendRedirect("/login-page?error=true&msg=Account not verified");
+                                        response.sendRedirect("/");
                                     }
-
                                 } else {
-                                    response.sendRedirect("/");
+                                    response.sendRedirect("/login-page?error=true&msg=Account not Enabled");
                                 }
                             }
                         })
