@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,8 +15,41 @@
 </head>
 <body>
 <div class="container">
+
+
+    <div class="navigate" sec:authorize="isAnonymous()">
+        <a th:href="@{/login-page}">Login</a>
+        <a th:href="@{/register-page}">Signup</a>
+    </div>
+
+
+    <div class="user-nav" sec:authorize="isAuthenticated()">
+        <span class="welcome-text">Welcome, <span sec:authentication= "name" class="user-name"></span></span>
+
+        <a href="/user/dashboard" class="nav-btn">Dashboard</a>
+
+        <form th:action="@{/logout}" method="post" class="logout-form">
+            <button type="submit" class="nav-btn">Logout</button>
+        </form>
+    </div>
+
+
+
+
+
     <div class="card1">
-        <p class="hello">🎓 Welcome back, Alex!</p>
+         <span sec:authorize="isAnonymous()">
+        <p class="hello">🎓 Welcome</p>
+          </span>
+
+        <span sec:authorize="isAuthenticated()">
+        <p class="hello">🎓 Welcome back,&nbsp;<span sec:authentication="principal.firstName"></span>
+        </p>
+          </span>
+
+
+
+
         <h2>
             Discover & Join<br />
             University Events
@@ -92,7 +126,7 @@
 
         <div class="eventcard" th:each="event : ${events}">
             <div class="evemain-image">
-                <img src="./icon/homepage/eventimg.jpg">
+                <img th:src="${event.image}">
             </div>
 
             <div class="event_content">

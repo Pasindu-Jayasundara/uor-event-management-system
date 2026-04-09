@@ -34,6 +34,7 @@ public class EventEntity {
         @Column(name = "event_category_id")
         private int eventCategory;
 
+        @Column(name = "banner")
         private String image;
 
 

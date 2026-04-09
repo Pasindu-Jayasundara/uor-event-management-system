@@ -4,6 +4,124 @@ body {
     font-style: normal;
 }
 
+.navigate{
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    display: flex;
+    gap: 15px;
+}
+
+.navigate a {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 22px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+
+
+    background: #FFB900;
+    color: #7B3306;
+    border: 1px solid #FFB900;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.navigate a:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+
+/* Positioning the entire block to the top right of .container */
+.user-nav {
+    position: absolute;
+    top: 25px;
+    right: 40px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    z-index: 10;
+}
+
+/* Styling the Welcome text */
+.welcome-text {
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.user-name {
+    font-weight: 700;
+    color: #FFB900; /* Matching your theme gold */
+}
+
+/* Unified button style for Dashboard link and Logout button */
+.nav-btn {
+    text-decoration: none;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    /* Matches your Search and Signup button colors */
+    background: #FFB900;
+    color: #7B3306;
+    border: 1px solid #FFB900;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Resets for the logout form to prevent layout breaking */
+.logout-form {
+    margin: 0;
+    display: flex;
+}
+
+/* Hover effects for a professional feel */
+.nav-btn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.nav-btn:active {
+    transform: translateY(0px);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 p {
     margin: 0;
 }
@@ -21,7 +139,7 @@ h2{
     height: 25px;
     display: flex;
     padding: 4.8px 8.375px 4.787px 12.8px;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
 
     border-radius: 26843500px;
