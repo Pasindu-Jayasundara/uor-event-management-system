@@ -26,7 +26,7 @@ import java.util.List;
 @Controller
 public class HomePagePathMapping {
     @Autowired
-    privatetService service;
+    private EventService service;
 
 
     @Autowired
