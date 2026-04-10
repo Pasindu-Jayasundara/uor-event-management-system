@@ -43,7 +43,7 @@
           </span>
 
         <span sec:authorize="isAuthenticated()">
-        <p class="hello">🎓 Welcome back,&nbsp;<span sec:authentication="principal.firstName"></span>
+        <p class="hello">👋 Hii,&nbsp;<span sec:authentication="principal.firstName"></span>
         </p>
           </span>
 
@@ -78,19 +78,31 @@
     <div class="card2">
         <div>
             <img src="./icon/homepage/Icon3.svg" />
-            <span>7</span>
+
+            <span th:text="${eventCount}"></span>
+
             <p>Total Events</p>
         </div>
 
         <div>
             <img src="./icon/homepage/Icon4.svg" />
-            <span>7</span>
+            <span th:text="${upcomingevents}"></span>
             <p>Upcoming</p>
         </div>
 
         <div>
             <img src="./icon/homepage/Icon5.svg" />
-            <span> 3</span>
+
+            <span sec:authorize="isAnonymous()">
+                <span>0</span>
+            </span>
+
+            <span sec:authorize="isAuthenticated()">
+                <span th:text="${count}"></span>
+            </span>
+
+
+
             <p>My Registrations</p>
         </div>
     </div>
@@ -98,7 +110,7 @@
 
 <div class="container2">
     <div class="menu">
-        <a href="/homepage"  th:classappend="${param.type == null} ? 'active' : ''">🌟All</a>
+        <a href="/homepage"  th:classappend="${param.type == null && param.filter == null} ? 'active' : ''">🌟All</a>
         <a href="/category?type=1"   th:classappend="${param.type != null and param.type[0] == '1'} ? 'active' : ''">💻Technology</a>
         <a href="/category?type=2"  th:classappend="${param.type != null and param.type[0] == '2'} ? 'active' : ''">📚Academic</a>
         <a href="/category?type=3"    th:classappend="${param.type != null and param.type[0] == '3'} ? 'active' : ''">🏆Sports</a>
@@ -109,17 +121,19 @@
         <div>
             <p>Upcoming only</p>
             <img src="./icon/homepage/Iconcontroll.svg" style="width: 16px; height: 16px" />
-            <select>
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="mercedes">Mercedes</option>
-            </select>
+            <form action="#" th:action="@{/filter}" method="GET">
+                <select name="filter" onchange="this.form.submit()">
+                    <option value="" th:selected="${param.filter == null}">All</option>
+                    <option value="upcoming" th:selected="${param.filter != null and param.filter[0] == 'upcoming'}">Upcoming only</option>
+                    <option value="past" th:selected="${param.filter != null and param.filter[0] == 'past'}">Past events</option>
+                </select>
+            </form>
         </div>
     </div>
 
 
     <div class="countevent">
-        <p>7 events found</p>
+        <p><span th:text="${eventCount}"></span> events found</p>
     </div>
 
     <div class="events">
@@ -137,7 +151,7 @@
 
                     <div>
                         <img src="./icon/homepage/evIcon.svg">
-                        <label th:text="${event.eventTime}"></label>
+                        <label th:text="${#temporals.format(event.eventDateTime, 'EEEE, dd MMM yyyy - hh:mm a')}"></label>
                     </div>
                     <div>
                         <img src="./icon/homepage/evIcon2.svg">
@@ -145,7 +159,7 @@
                     </div>
                     <div>
                         <img src="./icon/homepage/evIcon3.svg">
-                        <label></label>
+                        <label th:text="${event.fileCount}"></label>Files found
                     </div>
 
 

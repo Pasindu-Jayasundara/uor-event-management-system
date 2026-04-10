@@ -1,11 +1,11 @@
 package com.uor.event_management_system.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
+
 
 @Entity
 @Getter
@@ -29,7 +29,7 @@ public class EventEntity {
         private String eventLocation;
 
         @Column(name = "date_time")
-        private String eventTime;
+        private LocalDateTime eventDateTime;
 
         @Column(name = "event_category_id")
         private int eventCategory;
@@ -38,7 +38,8 @@ public class EventEntity {
         private String image;
 
 
-
+        @Transient
+        private int FileCount;
 
 
 }
