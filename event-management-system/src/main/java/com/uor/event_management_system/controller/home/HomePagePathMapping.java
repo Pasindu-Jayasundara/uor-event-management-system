@@ -62,7 +62,7 @@ public class HomePagePathMapping {
 
 
 
-    @GetMapping("/homepage")
+    @GetMapping("/")
     public String viewHome(Model model, Principal principal) {
 
 

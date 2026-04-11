@@ -110,7 +110,7 @@
 
 <div class="container2">
     <div class="menu">
-        <a href="/homepage"  th:classappend="${param.type == null && param.filter == null} ? 'active' : ''">🌟All</a>
+        <a href="/"  th:classappend="${param.type == null && param.filter == null} ? 'active' : ''">🌟All</a>
         <a href="/category?type=1"   th:classappend="${param.type != null and param.type[0] == '1'} ? 'active' : ''">💻Technology</a>
         <a href="/category?type=2"  th:classappend="${param.type != null and param.type[0] == '2'} ? 'active' : ''">📚Academic</a>
         <a href="/category?type=3"    th:classappend="${param.type != null and param.type[0] == '3'} ? 'active' : ''">🏆Sports</a>
