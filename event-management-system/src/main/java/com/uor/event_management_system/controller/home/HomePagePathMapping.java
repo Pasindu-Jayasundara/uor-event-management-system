@@ -1,6 +1,7 @@
 package com.uor.event_management_system.controller.home;
 
 
+import com.uor.event_management_system.enums.EventStatus;
 import com.uor.event_management_system.model.EventEntity;
 
 
@@ -45,7 +46,7 @@ public class HomePagePathMapping {
             model.addAttribute("count", userService.CountRegisterdEvents(email));
         }
         model.addAttribute("events", service.getallEvents());
-        model.addAttribute("eventCount",eventRepository.count());
+        model.addAttribute("eventCount",eventRepository.countByStatus(EventStatus.APPROVED));
         model.addAttribute("upcomingevents",service.UpcomingEvents());
 
     }

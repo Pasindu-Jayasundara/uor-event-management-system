@@ -9,11 +9,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EventRepository extends JpaRepository<EventEntity, Integer> {
-    List<EventEntity> findByTitleContainingIgnoreCase(String keyword);
-    List <EventEntity> findByEventCategory(String eventCategory);
+    List<EventEntity> findByTitleContainingAndStatus(String keyword, EventStatus status);
 
-    List <EventEntity> findByEventDateTimeAfter(LocalDateTime dateTime);
-    List <EventEntity> findByEventDateTimeBefore(LocalDateTime dateTime);
+    List <EventEntity> findByEventCategoryAndStatus(String eventCategory, EventStatus status);
+
+    List<EventEntity> findByEventDateTimeAfterAndStatus(LocalDateTime dateTime, EventStatus status);
+
+    List<EventEntity> findByEventDateTimeBeforeAndStatus(LocalDateTime dateTime, EventStatus status);
     List<EventEntity> findByStatus(EventStatus status);
+    int countByStatus(EventStatus status);
 
 }

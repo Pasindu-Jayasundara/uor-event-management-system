@@ -23,7 +23,7 @@ public class EventService {
     EventRegistrationService  eventRegistrationService;
 
     public List<EventEntity> searchEvents(String keyword) {
-        return unieventsRepo.findByTitleContainingIgnoreCase(keyword);
+        return unieventsRepo.findByTitleContainingAndStatus(keyword,EventStatus.APPROVED);
     }
 
 
@@ -44,12 +44,12 @@ public class EventService {
 
 
     public List<EventEntity> getByCategory(String category) {
-        return unieventsRepo.findByEventCategory(category);
+        return unieventsRepo.findByEventCategoryAndStatus(category,EventStatus.APPROVED);
     }
 
     public int UpcomingEvents(){
 
-        List<EventEntity> events =  unieventsRepo.findAll();
+        List<EventEntity> events =  unieventsRepo.findByStatus(EventStatus.APPROVED);
         LocalDateTime today = LocalDateTime.now();
         int count = 0;
         for(EventEntity event:events){
@@ -66,11 +66,11 @@ public class EventService {
     }
 
     public List<EventEntity> findByEventDateTimeAfter(LocalDateTime dateTime) {
-        return unieventsRepo.findByEventDateTimeAfter(dateTime);
+        return unieventsRepo.findByEventDateTimeAfterAndStatus(dateTime,EventStatus.APPROVED);
     }
 
     public List<EventEntity> findByEventDateTimeBefore(LocalDateTime dateTime) {
-        return unieventsRepo.findByEventDateTimeBefore(dateTime);
+        return unieventsRepo.findByEventDateTimeBeforeAndStatus(dateTime,EventStatus.APPROVED);
     }
 
 
