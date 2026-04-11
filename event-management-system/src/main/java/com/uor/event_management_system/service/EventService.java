@@ -53,7 +53,7 @@ public class EventService {
         LocalDateTime today = LocalDateTime.now();
         int count = 0;
         for(EventEntity event:events){
-            if(event.getEventDateTime().isAfter(today)){
+            if(event.getEventDate().isAfter(today)){
 
                 count++;
 
@@ -77,7 +77,7 @@ public class EventService {
 
     public void prepareEvent(EventEntity event) {
 
-        int total = event.getSpots();
+        int total = event.getMaxCapacity();
         int registered = event.getAllRegisteredCount();
 
         int percent = 0;
@@ -86,7 +86,7 @@ public class EventService {
             percent = (registered * 100) / total;
         }
 
-        event.setPercent(percent);
+        event.setPercentageStatus(String.valueOf(percent));
 
 
         if (percent == 100) {
