@@ -168,11 +168,11 @@
                 <div class="percent-container">
                     <div>
                         <img src="./icon/homepage/evcontact.svg">
-                        <label>247/300</label>
+                        <label><span th:text="${event.allRegisteredCount}"></span>/<span th:text="${event.spots}"></span></label>
                     </div>
 
                     <div>
-                        <label>53 spots left</label>
+                        <label><span th:text="${event.spots} - ${event.allRegisteredCount}"></span> spots left</label>
                     </div>
 
 
@@ -181,7 +181,29 @@
 
                 </div>
 
-                <div class="bar">
+              <!--percentage bar !-->
+
+                <div class="bar-container">
+                    <div class="bar"
+                         th:style="'width:' + ${event.percent} + '%;'"
+                         th:classappend="${event.getPercentageStatus}">
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 </div>
 

@@ -9,7 +9,7 @@ public interface EventRegistrationRep extends JpaRepository<EventRegistration, I
 
 
     int countByUser_IdAndStatus(Integer userId, EventRegistrationStatus status);
-
+    int countByEvent_IdAndStatus(Integer eventId, EventRegistrationStatus status);
 
 
 }

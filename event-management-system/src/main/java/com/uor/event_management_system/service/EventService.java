@@ -1,5 +1,7 @@
 package com.uor.event_management_system.service;
 
+import com.uor.event_management_system.enums.EventRegistrationStatus;
+import com.uor.event_management_system.enums.EventStatus;
 import com.uor.event_management_system.model.EventEntity;
 import com.uor.event_management_system.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class EventService {
     @Autowired
     FileService filesService;
 
+    @Autowired
+    EventRegistrationService  eventRegistrationService;
+
     public List<EventEntity> searchEvents(String keyword) {
         return unieventsRepo.findByTitleContainingIgnoreCase(keyword);
     }
@@ -24,11 +29,15 @@ public class EventService {
 
     public List<EventEntity> getallEvents() { //get the all event details with the filecount
 
-        List<EventEntity> events = unieventsRepo.findAll();
+        List<EventEntity> events = unieventsRepo.findByStatus(EventStatus.APPROVED);
 
         for (EventEntity event : events) {
             int count = filesService.getFileCount(event.getId());
+            int allRegisteredCount = eventRegistrationService.getRegisterEventCount(event.getId(), EventRegistrationStatus.APPROVED);
             event.setFileCount(count);
+            event.setAllRegisteredCount(allRegisteredCount);
+            prepareEvent(event);
+
         }
         return events;
     }
@@ -63,6 +72,35 @@ public class EventService {
     public List<EventEntity> findByEventDateTimeBefore(LocalDateTime dateTime) {
         return unieventsRepo.findByEventDateTimeBefore(dateTime);
     }
+
+
+
+    public void prepareEvent(EventEntity event) {
+
+        int total = event.getSpots();
+        int registered = event.getAllRegisteredCount();
+
+        int percent = 0;
+
+        if (total > 0) {
+            percent = (registered * 100) / total;
+        }
+
+        event.setPercent(percent);
+
+
+        if (percent == 100) {
+            event.setPercentageStatus("full");
+        } else if (percent > 70) {
+            event.setPercentageStatus("high");
+        } else if (percent > 40) {
+            event.setPercentageStatus("medium");
+        } else {
+            event.setPercentageStatus("low");
+        }
+    }
+
+
 
 
 

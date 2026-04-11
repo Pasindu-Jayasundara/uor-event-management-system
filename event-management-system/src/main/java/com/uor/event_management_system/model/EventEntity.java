@@ -1,5 +1,6 @@
 package com.uor.event_management_system.model;
 
+import com.uor.event_management_system.enums.EventStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,9 +38,22 @@ public class EventEntity {
         @Column(name = "banner")
         private String image;
 
+        private int spots;
+
+        @Enumerated(EnumType.STRING)
+        private EventStatus status;
+
 
         @Transient
         private int FileCount;
 
+        @Transient
+        private int allRegisteredCount;
+
+
+        @Transient
+        private int percent;
+        @Transient
+        private String PercentageStatus;
 
 }

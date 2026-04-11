@@ -1,5 +1,6 @@
 package com.uor.event_management_system.repository;
 
+import com.uor.event_management_system.enums.EventStatus;
 import com.uor.event_management_system.model.EventEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,5 +14,6 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer> {
 
     List <EventEntity> findByEventDateTimeAfter(LocalDateTime dateTime);
     List <EventEntity> findByEventDateTimeBefore(LocalDateTime dateTime);
+    List<EventEntity> findByStatus(EventStatus status);
 
 }
