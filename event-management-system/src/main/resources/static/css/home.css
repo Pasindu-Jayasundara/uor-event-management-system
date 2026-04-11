@@ -163,7 +163,7 @@ h2{
 
     background: linear-gradient(95deg, #460809 0%, #82181a 50%, #9f0712 100%);
 
-    border: 1px solid white;
+
 
     align-items: center;
     justify-content: space-evenly;
@@ -352,7 +352,7 @@ h2{
 }
 
 .card2{
-    border: 1px solid white;
+
     display: flex;
     gap: 10px;
     width: 288px;
@@ -456,14 +456,14 @@ select{
 
 .countevent{
     margin-top: 10px;
-    border: 2px solid red;
+
 }
 
 .events{
     display: flex;
     flex-wrap: wrap;
-    border: 2px solid green;
-    height: 1342.15px;
+
+    gap:30px;
 }
 
 .eventcard{
@@ -507,7 +507,7 @@ select{
     display: flex;
     flex-direction: column;
     gap:10px;
-    border: 1px solid gray;
+
 }
 
 .evcontainer > div{
@@ -603,16 +603,67 @@ select{
 }
 
 
-.register-event button{
+.register-event button {
     display: flex;
-    padding: 7.8px 76.113px 8.2px 76.875px;
+    padding: 10px 20px;
     justify-content: center;
     align-items: center;
     flex: 1 0 0;
 
+
+    border: 1.5px solid #FFB900;
     border-radius: 10px;
-    background: #FEF2F2;
+    background: #FFB900;
+    color: #7B3306;
+
+
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
+
+
+.register-event button:hover {
+    background: #e6a700;
+    border-color: #e6a700;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.register-event button:active {
+    transform: translateY(0px);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #suggestions {
