@@ -1,0 +1,707 @@
+body {
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    font-style: normal;
+}
+
+.navigate{
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    display: flex;
+    gap: 15px;
+}
+
+.navigate a {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 22px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+
+
+    background: #FFB900;
+    color: #7B3306;
+    border: 1px solid #FFB900;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.navigate a:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+
+/* Positioning the entire block to the top right of .container */
+.user-nav {
+    position: absolute;
+    top: 25px;
+    right: 40px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    z-index: 10;
+}
+
+/* Styling the Welcome text */
+.welcome-text {
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.user-name {
+    font-weight: 700;
+    color: #FFB900; /* Matching your theme gold */
+}
+
+/* Unified button style for Dashboard link and Logout button */
+.nav-btn {
+    text-decoration: none;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    /* Matches your Search and Signup button colors */
+    background: #FFB900;
+    color: #7B3306;
+    border: 1px solid #FFB900;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Resets for the logout form to prevent layout breaking */
+.logout-form {
+    margin: 0;
+    display: flex;
+}
+
+/* Hover effects for a professional feel */
+.nav-btn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.nav-btn:active {
+    transform: translateY(0px);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+p {
+    margin: 0;
+}
+
+h2{
+    color: #FFF;
+
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 38.4px;
+}
+.hello {
+    width: 154px;
+    height: 25px;
+    display: flex;
+    padding: 4.8px 8.375px 4.787px 12.8px;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 26843500px;
+    border: 0.8px solid rgba(255, 185, 0, 0.3);
+    background: rgba(255, 185, 0, 0.2);
+
+    color: #ffd230;
+
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+    margin-top: 15px;
+}
+
+.container {
+    display: flex;
+    height: 350px;
+
+
+
+    background: linear-gradient(95deg, #460809 0%, #82181a 50%, #9f0712 100%);
+
+
+
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.card1 {
+
+    width: 650px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+
+
+
+}
+
+.input-groups > form {
+    display: flex;
+    gap: 10px;
+    position: relative;
+
+
+
+}
+.content {
+    color: #FFC9C9;
+
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    margin-bottom: 15px;
+
+
+
+}
+
+
+.searchbox {
+    display: flex;
+    width: 400px;
+    padding: 12px 16px 12px 40px;
+    align-items: center;
+
+
+    border-radius: 14px;
+    border: 0.8px solid rgba(255, 255, 255, 0.20);
+    background: rgba(255, 255, 255, 0.10);
+
+
+    color: #FFFFFF;
+    font-family: "Inter", sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+
+.searchbox::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+}
+
+
+.searchbox:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
+}
+
+
+.searchbox:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.search-btn {
+    display: flex;
+    height: 45.6px;
+    padding: 0 16px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+
+    border-radius: 14px;
+    background: #FFB900;
+    color: #7B3306;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+.search-btn:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+.search-btn img {
+    width: 18px;
+    height: 18px;
+}
+
+
+.search-btn:active {
+    transform: translateY(0px);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.menu > a{
+    display: flex;
+    height: 45.6px;
+
+
+
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 160px;
+
+    border-radius: 26843500px;
+    border: 0.8px solid #E5E7EB;
+    background: #FFF;
+    text-decoration: none;
+    color: black;
+
+}
+
+.input-groups > img{
+    height: 16px;
+    width: 16px;
+    position: absolute;
+    left: 20px;
+    top: 13px;
+
+
+
+}
+
+.card2{
+
+    display: flex;
+    gap: 10px;
+    width: 288px;
+    height: 125.563px;
+
+}
+
+.card2 > *{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid yellow;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 85.325px;
+    height: 125.563px;
+    flex-shrink: 0;
+
+    border-radius: 16px;
+    border: 0.8px solid rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.10);
+
+}
+
+
+
+.card2 div p{
+
+    color: #FFA2A2;
+    text-align: center;
+
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+
+}
+
+.card2 div > span{
+    font-size: 12px;
+    color:white;
+}
+
+
+.container2{
+
+    display: flex;
+    flex-direction: column;
+
+    height: 1523.75px;
+    flex-shrink: 0;
+    padding-left: 40px;
+    padding-right: 40px;
+
+}
+
+.menu{
+    margin-top: 10px;
+    display: flex;
+
+
+    height: 45.6px;
+    padding-right: 0;
+    align-items: flex-start;
+    gap:16px
+
+
+
+
+}
+
+.menu > div{
+
+    display: flex;
+    height: 100%;
+    gap: 10px;
+    align-items: center;
+}
+
+.menu > button {
+
+    border-radius: 26843500px;
+    border: 0.8px solid #E5E7EB;
+    background: #FFF;
+
+
+
+}
+
+select{
+    display: flex;
+    height: 37.6px;
+
+
+
+
+
+    border-radius: 10px;
+    border: 0.8px solid #E5E7EB;
+}
+
+
+.countevent{
+    margin-top: 10px;
+
+}
+
+.events{
+    display: flex;
+    flex-wrap: wrap;
+
+    gap:30px;
+}
+
+.eventcard{
+
+    display: flex;
+    width: 349.325px;
+    height: 600px;
+    padding: 5px;
+    flex-direction: column;
+
+
+
+
+    border-radius: 16px;
+    border: 0.8px solid #F3F4F6;
+    background: #FFF;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.10), 0 1px 2px -1px rgba(0, 0, 0, 0.10);
+
+    margin-top: 20px;
+
+}
+.evemain-image{
+    width: 347.725px;
+    height: 176px;
+    overflow: hidden; /* This crops the image if it's too big */
+}
+
+
+.evemain-image > img{
+
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    object-fit: cover; /* This ensures the image fills the area without stretching */
+
+
+
+}
+.evcontainer{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+
+}
+
+.evcontainer > div{
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+
+
+}
+
+.percent-container{
+
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+
+
+}
+.bar-container {
+    width: 100%;
+    height: 6px;
+    background: #eee; /* visible empty bar */
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.bar {
+    height: 6px;
+    width: 0;
+    border-radius: 999px;
+    transition: width 0.8s ease;
+}
+
+.bar.low {
+    background: #4CAF50;
+}
+
+.bar.medium {
+    background: #FFC107;
+}
+
+.bar.high {
+    background: #FF5722;
+}
+
+.bar.full {
+    background: #d32f2f;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.register-event{
+    display: flex;
+    gap: 10px;
+    margin-top: 40px;
+}
+
+.register-event > div{
+
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+.register-event button {
+    display: flex;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 0;
+
+
+    border: 1.5px solid #FFB900;
+    border-radius: 10px;
+    background: #FFB900;
+    color: #7B3306;
+
+
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+
+.register-event button:hover {
+    background: #e6a700;
+    border-color: #e6a700;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.register-event button:active {
+    transform: translateY(0px);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#suggestions {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    margin-top: 5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.suggest-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggest-item:hover,
+.active {
+    background: #f1f3f4;
+}
+
+
+.active {
+    background: #FFC9C9 !important;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+

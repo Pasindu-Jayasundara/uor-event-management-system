@@ -1,0 +1,139 @@
+/* ── Left panel — matches login theme exactly ── */
+
+.login-left-bg {
+    background-color: #82181A;
+}
+
+.bubble {
+    background-color: rgba(154, 9, 15, 0.51);
+    border-radius: 50%;
+    width: 384px;
+    aspect-ratio: 1/1;
+}
+
+.bubble-1 {
+    left: 60%;
+    top: -15%;
+}
+
+.bubble-2 {
+    width: 192px;
+    left: 15%;
+    top: 48%;
+}
+
+.bubble-3 {
+    width: 320px;
+    background-color: #460809;
+    bottom: -15%;
+    left: -15%;
+}
+
+.card-bg {
+    background-color: rgba(255, 255, 255, 0.11);
+}
+
+/* ── Error code big number ── */
+.error-code {
+    font-size: 7rem;
+    font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(135deg, #82181A, #9F0712);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.25rem;
+}
+
+/* ── Icon circle ── */
+.error-icon-wrap {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: rgba(159, 7, 18, 0.08);
+    border: 2px solid rgba(159, 7, 18, 0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ── Error ID badge ── */
+.error-id-badge {
+    background: #fdf0f0;
+    color: #82181A;
+    border: 1px solid rgba(159, 7, 18, 0.2);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+/* ── Exception detail box ── */
+.error-detail-box {
+    background: #fff8f8;
+    border: 1px solid rgba(159, 7, 18, 0.15);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 0.8rem;
+    word-break: break-all;
+}
+
+.error-detail-label {
+    color: #aaa;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+/* ── Buttons ── */
+.btn-primary-custom {
+    background-color: #82181A;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 11px 28px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary-custom:hover {
+    background-color: #6b1214;
+}
+
+.btn-secondary-custom {
+    background: transparent;
+    color: #82181A;
+    border: 2px solid #82181A;
+    border-radius: 10px;
+    padding: 9px 28px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-secondary-custom:hover {
+    background-color: #82181A;
+    color: white;
+}
+
+/* ── Back link ── */
+.back-link {
+    color: #9F0712;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+    color: #82181A;
+}

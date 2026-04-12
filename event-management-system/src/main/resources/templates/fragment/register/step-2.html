@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Step-2</title>
+</head>
+<body>
+
+<th:block th:fragment="register-step-2">
+
+    <div class="d-flex flex-column justify-content-center align-items-start w-75">
+        <div class="fw-bold fs-2">Academic Details</div>
+        <div class="fs-6 text-black-50">Step 2 of 2 — Your academic information</div>
+    </div>
+
+    <form th:object="${registerUndergraduateDto}" th:action="@{/register}" method="post"
+          class="d-flex flex-column justify-content-start align-items-start mt-5 pt-3 w-75">
+
+        <div class="d-flex flex-column align-items-center justify-content-between gap-2 w-100">
+
+            <div class="d-flex flex-column mb-4 col-6 align-self-start">
+                <label for="id" class="form-label fw-bold">Student ID</label>
+                <div class="d-flex flex-column">
+                    <div class="input-group flex-nowrap">
+                    <span class="input-group-text text-black-50" id="id-addon-wrapping">
+                        #
+                    </span>
+                        <input type="text" class="form-control" id="id" aria-describedby="id-addon-wrapping"
+                               th:field="*{studentId}" placeholder="e.g. TG/20xx/xxxx">
+                    </div>
+                    <span th:if="${#fields.hasErrors('studentId')}"
+                          th:errors="*{studentId}" class="d-flex align-self-start text-danger fs-6"></span>
+                </div>
+            </div>
+
+            <div class="d-flex flex-row align-items-center justify-content-between gap-2 w-100">
+
+                <div class="d-flex flex-column mb-4 col-6">
+                    <label for="faculty" class="form-label fw-bold">Faculty</label>
+                    <div class="d-flex flex-column">
+                        <select class="form-select" id="faculty" th:field="*{facultyId}">
+                            <option value="">Select a faculty</option>
+
+                            <element th:each="dto : ${facultyDepartmentList}">
+                                <option th:text="${dto.faculty.faculty}" th:value="${dto.faculty.id}"></option>
+                            </element>
+                        </select>
+                        <span th:if="${#fields.hasErrors('facultyId')}"
+                              th:errors="*{facultyId}" class="d-flex align-self-start text-danger fs-6"></span>
+                    </div>
+                </div>
+
+
+                <div class="d-flex flex-column mb-4 col-6">
+                    <label for="department" class="form-label fw-bold">Department</label>
+                    <div class="d-flex flex-column">
+                        <select class="form-select" id="department" th:field="*{department}">
+                            <option value="">Select a department</option>
+                        </select>
+                        <span th:if="${#fields.hasErrors('department')}"
+                              th:errors="*{department}" class="d-flex align-self-start text-danger fs-6"></span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="mb-4 w-100">
+            <label class="form-label fw-bold">Year of Study</label>
+
+            <div class="d-flex flex-wrap gap-2">
+                <div class="d-flex flex-column">
+                    <div class="d-flex">
+                        <input type="radio" class="btn-check" name="studyYear" id="year1"
+                               th:field="*{studyYear}" value="1" autocomplete="off">
+                        <label class="btn chip-text" for="year1">Year 1</label>
+
+                        <input type="radio" class="btn-check" name="studyYear" id="year2"
+                               th:field="*{studyYear}" value="2" autocomplete="off">
+                        <label class="btn chip-text" for="year2">Year 2</label>
+
+                        <input type="radio" class="btn-check" name="studyYear" id="year3"
+                               th:field="*{studyYear}" value="3" autocomplete="off">
+                        <label class="btn chip-text" for="year3">Year 3</label>
+
+                        <input type="radio" class="btn-check" name="studyYear" id="year4"
+                               th:field="*{studyYear}" value="4" autocomplete="off">
+                        <label class="btn chip-text" for="year4">Year 4</label>
+
+                        <input type="radio" class="btn-check" name="studyYear" id="year5"
+                               th:field="*{studyYear}" value="5" autocomplete="off">
+                        <label class="btn chip-text" for="year5">Year 5</label>
+                    </div>
+                    <span th:if="${#fields.hasErrors('studyYear')}"
+                          th:errors="*{studyYear}" class="d-flex align-self-start text-danger fs-6"></span>
+                </div>
+            </div>
+        </div>
+
+        <th:block th:replace="~{fragment/register/register-btn :: register-btn}"></th:block>
+
+    </form>
+
+
+    <script th:inline="javascript">
+        window.facultyDepartmentList = /*[[${facultyDepartmentList}]]*/ [];
+    </script>
+
+    <script th:src="@{/js/register/register-step-2.js}"></script>
+
+</th:block>
+
+</body>
+</html>

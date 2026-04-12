@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UniEvents · Manage Users fragment</title>
+
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+
+<th:block th:fragment="manage-users(platformUserSummary, staffRegistrationRequestList)">
+
+    <div class="mu-stat-strip my-3">
+        <div class="stat-item">
+            <div class="stat-icon">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24"
+                     stroke="#9F0712" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+            </div>
+            <div>
+                <div class="stat-num" id="mu-stat-total" th:text="${platformUserSummary.totalUsers}">0</div>
+                <div class="stat-lbl">Total Users</div>
+            </div>
+        </div>
+
+        <div class="stat-item">
+            <div class="stat-icon">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24"
+                     stroke="#9F0712" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                </svg>
+            </div>
+            <div>
+                <div class="stat-num" id="mu-stat-active" th:text="${platformUserSummary.totalActiveUsers}">0</div>
+                <div class="stat-lbl">Active</div>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24"
+                     stroke="#9F0712" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+                </svg>
+            </div>
+            <div>
+                <div class="stat-num" id="mu-stat-disabled" th:text="${platformUserSummary.totalInactiveUsers}">0</div>
+                <div class="stat-lbl">Disabled</div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="py-4 px-3">
+
+        <!--  search  -->
+        <div class="mu-search-header">
+            <div class="mu-search-bar-wrap">
+                <svg class="mu-search-icon" width="16" height="16" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input type="text" id="mu-search-input"
+                       placeholder="Search users by name, email or role…"
+                       oninput="muHandleSearch(event)"
+                       autocomplete="off"/>
+                <button class="mu-search-clear" id="mu-search-clear"
+                        onclick="muClearSearch()" style="display:none" type="button">
+                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor" stroke-width="2.5">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <!-- filter chips -->
+            <div class="mu-filter-chips">
+                <button class="mu-chip active" data-filter="all" onclick="muSetFilter(this,'all')">All</button>
+                <button class="mu-chip" data-filter="admin" onclick="muSetFilter(this,'admin')">Admins</button>
+                <button class="mu-chip" data-filter="staff" onclick="muSetFilter(this,'staff')">Staff</button>
+                <button class="mu-chip" data-filter="student" onclick="muSetFilter(this,'student')">Students</button>
+                <button class="mu-chip" data-filter="disabled" onclick="muSetFilter(this,'disabled')">Disabled</button>
+            </div>
+        </div>
+
+        <!--search result panel-->
+        <div class="mu-results-panel" id="mu-results-panel" style="display:none">
+            <div class="mu-results-head">
+                <span class="mu-results-label" id="mu-results-label">Results</span>
+            </div>
+            <table class="mu-table" id="mu-results-table">
+                <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="mu-results-tbody"></tbody>
+            </table>
+            <div class="mu-no-results" id="mu-no-results" style="display:none">
+                <svg width="32" height="32" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor" stroke-width="1.5">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <p>No users found matching your search.</p>
+            </div>
+        </div>
+
+        <!-- staff registration accordion -->
+        <div class="approval-card-wrapper mt-5" id="mu-main-card">
+
+            <div class="acc-section">
+                <button class="acc-trigger" onclick="toggleAcc(this,'staff-body')" type="button">
+                    <div class="trigger-icon"><i class="bi bi-person-badge"></i></div>
+                    <div>
+                        <div class="trigger-label">Staff Platform Registration Requests</div>
+                        <div class="trigger-sub">Lecturers & staff awaiting platform access</div>
+                    </div>
+                    <div class="trigger-right">
+                        <span class="badge-pill badge-warning">
+                            <span class="badge-dot dot-warning"></span>
+                            <th:block th:text="|${#lists.size(staffRegistrationRequestList)} pending|"></th:block>
+                        </span>
+                        <i class="bi bi-chevron-down chevron"></i>
+                    </div>
+                </button>
+                <div class="acc-body" id="staff-body">
+                    <table class="approval-table">
+                        <thead>
+                        <tr>
+                            <th>Staff Member</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Thymeleaf loop: th:each="req : ${pendingStaff}" -->
+
+                        <th:block th:each="staff : ${staffRegistrationRequestList}">
+
+                            <tr>
+                                <td>
+                                    <div class="td-person">
+                                        <span class="avatar" th:text="${staff.firstName[0]+staff.lastName[0]}"></span>
+                                        <div>
+                                            <div class="person-name"
+                                                 th:text="|${staff.firstName} ${staff.lastName}|"></div>
+                                            <div class="person-email" th:text="${staff.email}"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge-pill badge-warning">
+                                    <span class="badge-dot dot-warning"></span>Pending</span></td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <form method="post" th:action="@{/admin/approve-staff/{id}(id=${staff.id})}">
+                                            <button type="submit" class="btn-action btn-approve">
+                                                <i class="bi bi-check-lg"></i> Approve
+                                            </button>
+                                        </form>
+                                        <form method="post" th:action="@{/admin/reject-staff/{id}(id=${staff.id})}">
+                                            <button type="submit" class="btn-action btn-reject">
+                                                <i class="bi bi-x-lg"></i> Reject
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </th:block>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!--   ACTION POPUP MENU   -->
+    <div class="mu-popup-overlay" id="mu-popup-overlay" onclick="muClosePopup()"></div>
+    <div class="mu-popup" id="mu-popup" role="menu" aria-label="User actions">
+        <div class="mu-popup-user" id="mu-popup-user">
+            <span class="avatar" id="mu-popup-av"></span>
+            <div>
+                <div class="mu-popup-name" id="mu-popup-name"></div>
+                <div class="mu-popup-email" id="mu-popup-email"></div>
+            </div>
+        </div>
+        <div class="mu-popup-divider"></div>
+        <button class="mu-popup-item" id="mu-action-view" onclick="muActionView()" type="button">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+            </svg>
+            View Full Details
+        </button>
+        <button class="mu-popup-item" id="mu-action-promote" onclick="muActionPromote()" type="button">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            Promote to Admin
+        </button>
+        <button class="mu-popup-item mu-item-warning" id="mu-action-disable" onclick="muActionToggle()" type="button">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+            </svg>
+            Disable Account
+        </button>
+        <button class="mu-popup-item mu-item-success" id="mu-action-enable" onclick="muActionToggle()" type="button"
+                style="display:none">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="9 11 12 14 22 4"/>
+            </svg>
+            Enable Account
+        </button>
+
+        <button class="mu-popup-item" id="mu-action-demote" onclick="muActionDemote()" type="button">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <line x1="12" y1="9" x2="12" y2="15"/>
+                <line x1="9" y1="12" x2="15" y2="12"/>
+            </svg>
+            Demote
+        </button>
+    </div>
+
+
+    <!-- USER DETAIL MODAL  -->
+    <div class="mu-modal-backdrop" id="mu-modal-backdrop" onclick="muCloseModal()"></div>
+    <div class="mu-modal" id="mu-modal" role="dialog" aria-modal="true" aria-label="User details">
+        <div class="mu-modal-header">
+            <div class="mu-modal-title">User Details</div>
+            <button class="mu-modal-close" onclick="muCloseModal()" type="button">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor" stroke-width="2.5">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <div class="mu-modal-body">
+            <!-- profile row -->
+            <div class="mu-modal-profile">
+                <span class="mu-modal-av" id="mu-modal-av"></span>
+                <div>
+                    <div class="mu-modal-uname" id="mu-modal-uname"></div>
+                    <div class="mu-modal-uemail" id="mu-modal-uemail"></div>
+                    <div class="mu-modal-badges" id="mu-modal-badges"></div>
+                </div>
+            </div>
+            <!-- details grid -->
+            <div class="mu-modal-grid">
+                <div class="mu-modal-field">
+                    <div class="mu-modal-field-label">User ID</div>
+                    <div class="mu-modal-field-value" id="mu-modal-id"></div>
+                </div>
+                <div class="mu-modal-field">
+                    <div class="mu-modal-field-label">Role</div>
+                    <div class="mu-modal-field-value" id="mu-modal-role"></div>
+                </div>
+                <div class="mu-modal-field">
+                    <div class="mu-modal-field-label">Department</div>
+                    <div class="mu-modal-field-value" id="mu-modal-dept"></div>
+                </div>
+                <div class="mu-modal-field">
+                    <div class="mu-modal-field-label">Account Status</div>
+                    <div class="mu-modal-field-value" id="mu-modal-status"></div>
+                </div>
+            </div>
+            <!-- quick actions inside modal -->
+            <div class="mu-modal-actions" id="mu-modal-actions"></div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/admin/manage-users.js}"></script>
+
+</th:block>
+
+</body>
+</html>

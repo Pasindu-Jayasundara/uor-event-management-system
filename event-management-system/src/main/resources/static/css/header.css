@@ -1,0 +1,13 @@
+*{
+    font-family: Inter;
+}
+.header-background{
+    background-color: #9F0712;
+}
+.selected{
+    background-color: #b02a37;
+}
+.account-type{
+    background-color: #FFB900;
+    color: #9F0712;
+}

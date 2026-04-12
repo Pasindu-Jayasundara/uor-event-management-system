@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css"
+          integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+            integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/admin/approval.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/manage-users.css}">
+
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+</head>
+<body>
+
+<th:block th:insert="~{fragment/header :: header(${user})}"></th:block>
+
+<th:block th:switch="${page}">
+
+    <th:block th:case="'dashboard'">
+        <div th:replace="~{admin/fragment/dashboard :: dashboard}"></div>
+    </th:block>
+
+    <th:block th:case="'approval'">
+        <div th:replace="~{admin/fragment/approval :: approval}"></div>
+    </th:block>
+
+    <th:block th:case="'registration'">
+        <div th:replace="~{admin/fragment/registration :: registration}"></div>
+    </th:block>
+
+    <th:block th:case="'manage-event'">
+        <div th:replace="~{admin/fragment/manage-event :: manage-event}"></div>
+    </th:block>
+
+    <th:block th:case="'manage-user'">
+        <div th:replace="~{admin/fragment/manage-user :: manage-users(${platformUserSummary}, ${staffRegistrationRequestList})}"></div>
+    </th:block>
+
+</th:block>
+
+<script th:src="@{/js/admin/header.js}"></script>
+
+</body>
+</html>
