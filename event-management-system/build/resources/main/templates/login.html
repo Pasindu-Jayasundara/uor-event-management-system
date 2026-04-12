@@ -3,24 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css"
+          integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
+    <!--    <link rel="stylesheet" href="../../../static/css/login.css"/>-->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
 </head>
-<body>
+<body class="d-flex flex-row min-vh-100">
 
-<form method="post" th:action="@{/login}" th:object="${loginDto}">
+<!--left-->
+<div class="d-flex flex-column min-vh-100 col-6 login-left-bg position-relative overflow-hidden justify-content-between px-5 pt-5">
 
-    <div>
-        <label>Email:</label>
-        <input type="email" th:field="*{email}" />
+    <!--  bubble  -->
+    <div class="position-absolute bubble bubble-1"></div>
+    <div class="position-absolute bubble bubble-2"></div>
+    <div class="position-absolute bubble bubble-3"></div>
+
+    <div class="d-flex flex-column align-items-start w-100">
+        <th:block th:replace="~{fragment/logo :: logo}" class="d-flex align-self-start"></th:block>
+        <div class="fw-bold fs-1 w-50 lh-sm mt-5 text-white">Welcome Back to UniEvents</div>
+        <div class="z-1 w-75 mt-3 text-white-50">Your gateway to university events — register, participate, and track
+            your academic journey all in one place.
+        </div>
+    </div>
+    <div class="d-flex flex-column gap-4 mb-5 z-1">
+        <!--    card    -->
+        <div class="d-flex flex-row align-items-center justify-content-start rounded-3 card-bg ps-3 py-3">
+            <span>
+                <img th:src="@{/icon/login/calendar.png}">
+                <!--                <img src="../../../static/icon/login/calendar.svg">-->
+            </span>
+            <span class="ms-4 d-flex flex-column justify-content-center align-items-start">
+                <div class="text-white fs-5 fw-bold">Browse Events</div>
+                <div class="text-white-50 fs-6">Explore academic, cultural, sports & career events</div>
+            </span>
+        </div>
+        <div class="d-flex flex-row align-items-center justify-content-start rounded-3 card-bg ps-3 py-3">
+            <span>
+                <img th:src="@{/icon/login/lightning.png}">
+                <!--                <img src="../../../static/icon/login/lightining.svg">-->
+            </span>
+            <span class="ms-4 d-flex flex-column justify-content-center align-items-start">
+                <div class="text-white fs-5 fw-bold">Quick Registration</div>
+                <div class="text-white-50 fs-6">Register for events with a single click</div>
+            </span>
+        </div>
+        <div class="d-flex flex-row align-items-center justify-content-start rounded-3 card-bg ps-3 py-3">
+            <span>
+                <img th:src="@{/icon/login/chart.png}">
+                <!--                <img src="../../../static/icon/login/chart.svg">-->
+            </span>
+            <span class="ms-4 d-flex flex-column justify-content-center align-items-start">
+                <div class="text-white fs-5 fw-bold">Track Attendance</div>
+                <div class="text-white-50 fs-6">View your participation history & records</div>
+            </span>
+        </div>
+    </div>
+</div>
+
+<!--right-->
+<div class="d-flex flex-column min-vh-100 col-6 bg-white justify-content-center align-items-center">
+    <div class="d-flex flex-column justify-content-center align-items-start w-75">
+        <div class="fw-bold fs-2">Sign In</div>
+        <div class="fs-6 text-black-50">Enter your credentials to access the portal</div>
     </div>
 
-    <div>
-        <label>Password:</label>
-        <input type="password" th:field="*{password}" />
+    <form method="post" th:action="@{/login}" th:object="${loginDto}"
+          class="d-flex flex-column justify-content-start align-items-start mt-5 pt-3 w-75">
+
+        <th:block th:if="${param.msg}">
+            <span th:text="${param.msg}" class="d-flex align-self-start text-danger fs-6 mb-3"></span>
+        </th:block>
+
+        <div class="mb-4 w-100">
+            <label for="email" class="form-label fw-bold">Email address</label>
+            <div class="input-group flex-nowrap">
+                    <span class="input-group-text" id="e-addon-wrapping">
+                        <i class="bi bi-envelope text-black-50"></i>
+                    </span>
+                <input type="email" class="form-control w-100" id="email" aria-describedby="e-addon-wrapping"
+                       th:field="*{email}" placeholder="you@fot.ruh.ac.lk">
+            </div>
+        </div>
+        <div class="mb-4 w-100">
+            <sapn class="d-flex flex-row justify-content-between">
+                <label for="pwd" class="form-label fw-bold">Password</label>
+                <a class="fs-6 forgot-password" type="button" th:href="@{/forgot-password-page}">Forgot Password?</a>
+            </sapn>
+            <div class="input-group flex-nowrap">
+                        <span class="input-group-text" id="addon-wrapping">
+                            <i class="bi bi-lock text-black-50"></i>
+                        </span>
+                <input type="password" class="form-control w-100" id="pwd" th:field="*{password}"
+                       aria-describedby="addon-wrapping" placeholder="Enter your password">
+            </div>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input checkbox-color" type="checkbox" id="checkDefault">
+            <label class="form-check-label" for="checkDefault">
+                Remember me for 30 days
+            </label>
+        </div>
+
+        <button type="submit" class="w-100 rounded-3 py-2 login-left-bg border-0 mt-5">
+                <span class="fs-6 fw-bold text-white d-flex flex-row justify-content-center align-items-center">
+                    Sign In
+                    <i class="bi bi-arrow-right-short fw-bold fs-2"></i>
+                </span>
+        </button>
+
+    </form>
+
+    <div class="d-flex flex-row justify-content-center align-items-center gap-2 mt-2">
+        <span class="text-black-50">Don't have an account?</span>
+        <a class="forgot-password fs-6 fw-bold" th:href="@{/register-page}" type="button">Create Account</a>
     </div>
 
-    <button type="submit">Login</button>
+    <div class="d-flex justify-content-center align-items-center text-black-50 fs-6 mt-5">© 2026 UniEvents · University
+        Event Management Portal
+    </div>
 
-</form>
+
+</div>
+
+<script th:src="@{/js/login/login.js}"></script>
 
 </body>
 </html>
