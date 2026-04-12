@@ -18,7 +18,7 @@ public class EventEntity {
         @GeneratedValue(strategy = GenerationType.IDENTITY)  //Auto incremented
         private int id;
 
-        @Column(name = "title" , nullable = false)
+        @Column(name = "name" , nullable = false)
         private String title;
 
         @Column(name = "description", columnDefinition = "TEXT")
@@ -30,10 +30,10 @@ public class EventEntity {
         @Column(name = "date", nullable = false)
         private LocalDateTime eventDate;
 
-        @Column(name = "Start_time",nullable = false)
+        @Column(name = "start_time",nullable = false)
         private LocalDateTime startTime;
 
-        @Column(name="end_date", nullable = false)
+        @Column(name="end_time", nullable = false)
         private LocalDateTime endTime;
 
         @Enumerated(EnumType.STRING)

@@ -5,5 +5,6 @@ public enum EventCategory {
     ACADEMIC,
     CAREER,
     SPORTS,
-    CULTURAL
+    CULTURAL,
+    SOCIAL
 }
