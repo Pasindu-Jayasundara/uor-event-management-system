@@ -1,66 +1,59 @@
 package com.uor.event_management_system.model;
 
-import com.uor.event_management_system.enums.EventCategory;
 import com.uor.event_management_system.enums.EventStatus;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 
 @Entity
-@Data
-
+@Getter
+@Setter
 @Table(name="event")
 public class EventEntity {
 
+
+
+
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)  //Auto incremented
         private int id;
 
-        @Column(name = "title" , nullable = false)
+        @Column(name = "name")
         private String title;
 
-        @Column(name = "description", columnDefinition = "TEXT")
+        @Column(name = "description")
         private String eventDescription;
 
-        @Column(name = "location", nullable = false)
+        @Column(name = "location")
         private String eventLocation;
 
-        @Column(name = "date", nullable = false)
-        private LocalDateTime eventDate;
+        @Column(name = "date_time")
+        private LocalDateTime eventDateTime;
 
-        @Column(name = "Start_time",nullable = false)
-        private LocalDateTime startTime;
-
-        @Column(name="end_date", nullable = false)
-        private LocalDateTime endTime;
-
-        @Enumerated(EnumType.STRING)
-        @Column(name = "event_category_id", nullable = false)
-        private EventCategory eventCategory;
+        @Column(name = "event_category_id")
+        private int eventCategory;
 
         @Column(name = "banner")
         private String image;
 
-        @Column(name = "max_capacity", nullable = false)
-        private int maxCapacity;
+        private int spots;
 
         @Enumerated(EnumType.STRING)
-        @Column(name="status", nullable = false)
         private EventStatus status;
 
 
         @Transient
-        private int fileCount;
+        private int FileCount;
 
         @Transient
         private int allRegisteredCount;
 
-        @Transient
-        private int registrationPercent;
 
         @Transient
-        private String percentageStatus; //capacity status
+        private int percent;
+        @Transient
+        private String PercentageStatus;
 
 }
