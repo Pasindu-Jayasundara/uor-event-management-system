@@ -3,14 +3,15 @@ package com.uor.event_management_system.model;
 import com.uor.event_management_system.enums.EventCategory;
 import com.uor.event_management_system.enums.EventStatus;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 
 @Entity
-@Data
-
+@Getter
+@Setter
 @Table(name="event")
 public class EventEntity {
 
@@ -21,7 +22,7 @@ public class EventEntity {
         @Column(name = "name" , nullable = false)
         private String title;
 
-        @Column(name = "description", columnDefinition = "TEXT")
+        @Column(name = "description")
         private String eventDescription;
 
         @Column(name = "location", nullable = false)
@@ -36,15 +37,13 @@ public class EventEntity {
         @Column(name="end_time", nullable = false)
         private LocalDateTime endTime;
 
-        @Enumerated(EnumType.STRING)
         @Column(name = "event_category_id", nullable = false)
         private EventCategory eventCategory;
 
         @Column(name = "banner")
         private String image;
 
-        @Column(name = "max_capacity", nullable = false)
-        private int maxCapacity;
+        private int spots;
 
         @Enumerated(EnumType.STRING)
         @Column(name="status", nullable = false)
