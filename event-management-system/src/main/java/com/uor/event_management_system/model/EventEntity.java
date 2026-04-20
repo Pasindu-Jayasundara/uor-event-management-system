@@ -1,5 +1,6 @@
 package com.uor.event_management_system.model;
 
+import com.uor.event_management_system.enums.EventCategory;
 import com.uor.event_management_system.enums.EventStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,26 +15,30 @@ import java.time.LocalDateTime;
 @Table(name="event")
 public class EventEntity {
 
-
-
-
         @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)  //Auto incremented
         private int id;
 
-        @Column(name = "name")
+        @Column(name = "name" , nullable = false)
         private String title;
 
         @Column(name = "description")
         private String eventDescription;
 
-        @Column(name = "location")
+        @Column(name = "location", nullable = false)
         private String eventLocation;
 
-        @Column(name = "date_time")
-        private LocalDateTime eventDateTime;
+        @Column(name = "date", nullable = false)
+        private LocalDateTime eventDate;
 
-        @Column(name = "event_category_id")
-        private int eventCategory;
+        @Column(name = "start_time",nullable = false)
+        private LocalDateTime startTime;
+
+        @Column(name="end_time", nullable = false)
+        private LocalDateTime endTime;
+
+        @Column(name = "event_category_id", nullable = false)
+        private EventCategory eventCategory;
 
         @Column(name = "banner")
         private String image;
@@ -41,19 +46,20 @@ public class EventEntity {
         private int spots;
 
         @Enumerated(EnumType.STRING)
+        @Column(name="status", nullable = false)
         private EventStatus status;
 
 
         @Transient
-        private int FileCount;
+        private int fileCount;
 
         @Transient
         private int allRegisteredCount;
 
+        @Transient
+        private int registrationPercent;
 
         @Transient
-        private int percent;
-        @Transient
-        private String PercentageStatus;
+        private String percentageStatus; //capacity status
 
 }
