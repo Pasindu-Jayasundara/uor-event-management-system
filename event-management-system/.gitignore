@@ -37,3 +37,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+.idea/
+*.iml
+*.log
+hs_err_pid*
+replay_pid*

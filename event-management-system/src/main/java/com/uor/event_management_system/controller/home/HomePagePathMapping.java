@@ -85,7 +85,7 @@ public class HomePagePathMapping {
 
 
     @GetMapping("/category")
-    public String filterByCategory(@RequestParam("type") String type, Model model) {
+    public String filterByCategory(@RequestParam("type") int type, Model model) {
         model.addAttribute("events", service.getByCategory(type));
         return "homepage";
     }
@@ -96,11 +96,11 @@ public class HomePagePathMapping {
         List<EventEntity> events;
         if(filter.equalsIgnoreCase("upcoming")) {
 
-            events = service.findByEventDateTimeAfter(LocalDateTime.now());
+            events = service.getUpcomingEvents();
 
         }
         else if(filter.equalsIgnoreCase("past")) {
-            events = service.findByEventDateTimeBefore(LocalDateTime.now());
+            events = service.getPastEvents();
         }
 
         else {
