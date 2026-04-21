@@ -1,22 +1,27 @@
 package com.uor.event_management_system.controller.home;
 
 
+import com.uor.event_management_system.enums.EventRegistrationStatus;
 import com.uor.event_management_system.enums.EventStatus;
 import com.uor.event_management_system.model.EventEntity;
 
 
-
+import com.uor.event_management_system.model.UserEntity;
+import com.uor.event_management_system.repository.EventRegistrationRep;
 import com.uor.event_management_system.repository.EventRepository;
 
+import com.uor.event_management_system.repository.UserRepository;
+import com.uor.event_management_system.service.EventRegistrationService;
 import com.uor.event_management_system.service.EventService;
 import com.uor.event_management_system.service.user.UserService;
+import org.apache.catalina.User;
+import org.apache.catalina.UserDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -35,6 +40,12 @@ public class HomePagePathMapping {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    private EventRegistrationRep eventRegistrationRep;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     @ModelAttribute
@@ -109,6 +120,26 @@ public class HomePagePathMapping {
         model.addAttribute("events", events);
         return "homepage";
 
+    }
+
+
+    @GetMapping("/event/{id}")
+    public String viewEventDetails(@PathVariable int id, Model model, Principal principal) {
+        boolean isRegistered = false;
+
+        EventEntity event = eventRepository.findById(id).orElse(null);
+        if(principal != null) {
+
+            UserEntity user = userRepository.findByEmail(principal.getName()).get();
+
+            isRegistered = eventRegistrationRep.existsByUser_IdAndEvent_IdAndStatus(user.getId(), event.getId(), EventRegistrationStatus.APPROVED);
+
+        }
+        model.addAttribute("isRegistered", isRegistered);
+
+        model.addAttribute("event", event);
+
+        return "event_details";
     }
 
 
