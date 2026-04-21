@@ -8,14 +8,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "event_category")
-public class eventcategory {
+public class EventCategory {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String category;
-
-
-
 
 }

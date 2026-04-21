@@ -1,24 +1,18 @@
 package com.uor.event_management_system.model;
 
-import com.uor.event_management_system.enums.EventCategory;
 import com.uor.event_management_system.enums.EventStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-
 
 @Entity
 @Getter
 @Setter
 @Table(name="event")
 public class EventEntity {
-
-
-
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)  //Auto incremented
@@ -42,10 +36,9 @@ public class EventEntity {
         @Column(name="end_time", nullable = false)
         private LocalTime endTime;
 
-
         @ManyToOne
         @JoinColumn(name = "event_category_id")
-        private eventcategory eventCategory;
+        private EventCategory eventCategory;
 
         @Column(name = "banner")
         private String image;
@@ -56,19 +49,16 @@ public class EventEntity {
         @Column(nullable = false)
         private EventStatus status;
 
-
         @Transient
         private int fileCount;
 
         @Transient
         private int allRegisteredCount;
 
-
         @Transient
         private int registrationPercent;
+
         @Transient
         private String percentageStatus;
-
-
 
 }
