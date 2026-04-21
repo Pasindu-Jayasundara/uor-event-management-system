@@ -1,13 +1,12 @@
 package com.uor.event_management_system.model;
 
-import com.uor.event_management_system.enums.EventCategory;
 import com.uor.event_management_system.enums.EventStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -29,15 +28,16 @@ public class EventEntity {
         private String eventLocation;
 
         @Column(name = "date", nullable = false)
-        private LocalDateTime eventDate;
+        private LocalDate eventDate;
 
         @Column(name = "start_time",nullable = false)
-        private LocalDateTime startTime;
+        private LocalTime startTime;
 
         @Column(name="end_time", nullable = false)
-        private LocalDateTime endTime;
+        private LocalTime endTime;
 
-        @Column(name = "event_category_id", nullable = false)
+        @ManyToOne
+        @JoinColumn(name = "event_category_id")
         private EventCategory eventCategory;
 
         @Column(name = "banner")
@@ -46,9 +46,8 @@ public class EventEntity {
         private int spots;
 
         @Enumerated(EnumType.STRING)
-        @Column(name="status", nullable = false)
+        @Column(nullable = false)
         private EventStatus status;
-
 
         @Transient
         private int fileCount;
@@ -60,6 +59,6 @@ public class EventEntity {
         private int registrationPercent;
 
         @Transient
-        private String percentageStatus; //capacity status
+        private String percentageStatus;
 
 }

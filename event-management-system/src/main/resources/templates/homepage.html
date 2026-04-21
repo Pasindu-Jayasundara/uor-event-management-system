@@ -151,7 +151,14 @@
 
                     <div>
                         <img src="./icon/homepage/evIcon.svg">
-                        <label th:text="${#temporals.format(event.eventDateTime, 'EEEE, dd MMM yyyy - hh:mm a')}"></label>
+                        <label>
+                            <span th:text="${#temporals.format(event.eventDate, 'dd MMM yyyy')}"></span>
+                            (
+                            <span th:text="${#temporals.format(event.startTime, 'hh:mm a')}"></span>
+                            -
+                            <span th:text="${#temporals.format(event.endTime, 'hh:mm a')}"></span>
+                            )
+                        </label>
                     </div>
                     <div>
                         <img src="./icon/homepage/evIcon2.svg">
@@ -185,7 +192,7 @@
 
                 <div class="bar-container">
                     <div class="bar"
-                         th:style="'width:' + ${event.percent} + '%;'"
+                         th:style="'width:' + ${event.registrationPercent} + '%;'"
                          th:classappend="${event.getPercentageStatus}">
                     </div>
                 </div>
