@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 
 @Entity
@@ -14,6 +16,9 @@ import java.time.LocalDateTime;
 @Setter
 @Table(name="event")
 public class EventEntity {
+
+
+
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)  //Auto incremented
@@ -29,16 +34,18 @@ public class EventEntity {
         private String eventLocation;
 
         @Column(name = "date", nullable = false)
-        private LocalDateTime eventDate;
+        private LocalDate eventDate;
 
         @Column(name = "start_time",nullable = false)
-        private LocalDateTime startTime;
+        private LocalTime startTime;
 
         @Column(name="end_time", nullable = false)
-        private LocalDateTime endTime;
+        private LocalTime endTime;
 
-        @Column(name = "event_category_id", nullable = false)
-        private EventCategory eventCategory;
+
+        @ManyToOne
+        @JoinColumn(name = "event_category_id")
+        private eventcategory eventCategory;
 
         @Column(name = "banner")
         private String image;
@@ -46,7 +53,7 @@ public class EventEntity {
         private int spots;
 
         @Enumerated(EnumType.STRING)
-        @Column(name="status", nullable = false)
+        @Column(nullable = false)
         private EventStatus status;
 
 
@@ -56,10 +63,12 @@ public class EventEntity {
         @Transient
         private int allRegisteredCount;
 
-        @Transient
-        private int registrationPercent;
 
         @Transient
-        private String percentageStatus; //capacity status
+        private int registrationPercent;
+        @Transient
+        private String percentageStatus;
+
+
 
 }

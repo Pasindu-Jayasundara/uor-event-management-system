@@ -7,7 +7,9 @@ import com.uor.event_management_system.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,13 +40,14 @@ public class EventService {
             event.setAllRegisteredCount(allRegisteredCount);
             prepareEvent(event);
 
+
         }
         return events;
     }
 
 
-    public List<EventEntity> getByCategory(String category) {
-        return unieventsRepo.findByEventCategoryAndStatus(category,EventStatus.APPROVED);
+    public List<EventEntity> getByCategory(int category) {
+        return unieventsRepo.findByEventCategory_IdAndStatus(category,EventStatus.APPROVED);
     }
 
     public int UpcomingEvents(){
@@ -53,7 +56,12 @@ public class EventService {
         LocalDateTime today = LocalDateTime.now();
         int count = 0;
         for(EventEntity event:events){
-            if(event.getEventDateTime().isAfter(today)){
+
+            LocalDateTime eventDateTime = LocalDateTime.of(
+                    event.getEventDate(),
+                    event.getStartTime()
+            );
+            if(eventDateTime.isAfter(today)){
 
                 count++;
 
@@ -65,12 +73,52 @@ public class EventService {
         return count;
     }
 
-    public List<EventEntity> findByEventDateTimeAfter(LocalDateTime dateTime) {
-        return unieventsRepo.findByEventDateTimeAfterAndStatus(dateTime,EventStatus.APPROVED);
+    public List<EventEntity> getUpcomingEvents() {
+
+        List<EventEntity> events =  unieventsRepo.findByStatus(EventStatus.APPROVED);
+        LocalDateTime now = LocalDateTime.now();
+        List<EventEntity> upcomingEvents = new ArrayList<EventEntity>();
+
+        for(EventEntity event:events){
+
+            LocalDateTime eventDateTime = LocalDateTime.of(
+                    event.getEventDate(),
+                    event.getStartTime()
+            );
+            if(eventDateTime.isAfter(now)){
+
+                upcomingEvents.add(event);
+            }
+
+
+
+        }
+        return upcomingEvents;
+
     }
 
-    public List<EventEntity> findByEventDateTimeBefore(LocalDateTime dateTime) {
-        return unieventsRepo.findByEventDateTimeBeforeAndStatus(dateTime,EventStatus.APPROVED);
+    public List<EventEntity> getPastEvents() {
+
+        List<EventEntity> events =  unieventsRepo.findByStatus(EventStatus.APPROVED);
+        LocalDateTime now = LocalDateTime.now();
+        List<EventEntity> pastEvents = new ArrayList<>();
+        for(EventEntity event:events){
+            LocalDateTime eventDateTime = LocalDateTime.of(
+                    event.getEventDate(),
+                    event.getEndTime()
+            );
+            if(eventDateTime.isBefore(now)){
+                pastEvents.add(event);
+            }
+
+        }
+        return pastEvents;
+
+
+
+
+
+
     }
 
 
@@ -86,7 +134,7 @@ public class EventService {
             percent = (registered * 100) / total;
         }
 
-        event.setPercent(percent);
+        event.setRegistrationPercent(percent);
 
 
         if (percent == 100) {

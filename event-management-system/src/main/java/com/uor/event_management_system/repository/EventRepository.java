@@ -11,11 +11,11 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<EventEntity, Integer> {
     List<EventEntity> findByTitleContainingAndStatus(String keyword, EventStatus status);
 
-    List <EventEntity> findByEventCategoryAndStatus(String eventCategory, EventStatus status);
+    List<EventEntity> findByEventCategory_IdAndStatus(int eventCategoryId, EventStatus status);
 
-    List<EventEntity> findByEventDateTimeAfterAndStatus(LocalDateTime dateTime, EventStatus status);
 
-    List<EventEntity> findByEventDateTimeBeforeAndStatus(LocalDateTime dateTime, EventStatus status);
+
+
     List<EventEntity> findByStatus(EventStatus status);
     int countByStatus(EventStatus status);
 
