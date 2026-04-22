@@ -6,6 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Details</title>
     <link rel="stylesheet" th:href="@{/css/event_details.css}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+            rel="stylesheet"
+    />
+
+
+
+
+
+
 </head>
 <body>
 
@@ -34,7 +47,8 @@
 
                 <div class="evitem">
 
-                    <img src="./icon/homepage/Icon5.svg">
+
+                    <img th:src="@{/icon/homepage/Icon5.svg}">
                     <span>Time</span>
                     <p>
                         <span th:text="${#temporals.format(event.startTime, 'hh:mm a')}"></span>
@@ -47,7 +61,8 @@
 
                 <div class="evitem">
 
-                    <img src="./icon/homepage/evIcon.svg">
+
+                    <img th:src="@{/icon/homepage/evIcon.svg}">
                     <span>Location</span>
                     <p th:text="${event.eventLocation}"></p>
 
@@ -55,7 +70,8 @@
 
                 <div class="evitem">
 
-                    <img src="./icon/homepage/Icontime.svg">
+
+                    <img th:src="@{/icon/homepage/Icontime.svg}">
                     <span>Capacity</span>
                     <p>
                         <span th:text="${event.allRegisteredCount}"></span>
@@ -71,7 +87,7 @@
 
             <div class="desc">
 
-                <h2>About this event</h2>
+                <span>About this event</span>
                 <p th:text="${event.eventDescription}"></p>
 
                 <img th:src="@{/icon/homepage/evIcon2.svg}">
@@ -89,13 +105,12 @@
                 <span>Event Files & Resources</span>
             </div>
 
-            <div class="filename">
+            <div class="filename" th:each="file : ${files}">
 
-                <p>📄 Summit_Schedule_2026.pdf</p>
-            </div>
+                <a th:href="${file.url}" target="_blank" class="file-link">
+                    📄 <span th:text="${file.name}"></span>
+                </a>
 
-            <div class="filename">
-                <p> 📄 Speaker_Bios.pdf</p>
             </div>
 
         </div>
@@ -108,19 +123,107 @@
 
 
         <div class="right-section-1">
-            <div class="already-registered" th:if="${isRegistered}"> <img th:src="@{/icon/homepage/correct.svg}"
+            <div class="already-registered" th:if="${status != null and status.name() == 'APPROVED'}"> <img th:src="@{/icon/homepage/correct.svg}"
                                                  style="position: absolute; top: 15px; left: 5px;">
                 <span class="register-title">You are Registerd </span>
                 <p class="register-title2">Check your dashboard for updates</p>
 
             </div>
-            <button class="register-btn" th:if="${!isRegistered}"> Register</button>
 
+            <div class="pending-registered" th:if="${status != null and status.name() == 'PENDING'}">
+                <span class="pending-title">Waiting for Approval</span>
+                <p class="pending-title2">Admin will review your request</p>
+            </div>
+
+            <div class="rejected-registered" th:if="${status != null and status.name() == 'REJECTED'}">
+                <span class="rejected-title"> ❌ Your request was rejected</span>
+
+            </div>
+
+            <div class="waitlist-box" th:if="${status != null and status.name() == 'WAITLIST'}">
+
+                <span class="pending-title">You are Waitlisted</span>
+
+                <p class="waitlist-title2">
+                    Event is full. You are on the waiting list
+                </p>
+
+            </div>
+
+            <form th:if="${status != null and status.name() != 'REJECTED'}"
+                  th:action="@{'/event/' + ${event.id} + '/cancel'}"
+                  method="post">
+                <button class="register-btn">Cancel Registration</button>
+            </form>
+
+
+            <button class="register-btn"
+                    th:if="${status == null}">
+                Register Now
+            </button>
 
         </div>
 
 
-    </div>
+
+<!--        <div class="organized-by">-->
+<!--            <span>Organized By</span>-->
+<!--            <div class="organize-items">-->
+<!--                <div>-->
+<!--                    <img th:src="@{/icon/homepage/organizeIcon.svg}" class="organize-img">-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <span>Department of Computer Science</span>-->
+<!--                    <br>-->
+<!--                    <img th:src="@{/icon/homepage/inbox.svg}">-->
+<!--                    <span>cs.dept@university.edu</span>-->
+<!--                </div>-->
+
+
+<!--            </div>-->
+
+<!--        </div>-->
+
+        <div class="organized-by">
+
+            <div class="org-title">
+                <img th:src="@{/icon/homepage/evIcon2.svg}">
+                <span>Organized By</span>
+            </div>
+
+            <div class="org-list">
+
+                <div class="org-item" th:each="user : ${organizers}">
+
+                    <div class="org-icon">
+                        👤
+                    </div>
+
+                    <div class="org-info">
+                <span class="org-name"
+                      th:text="${user.firstName + ' ' + user.lastName}" >
+                </span>
+
+                        <span class="org-email"
+                              th:text="${user.email}">
+                </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+        </div>
 
 
 </div>

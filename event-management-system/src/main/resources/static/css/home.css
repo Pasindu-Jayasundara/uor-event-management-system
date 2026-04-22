@@ -473,6 +473,7 @@ select{
     height: 600px;
     padding: 5px;
     flex-direction: column;
+    justify-content: space-evenly;
 
 
 
@@ -484,7 +485,38 @@ select{
 
     margin-top: 20px;
 
+    transition: transform 0.2s ease;
+
 }
+
+.description{
+
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* max 3 lines */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+
+        min-height: 72px; /* 🔥 keeps layout stable */
+
+}
+
+
+
+.eventcard:hover {
+    transform: translateY(-5px);
+}
+
+
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+
+
 .evemain-image{
     width: 347.725px;
     height: 176px;
@@ -591,6 +623,7 @@ select{
     display: flex;
     gap: 10px;
     margin-top: 40px;
+    justify-content: center;
 }
 
 .register-event > div{
@@ -608,13 +641,13 @@ select{
     padding: 10px 20px;
     justify-content: center;
     align-items: center;
-    flex: 1 0 0;
 
 
     border: 1.5px solid #FFB900;
     border-radius: 10px;
-    background: #FFB900;
-    color: #7B3306;
+    width: 200px;
+
+
 
 
     font-family: "Inter", sans-serif;
@@ -696,6 +729,70 @@ select{
 }
 
 
+.registered-btn {
+    background: #22c55e;
+    color: white;
+}
+
+.pending-btn {
+    background: #f59e0b;
+    color: white;
+}
+
+.rejected-btn {
+    background: #ef4444;
+    color: white;
+}
+
+.register-btn {
+    background: #fbbf24;
+}
+
+.register-buttons{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+.waitlist-btn {
+    background: #3b82f6;
+    color: white;
+}
+
+
+
+.details-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 8px 14px;
+    border-radius: 10px;
+
+    background: #F3F4F6;
+    color: #111827;
+
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+
+    transition: all 0.2s ease;
+}
+
+
+.details-btn:hover {
+    background: #E5E7EB;
+    transform: translateY(-1px);
+}
+
+
+.details-btn:hover::after {
+    content: "→";
+    margin-left: 4px;
+}
 
 
 
