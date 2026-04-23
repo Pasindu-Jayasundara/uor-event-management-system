@@ -42,7 +42,7 @@ public class FormLoginSecurityConfig {
 
                 authorizationManagerRequestMatcherRegistry
                         .requestMatchers("/admin/**").hasAnyAuthority(UserRole.ROLE_ADMIN.name())
-                        .requestMatchers("/user/**").hasAnyAuthority(UserRole.ROLE_USER.name())
+                        .requestMatchers("/user/**").hasAnyAuthority(UserRole.ROLE_USER.name(),UserRole.ROLE_STAFF.name())
                         .requestMatchers("/css/**").permitAll()
                         .anyRequest().permitAll();
             }

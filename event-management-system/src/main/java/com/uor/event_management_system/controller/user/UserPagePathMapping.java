@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/user")
-@RolesAllowed("ROLE_USER")
+@RolesAllowed({"ROLE_USER","ROLE_STAFF"})
 public class UserPagePathMapping {
 
     @GetMapping("/dashboard")

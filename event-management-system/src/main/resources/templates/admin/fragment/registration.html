@@ -7,7 +7,487 @@
 <body>
 
 <div th:fragment="registration">
-    registration fragment
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="main-content">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-title">
+                <h1>Participant Management</h1>
+                <p>Manage event registrations and participants</p>
+            </div>
+            <button class="btn-add-participant" onclick="openAddModal()">
+                <i class="bi bi-person-plus-fill"></i> Add Participant
+            </button>
+        </div>
+
+        <!-- Stat Cards -->
+        <div class="stat-cards">
+            <div class="stat-card red">
+                <div class="stat-card-label">Total Registrations</div>
+                <div class="stat-card-value">26</div>
+            </div>
+            <div class="stat-card green">
+                <div class="stat-card-label">Confirmed</div>
+                <div class="stat-card-value">20</div>
+            </div>
+            <div class="stat-card yellow">
+                <div class="stat-card-label">Waitlisted</div>
+                <div class="stat-card-value">1</div>
+            </div>
+            <div class="stat-card blue">
+                <div class="stat-card-label">Checked In</div>
+                <div class="stat-card-value">2</div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="search-wrapper">
+                <i class="bi bi-search"></i>
+                <input type="text" class="search-input" id="searchInput"
+                       placeholder="Search by name, email, ID, or event..."
+                       oninput="filterTable()">
+            </div>
+            <select class="filter-select" id="eventFilter" onchange="filterTable()">
+                <option value="">All Events</option>
+                <option value="Annual Tech Innovation Summit 2026">Annual Tech Innovation Summit 2026</option>
+                <option value="Research Methods Workshop">Research Methods Workshop</option>
+                <option value="Spring Hackathon 2026">Spring Hackathon 2026</option>
+                <option value="Career Fair & Networking Night">Career Fair &amp; Networking Night</option>
+                <option value="Inter-Faculty Sports Championship">Inter-Faculty Sports Championship</option>
+                <option value="Cultural Arts & Heritage Showcase">Cultural Arts &amp; Heritage Showcase</option>
+                <option value="Graduation Ceremony 2026">Graduation Ceremony 2026</option>
+            </select>
+            <select class="filter-select" id="statusFilter" onchange="filterTable()">
+                <option value="">All Status</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Waitlisted">Waitlisted</option>
+                <option value="Pending">Pending</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+            <button class="btn-export" onclick="exportCSV()">
+                <i class="bi bi-file-earmark-spreadsheet"></i> Export CSV
+            </button>
+        </div>
+
+        <!-- Table Panel -->
+        <div class="table-panel">
+            <table class="participants-table" id="participantsTable">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="head-check" id="selectAll" onchange="toggleAll(this)"></th>
+                    <th>PARTICIPANT</th>
+                    <th>EVENT</th>
+                    <th>STUDENT ID</th>
+                    <th>DEPARTMENT</th>
+                    <th>STATUS</th>
+                    <th>REGISTERED</th>
+                    <th style="text-align:right;">ACTIONS</th>
+                </tr>
+                </thead>
+                <tbody id="tableBody">
+                <!-- Populated by JS -->
+                </tbody>
+            </table>
+
+            <!-- Empty State (shown when no results) -->
+            <div class="empty-state" id="emptyState" style="display:none;">
+                <i class="bi bi-funnel"></i>
+                <p>No participants found</p>
+            </div>
+
+            <!-- Table Footer -->
+            <div class="table-footer" id="tableFooter">
+                <div class="table-footer-info" id="footerInfo">Showing 0 of 0 participants</div>
+                <div class="pagination-btns">
+                    <button class="pg-btn" id="prevBtn" onclick="changePage(-1)" disabled>
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <button class="pg-btn active" id="pg1">1</button>
+                    <button class="pg-btn" onclick="changePage(1)" id="nextBtn">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===========================
+         ADD / EDIT PARTICIPANT MODAL
+    =========================== -->
+    <div class="modal-overlay" id="addModal">
+        <div class="modal-box">
+            <div class="modal-header-custom">
+                <div>
+                    <h2 id="addModalTitle">Add Participant</h2>
+                    <p>Register a student for an event</p>
+                </div>
+                <button class="modal-close-btn" onclick="closeAddModal()"><i class="bi bi-x-lg"></i></button>
+            </div>
+            <div class="modal-body-custom">
+                <div class="form-row">
+                    <div>
+                        <label class="form-label-custom">First Name <span class="req">*</span></label>
+                        <input type="text" class="form-input" id="fFirstName" placeholder="e.g. Ashan">
+                    </div>
+                    <div>
+                        <label class="form-label-custom">Last Name <span class="req">*</span></label>
+                        <input type="text" class="form-input" id="fLastName" placeholder="e.g. Karunaratne">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label-custom">Email Address <span class="req">*</span></label>
+                    <input type="email" class="form-input" id="fEmail" placeholder="student@university.edu">
+                </div>
+                <div class="form-row">
+                    <div>
+                        <label class="form-label-custom">Student ID <span class="req">*</span></label>
+                        <input type="text" class="form-input" id="fStudentId" placeholder="e.g. CS2021001">
+                    </div>
+                    <div>
+                        <label class="form-label-custom">Department <span class="req">*</span></label>
+                        <input type="text" class="form-input" id="fDepartment" placeholder="e.g. Computer Science">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label-custom">Event <span class="req">*</span></label>
+                    <select class="form-select-custom" id="fEvent">
+                        <option value="">Select an event...</option>
+                        <option>Annual Tech Innovation Summit 2026</option>
+                        <option>Research Methods Workshop</option>
+                        <option>Spring Hackathon 2026</option>
+                        <option>Career Fair &amp; Networking Night</option>
+                        <option>Inter-Faculty Sports Championship</option>
+                        <option>Cultural Arts &amp; Heritage Showcase</option>
+                        <option>Graduation Ceremony 2026</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label-custom">Status</label>
+                    <select class="form-select-custom" id="fStatus">
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Waitlisted">Waitlisted</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer-custom">
+                <button class="btn-cancel" onclick="closeAddModal()">Cancel</button>
+                <button class="btn-save" onclick="saveParticipant()">
+                    <i class="bi bi-check-lg"></i> Save Participant
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===========================
+         VIEW PARTICIPANT MODAL
+    =========================== -->
+    <div class="modal-overlay" id="viewModal">
+        <div class="view-modal-box">
+            <div class="view-modal-header">
+                <div class="view-avatar-wrap">
+                    <div class="view-avatar" id="viewAvatar">AK</div>
+                    <div>
+                        <div class="view-name" id="viewName">Ashan Karunaratne</div>
+                        <div class="view-email" id="viewEmail">ashan@university.edu</div>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeViewModal()"><i class="bi bi-x-lg"></i></button>
+            </div>
+            <div class="view-body">
+                <div class="view-row">
+                    <span class="view-row-label">Student ID</span>
+                    <span class="view-row-value" id="viewStudentId">—</span>
+                </div>
+                <div class="view-row">
+                    <span class="view-row-label">Department</span>
+                    <span class="view-row-value" id="viewDepartment">—</span>
+                </div>
+                <div class="view-row">
+                    <span class="view-row-label">Event</span>
+                    <span class="view-row-value" id="viewEvent">—</span>
+                </div>
+                <div class="view-row">
+                    <span class="view-row-label">Status</span>
+                    <span class="view-row-value" id="viewStatus">—</span>
+                </div>
+                <div class="view-row">
+                    <span class="view-row-label">Registered On</span>
+                    <span class="view-row-value" id="viewRegistered">—</span>
+                </div>
+            </div>
+            <div class="view-footer">
+                <button class="btn-cancel" onclick="closeViewModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===========================
+         DELETE MODAL
+    =========================== -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="delete-modal-box">
+            <div class="delete-icon-wrap"><i class="bi bi-trash"></i></div>
+            <h3>Remove Participant?</h3>
+            <p>This will remove the participant's registration. This action cannot be undone.</p>
+            <div class="delete-modal-btns">
+                <button class="btn-del-cancel" onclick="closeDeleteModal()">Cancel</button>
+                <button class="btn-del-confirm" onclick="confirmDelete()">Remove</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===========================
+        // SAMPLE DATA
+        // ===========================
+        const avatarColors = ['c1','c2','c3','c4','c5','c6'];
+        let participants = [
+            { id:1, firstName:'Ashan',    lastName:'Karunaratne', email:'ashan@university.edu',     studentId:'CS2021001', department:'Computer Science',    event:'Annual Tech Innovation Summit 2026',  status:'Confirmed',  registered:'Jan 15, 2026' },
+            { id:2, firstName:'Nimal',    lastName:'Perera',      email:'nimal@university.edu',     studentId:'ENG2020045',department:'Engineering',          event:'Spring Hackathon 2026',               status:'Confirmed',  registered:'Jan 18, 2026' },
+            { id:3, firstName:'Sithmi',   lastName:'De Silva',    email:'sithmi@university.edu',    studentId:'BUS2022012',department:'Business',             event:'Career Fair & Networking Night',      status:'Waitlisted', registered:'Jan 20, 2026' },
+            { id:4, firstName:'Ravindu',  lastName:'Mendis',      email:'ravindu@university.edu',   studentId:'MED2021078',department:'Medicine',             event:'Graduation Ceremony 2026',            status:'Confirmed',  registered:'Jan 22, 2026' },
+            { id:5, firstName:'Dilani',   lastName:'Fernando',    email:'dilani@university.edu',    studentId:'ART2022034',department:'Arts',                 event:'Cultural Arts & Heritage Showcase',   status:'Confirmed',  registered:'Jan 25, 2026' },
+            { id:6, firstName:'Kasun',    lastName:'Wickrama',    email:'kasun@university.edu',     studentId:'SCI2021056',department:'Science',              event:'Research Methods Workshop',           status:'Pending',    registered:'Jan 28, 2026' },
+            { id:7, firstName:'Amaya',    lastName:'Jayasinghe',  email:'amaya@university.edu',     studentId:'CS2020089', department:'Computer Science',    event:'Annual Tech Innovation Summit 2026',  status:'Confirmed',  registered:'Feb 1, 2026'  },
+            { id:8, firstName:'Tharaka',  lastName:'Bandara',     email:'tharaka@university.edu',   studentId:'ENG2022011',department:'Engineering',          event:'Inter-Faculty Sports Championship',   status:'Confirmed',  registered:'Feb 3, 2026'  },
+            { id:9, firstName:'Sachini',  lastName:'Rathnayake',  email:'sachini@university.edu',   studentId:'BUS2021067',department:'Business Administration', event:'Career Fair & Networking Night', status:'Confirmed',  registered:'Feb 5, 2026'  },
+            { id:10,firstName:'Isuru',    lastName:'Gunasekara',  email:'isuru@university.edu',     studentId:'LAW2022003',department:'Law',                  event:'Research Methods Workshop',           status:'Cancelled',  registered:'Feb 8, 2026'  },
+        ];
+
+        let deleteTarget = null;
+        let editTarget   = null;
+        let currentPage  = 1;
+        const perPage    = 8;
+
+        // ===========================
+        // RENDER TABLE
+        // ===========================
+        function getInitials(p) { return (p.firstName[0] + p.lastName[0]).toUpperCase(); }
+
+        function getAvatarColor(id) { return avatarColors[(id - 1) % avatarColors.length]; }
+
+        function statusPill(status) {
+            const map = {
+                'Confirmed' : ['confirmed',  'bi-check-circle-fill'],
+                'Waitlisted': ['waitlisted', 'bi-clock-fill'],
+                'Pending'   : ['pending',    'bi-hourglass-split'],
+                'Cancelled' : ['cancelled',  'bi-x-circle-fill'],
+            };
+            const [cls, icon] = map[status] || ['pending','bi-hourglass-split'];
+            return `<span class="status-pill ${cls}"><i class="bi ${icon}"></i>${status}</span>`;
+        }
+
+        function renderTable() {
+            const search  = document.getElementById('searchInput').value.toLowerCase();
+            const evtF    = document.getElementById('eventFilter').value;
+            const statF   = document.getElementById('statusFilter').value;
+
+            let filtered = participants.filter(p => {
+                const fullName = (p.firstName + ' ' + p.lastName).toLowerCase();
+                const matchSearch = !search ||
+                    fullName.includes(search) ||
+                    p.email.toLowerCase().includes(search) ||
+                    p.studentId.toLowerCase().includes(search) ||
+                    p.event.toLowerCase().includes(search);
+                const matchEvent  = !evtF   || p.event  === evtF;
+                const matchStatus = !statF  || p.status === statF;
+                return matchSearch && matchEvent && matchStatus;
+            });
+
+            const total   = filtered.length;
+            const start   = (currentPage - 1) * perPage;
+            const end     = Math.min(start + perPage, total);
+            const paged   = filtered.slice(start, end);
+
+            const tbody = document.getElementById('tableBody');
+            const empty = document.getElementById('emptyState');
+            const footer= document.getElementById('tableFooter');
+
+            if (paged.length === 0) {
+                tbody.innerHTML = '';
+                empty.style.display = 'flex';
+                footer.style.display = 'none';
+            } else {
+                empty.style.display = 'none';
+                footer.style.display = 'flex';
+                tbody.innerHTML = paged.map(p => `
+                <tr>
+                    <td><input type="checkbox" class="row-check" value="${p.id}"></td>
+                    <td>
+                        <div class="participant-cell">
+                            <div class="participant-avatar ${getAvatarColor(p.id)}">${getInitials(p)}</div>
+                            <div class="participant-info">
+                                <div class="p-name">${p.firstName} ${p.lastName}</div>
+                                <div class="p-email">${p.email}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td><span class="event-badge">${p.event}</span></td>
+                    <td>${p.studentId}</td>
+                    <td>${p.department}</td>
+                    <td>${statusPill(p.status)}</td>
+                    <td>${p.registered}</td>
+                    <td>
+                        <div class="action-btns" style="justify-content:flex-end;">
+                            <button class="action-btn view"   onclick="openViewModal(${p.id})"><i class="bi bi-eye"></i></button>
+                            <button class="action-btn edit"   onclick="openEditModal(${p.id})"><i class="bi bi-pencil"></i></button>
+                            <button class="action-btn delete" onclick="openDeleteModal(${p.id})"><i class="bi bi-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            }
+
+            document.getElementById('footerInfo').textContent =
+                `Showing ${paged.length > 0 ? start+1 : 0}–${end} of ${total} participants`;
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = end >= total;
+        }
+
+        function filterTable() { currentPage = 1; renderTable(); }
+
+        function changePage(dir) {
+            currentPage += dir;
+            renderTable();
+        }
+
+        function toggleAll(cb) {
+            document.querySelectorAll('.row-check').forEach(c => c.checked = cb.checked);
+        }
+
+        // ===========================
+        // ADD PARTICIPANT MODAL
+        // ===========================
+        function openAddModal() {
+            editTarget = null;
+            document.getElementById('addModalTitle').textContent = 'Add Participant';
+            clearAddForm();
+            document.getElementById('addModal').classList.add('open');
+        }
+
+        function closeAddModal() { document.getElementById('addModal').classList.remove('open'); }
+
+        function clearAddForm() {
+            ['fFirstName','fLastName','fEmail','fStudentId','fDepartment'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            document.getElementById('fEvent').selectedIndex  = 0;
+            document.getElementById('fStatus').selectedIndex = 0;
+        }
+
+        function saveParticipant() {
+            const firstName  = document.getElementById('fFirstName').value.trim();
+            const lastName   = document.getElementById('fLastName').value.trim();
+            const email      = document.getElementById('fEmail').value.trim();
+            const studentId  = document.getElementById('fStudentId').value.trim();
+            const department = document.getElementById('fDepartment').value.trim();
+            const event      = document.getElementById('fEvent').value;
+            const status     = document.getElementById('fStatus').value;
+
+            if (!firstName || !lastName || !email || !studentId || !department || !event) {
+                alert('Please fill in all required fields.'); return;
+            }
+
+            if (editTarget) {
+                const idx = participants.findIndex(p => p.id === editTarget);
+                if (idx > -1) {
+                    participants[idx] = { ...participants[idx], firstName, lastName, email, studentId, department, event, status };
+                }
+            } else {
+                const newId = Math.max(...participants.map(p => p.id), 0) + 1;
+                const today = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+                participants.push({ id:newId, firstName, lastName, email, studentId, department, event, status, registered:today });
+            }
+
+            closeAddModal();
+            renderTable();
+        }
+
+        // ===========================
+        // EDIT MODAL
+        // ===========================
+        function openEditModal(id) {
+            const p = participants.find(x => x.id === id);
+            if (!p) return;
+            editTarget = id;
+            document.getElementById('addModalTitle').textContent = 'Edit Participant';
+            document.getElementById('fFirstName').value  = p.firstName;
+            document.getElementById('fLastName').value   = p.lastName;
+            document.getElementById('fEmail').value      = p.email;
+            document.getElementById('fStudentId').value  = p.studentId;
+            document.getElementById('fDepartment').value = p.department;
+            const evtSel = document.getElementById('fEvent');
+            for (let i = 0; i < evtSel.options.length; i++) {
+                if (evtSel.options[i].text.trim() === p.event) { evtSel.selectedIndex = i; break; }
+            }
+            document.getElementById('fStatus').value = p.status;
+            document.getElementById('addModal').classList.add('open');
+        }
+
+        // ===========================
+        // VIEW MODAL
+        // ===========================
+        function openViewModal(id) {
+            const p = participants.find(x => x.id === id);
+            if (!p) return;
+            document.getElementById('viewAvatar').textContent    = getInitials(p);
+            document.getElementById('viewAvatar').className      = `view-avatar ${getAvatarColor(p.id)}`;
+            document.getElementById('viewName').textContent      = `${p.firstName} ${p.lastName}`;
+            document.getElementById('viewEmail').textContent     = p.email;
+            document.getElementById('viewStudentId').textContent = p.studentId;
+            document.getElementById('viewDepartment').textContent= p.department;
+            document.getElementById('viewEvent').textContent     = p.event;
+            document.getElementById('viewStatus').innerHTML      = statusPill(p.status);
+            document.getElementById('viewRegistered').textContent= p.registered;
+            document.getElementById('viewModal').classList.add('open');
+        }
+        function closeViewModal() { document.getElementById('viewModal').classList.remove('open'); }
+
+        // ===========================
+        // DELETE MODAL
+        // ===========================
+        function openDeleteModal(id) {
+            deleteTarget = id;
+            document.getElementById('deleteModal').classList.add('open');
+        }
+        function closeDeleteModal() { document.getElementById('deleteModal').classList.remove('open'); deleteTarget = null; }
+        function confirmDelete() {
+            if (deleteTarget) participants = participants.filter(p => p.id !== deleteTarget);
+            closeDeleteModal();
+            renderTable();
+        }
+
+        // ===========================
+        // EXPORT CSV (Demo)
+        // ===========================
+        function exportCSV() {
+            const headers = ['First Name','Last Name','Email','Student ID','Department','Event','Status','Registered'];
+            const rows = participants.map(p => [p.firstName,p.lastName,p.email,p.studentId,p.department,p.event,p.status,p.registered]);
+            const csv = [headers, ...rows].map(r => r.map(c => `"${c}"`).join(',')).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+            a.download = 'participants.csv'; a.click();
+        }
+
+        // ===========================
+        // BACKDROP CLOSE
+        // ===========================
+        ['addModal','viewModal','deleteModal'].forEach(id => {
+            document.getElementById(id).addEventListener('click', function(e) {
+                if (e.target === this) this.classList.remove('open');
+            });
+        });
+
+        // ===========================
+        // INIT
+        // ===========================
+        renderTable()
 </div>
 
 </body>
