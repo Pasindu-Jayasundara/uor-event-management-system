@@ -1,18 +1,25 @@
 package com.uor.event_management_system.controller.admin;
 
+import com.uor.event_management_system.dto.EventRequestDto;
+import com.uor.event_management_system.dto.EventResponseDto;
 import com.uor.event_management_system.dto.PlatformUserDTO;
 import com.uor.event_management_system.dto.UserSummaryDto;
-import com.uor.event_management_system.enums.UserRole;
+import com.uor.event_management_system.enums.EventCategory;
+import com.uor.event_management_system.enums.EventStatus;
 import com.uor.event_management_system.model.UserEntity;
+import com.uor.event_management_system.service.admin.EventService;
 import com.uor.event_management_system.service.admin.ManageUserService;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -25,8 +32,8 @@ public class AdminPagePathMapping {
     @Autowired
     private ManageUserService  manageUserService;
 
-
-
+    @Autowired
+    private EventService eventService;
 
     @GetMapping("/dashboard")
     public String dashboard(Model model, @AuthenticationPrincipal UserDetails userDetails) {
@@ -47,11 +54,11 @@ public class AdminPagePathMapping {
         return "admin/dashboard";
     }
 
-    @GetMapping("/manage-event")
-    public String manageEvent(Model model) {
-        model.addAttribute("page", "manage-event");
-        return "admin/dashboard";
-    }
+//    @GetMapping("/manage-event")
+//    public String manageEvent(Model model) {
+//        model.addAttribute("page", "manage-event");
+//        return "admin/dashboard";
+//    }
 
     @GetMapping("/manage-user")
     public String manageUser(Model model) {
@@ -126,6 +133,138 @@ public class AdminPagePathMapping {
         PlatformUserDTO user = manageUserService.getUserById(id);
         if (user == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(user);
+    }
+
+
+
+    //EVENT MANAGEMENT
+    @GetMapping("/manage-event")
+    public String manageEvent(
+            @RequestParam (required = false) String search,
+            @RequestParam (required = false) EventCategory category,
+            @RequestParam (required = false, defaultValue ="table") String view,
+            @AuthenticationPrincipal UserDetails userDetails,
+            Model model) {
+
+        List<EventResponseDto> events;
+        if (search != null && !search.isBlank()) {
+            events = eventService.searchEvent(search);
+        } else if (category != null) {
+            events = eventService.filterByCategory(category);
+        }else {
+            events = eventService.getAllEvents();
+        }
+
+        model.addAttribute("page", "manage-event");
+        model.addAttribute("user", userDetails);
+        model.addAttribute("events", events);
+        model.addAttribute("totalEvents", eventService.getTotalCount());
+        model.addAttribute("search",search);
+        model.addAttribute("categories", EventCategory.values());
+        model.addAttribute("statuses", EventStatus.values());
+        model.addAttribute("currentView", view);
+        model.addAttribute("selectedCategory", category);
+        model.addAttribute("newEvent", new EventRequestDto());
+        return "admin/dashboard";
+
+
+    }
+
+    @PostMapping("/manage-event/create")
+    public String createEvent(
+            @Valid @ModelAttribute("newEvent") EventRequestDto dto,
+            BindingResult result,
+            @AuthenticationPrincipal UserDetails userDetails,
+            RedirectAttributes redirectionAttributes,
+            Model model) {
+
+        if (result.hasErrors()) {
+            model.addAttribute("page", "manage-event");
+            model.addAttribute("user", userDetails);
+            model.addAttribute("events", eventService.getAllEvents());
+            model.addAttribute("totalEvents", eventService.getTotalCount());
+            model.addAttribute("categories", EventCategory.values());
+            model.addAttribute("statuses", EventStatus.values());
+            model.addAttribute("currentView", "Table");
+            model.addAttribute("newEvent", dto);
+            model.addAttribute("showCreateModal", true);
+            return "admin/dashboard";
+        }
+        try{
+            eventService.createEvent(dto);
+            redirectionAttributes.addFlashAttribute("successMessage","Event \"" + dto.getTitle() + "\"  created successfully");
+        } catch (Exception e) {
+            redirectionAttributes.addFlashAttribute("errorMessage", "Failed to create event : " + e.getMessage());
+        }
+        return "redirect:/admin/manage-event";
+    }
+
+    @PutMapping("/manage-event/edit/{id}")
+    public String updateEvent(
+        @PathVariable int id,
+        @Valid @ModelAttribute EventRequestDto dto,
+        BindingResult result,
+        @AuthenticationPrincipal UserDetails userDetails,
+        RedirectAttributes redirectAttributes,
+        Model model){
+
+        if(result.hasErrors()) {
+            model.addAttribute("page", "manage-event");
+            model.addAttribute("user", userDetails);
+            model.addAttribute("events", eventService.getAllEvents());
+            model.addAttribute("totalEvents", eventService.getTotalCount());
+            model.addAttribute("categories", EventCategory.values());
+            model.addAttribute("statuses", EventStatus.values());
+            model.addAttribute("currentView", "Table");
+            model.addAttribute("newEvent", dto);
+            model.addAttribute("showCreateModal", true);
+            model.addAttribute("editEventId", id);
+            return "admin/dashboard";
+        }
+        try{
+            eventService.updateEvent(id, dto);
+            redirectAttributes.addFlashAttribute("successMessage","Event \"" + dto.getTitle() + "\"  updated successfully");
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to update event : " + e.getMessage());
+
+        }
+        return "redirect:/admin/manage-event";
+
+    }
+
+    @DeleteMapping("/manage-event/delete/{id}")
+    public String deleteEvent(@RequestParam int id, RedirectAttributes redirectAttributes) {
+        try {
+            eventService.deleteEvent(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Event deleted successfully");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to delete event : " + e.getMessage());
+        }
+        return "redirect:/admin/manage-event";
+    }
+
+    @GetMapping("/manage-event/view/{id}")
+    public String viewEvent(@PathVariable int id, @AuthenticationPrincipal UserDetails userDetails , Model model) {
+        model.addAttribute("page", "manage-event-details");
+        model.addAttribute("user", userDetails);
+
+        try{
+            model.addAttribute("page",eventService.getEventById(id));
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Failed to view event : " + e.getMessage());
+        }
+        return "admin/dashboard";
+    }
+
+    @GetMapping("/manage-event/api/{id}")
+    @ResponseBody
+    public ResponseEntity<?> getEventApi(@PathVariable int id){
+        try{
+            return ResponseEntity.ok(eventService.getEventForEdit(id));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

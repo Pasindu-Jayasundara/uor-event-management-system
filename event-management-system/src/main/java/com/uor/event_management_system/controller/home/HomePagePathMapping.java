@@ -1,6 +1,7 @@
 package com.uor.event_management_system.controller.home;
 
 
+import com.uor.event_management_system.dto.EventResponseDto;
 import com.uor.event_management_system.enums.EventStatus;
 import com.uor.event_management_system.model.EventEntity;
 
@@ -8,7 +9,7 @@ import com.uor.event_management_system.model.EventEntity;
 
 import com.uor.event_management_system.repository.EventRepository;
 
-import com.uor.event_management_system.service.EventService;
+import com.uor.event_management_system.service.admin.EventService;
 import com.uor.event_management_system.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,7 +46,7 @@ public class HomePagePathMapping {
 
             model.addAttribute("count", userService.CountRegisterdEvents(email));
         }
-        model.addAttribute("events", service.getallEvents());
+        model.addAttribute("events", service.getAllEvents());
         model.addAttribute("eventCount",eventRepository.countByStatus(EventStatus.APPROVED));
         model.addAttribute("upcomingevents",service.UpcomingEvents());
 
@@ -93,7 +94,7 @@ public class HomePagePathMapping {
     @GetMapping("/filter")
     public String filter(@RequestParam("filter") String filter, Model model) {
 
-        List<EventEntity> events;
+        List<EventResponseDto> events;
         if(filter.equalsIgnoreCase("upcoming")) {
 
             events = service.findByEventDateTimeAfter(LocalDateTime.now());
@@ -104,7 +105,7 @@ public class HomePagePathMapping {
         }
 
         else {
-            events = service.getallEvents();
+            events = service.getAllEvents();
         }
         model.addAttribute("events", events);
         return "homepage";

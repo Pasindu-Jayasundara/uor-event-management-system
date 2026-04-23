@@ -52,5 +52,9 @@ public class EventRequestDto {
     @Max(value = 500, message = "Capacity can not be exceed 500")
     private int maxCapacity;
 
+    private String organizerEmail;
+    private String organizerName;
+    private String fullDescription;
+    private String tags;
 
 }
