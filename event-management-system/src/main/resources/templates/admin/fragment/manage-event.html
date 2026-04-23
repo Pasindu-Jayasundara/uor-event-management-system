@@ -7,7 +7,824 @@
 <body>
 
 <div th:fragment="manage-event">
-    manage event fragment
+
+    <!-- ===========================
+         PAGE: MANAGE EVENTS LIST
+    =========================== -->
+    <div class="page active" id="listPage">
+        <div class="main-content">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>Manage Events</h1>
+                    <p>7 total events</p>
+                </div>
+                <button class="btn-add-event" id="openModalBtn">
+                    <i class="bi bi-plus-circle"></i> Add New Event
+                </button>
+            </div>
+            <div class="search-filter-bar">
+                <div class="search-wrapper">
+                    <i class="bi bi-search"></i>
+                    <input type="text" class="search-input" placeholder="Search events...">
+                </div>
+                <button class="filter-btn"><i class="bi bi-funnel"></i></button>
+                <select class="category-select">
+                    <option>All</option><option>Technology</option><option>Academic</option>
+                    <option>Career</option><option>Sports</option><option>Cultural</option>
+                </select>
+                <div class="view-toggle">
+                    <button class="active">Table</button>
+                    <button>Grid</button>
+                </div>
+            </div>
+            <div class="table-panel">
+                <table class="events-table">
+                    <thead>
+                    <tr>
+                        <th>EVENT</th><th>CATEGORY</th><th>DATE</th>
+                        <th>REGISTRATIONS</th><th>STATUS</th><th style="text-align:right;">ACTIONS</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div class="event-cell">
+                                <div class="event-thumb tech"><i class="bi bi-cpu-fill"></i></div>
+                                <div class="event-name-col">
+                                    <div class="name">Annual Tech Innovation Su...</div>
+                                    <div class="location">Main Auditorium, Engineering Building</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="category-badge technology">Technology</span></td>
+                        <td><span class="date-cell">Mar 15, 2026</span></td>
+                        <td>
+                            <div class="reg-cell">
+                                <div class="reg-top"><span class="reg-count">7/300</span><span class="reg-pct">2%</span></div>
+                                <div class="reg-bar"><div class="reg-bar-fill" style="width:2%"></div></div>
+                            </div>
+                        </td>
+                        <td><span class="status-badge published"><i class="bi bi-eye-fill"></i> Published</span></td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="action-btn view" onclick="showDetail()"><i class="bi bi-eye"></i></button>
+                                <button class="action-btn edit" onclick="openEditModal({title:'Annual Tech Innovation Summit 2026',desc:'A premier technology summit bringing together innovators.',date:'2026-03-15',category:'Technology',start:'09:00',end:'17:00',location:'Main Auditorium, Engineering Building',capacity:'300',approval:false})"><i class="bi bi-pencil"></i></button>
+                                <button class="action-btn delete" onclick="openDeleteModal()"><i class="bi bi-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="event-cell">
+                                <div class="event-thumb academic"><i class="bi bi-book-fill"></i></div>
+                                <div class="event-name-col">
+                                    <div class="name">Research Methods Worksho...</div>
+                                    <div class="location">Seminar Room B, Faculty of Arts</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="category-badge academic">Academic</span></td>
+                        <td><span class="date-cell">Mar 22, 2026</span></td>
+                        <td>
+                            <div class="reg-cell">
+                                <div class="reg-top"><span class="reg-count">3/60</span><span class="reg-pct">5%</span></div>
+                                <div class="reg-bar"><div class="reg-bar-fill" style="width:5%"></div></div>
+                            </div>
+                        </td>
+                        <td><span class="status-badge published"><i class="bi bi-eye-fill"></i> Published</span></td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="action-btn view" onclick="showDetail()"><i class="bi bi-eye"></i></button>
+                                <button class="action-btn edit" onclick="openEditModal({title:'Research Methods Workshop',desc:'An in-depth workshop on research methodologies.',date:'2026-03-22',category:'Academic',start:'10:00',end:'16:00',location:'Seminar Room B, Faculty of Arts',capacity:'60',approval:true})"><i class="bi bi-pencil"></i></button>
+                                <button class="action-btn delete" onclick="openDeleteModal()"><i class="bi bi-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="event-cell">
+                                <div class="event-thumb tech"><i class="bi bi-lightning-fill"></i></div>
+                                <div class="event-name-col">
+                                    <div class="name">Spring Hackathon 2026</div>
+                                    <div class="location">Innovation Hub, Student Center</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="category-badge technology">Technology</span></td>
+                        <td><span class="date-cell">Apr 5, 2026</span></td>
+                        <td>
+                            <div class="reg-cell">
+                                <div class="reg-top"><span class="reg-count">3/200</span><span class="reg-pct">2%</span></div>
+                                <div class="reg-bar"><div class="reg-bar-fill" style="width:2%"></div></div>
+                            </div>
+                        </td>
+                        <td><span class="status-badge published"><i class="bi bi-eye-fill"></i> Published</span></td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="action-btn view" onclick="showDetail()"><i class="bi bi-eye"></i></button>
+                                <button class="action-btn edit" onclick="openEditModal({title:'Spring Hackathon 2026',desc:'24-hour coding competition.',date:'2026-04-05',category:'Technology',start:'08:00',end:'08:00',location:'Innovation Hub, Student Center',capacity:'200',approval:false})"><i class="bi bi-pencil"></i></button>
+                                <button class="action-btn delete" onclick="openDeleteModal()"><i class="bi bi-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="event-cell">
+                                <div class="event-thumb career"><i class="bi bi-briefcase-fill"></i></div>
+                                <div class="event-name-col">
+                                    <div class="name">Career Fair &amp; Networking Ni...</div>
+                                    <div class="location">Grand Hall, Student Union Building</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="category-badge career">Career</span></td>
+                        <td><span class="date-cell">Apr 18, 2026</span></td>
+                        <td>
+                            <div class="reg-cell">
+                                <div class="reg-top"><span class="reg-count">4/500</span><span class="reg-pct">1%</span></div>
+                                <div class="reg-bar"><div class="reg-bar-fill" style="width:1%"></div></div>
+                            </div>
+                        </td>
+                        <td><span class="status-badge published"><i class="bi bi-eye-fill"></i> Published</span></td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="action-btn view" onclick="showDetail()"><i class="bi bi-eye"></i></button>
+                                <button class="action-btn edit" onclick="openEditModal({title:'Career Fair & Networking Night',desc:'Connect with top employers.',date:'2026-04-18',category:'Career',start:'14:00',end:'20:00',location:'Grand Hall, Student Union Building',capacity:'500',approval:false})"><i class="bi bi-pencil"></i></button>
+                                <button class="action-btn delete" onclick="openDeleteModal()"><i class="bi bi-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="event-cell">
+                                <div class="event-thumb sports"><i class="bi bi-trophy-fill"></i></div>
+                                <div class="event-name-col">
+                                    <div class="name">Inter-Faculty Sports Champi...</div>
+                                    <div class="location">University Sports Complex</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="category-badge sports">Sports</span></td>
+                        <td><span class="date-cell">May 2, 2026</span></td>
+                        <td>
+                            <div class="reg-cell">
+                                <div class="reg-top"><span class="reg-count">3/400</span><span class="reg-pct">1%</span></div>
+                                <div class="reg-bar"><div class="reg-bar-fill" style="width:1%"></div></div>
+                            </div>
+                        </td>
+                        <td><span class="status-badge published"><i class="bi bi-eye-fill"></i> Published</span></td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="action-btn view" onclick="showDetail()"><i class="bi bi-eye"></i></button>
+                                <button class="action-btn edit" onclick="openEditModal({title:'Inter-Faculty Sports Championship',desc:'Annual sports competition between faculties.',date:'2026-05-02',category:'Sports',start:'08:00',end:'18:00',location:'University Sports Complex',capacity:'400',approval:false})"><i class="bi bi-pencil"></i></button>
+                                <button class="action-btn delete" onclick="openDeleteModal()"><i class="bi bi-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="event-cell">
+                                <div class="event-thumb cultural"><i class="bi bi-palette-fill"></i></div>
+                                <div class="event-name-col">
+                                    <div class="name">Cultural Arts &amp; Heritage Sho...</div>
+                                    <div class="location">University Courtyard &amp; Open Grounds</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="category-badge cultural">Cultural</span></td>
+                        <td><span class="date-cell">May 20, 2026</span></td>
+                        <td>
+                            <div class="reg-cell">
+                                <div class="reg-top"><span class="reg-count">3/1000</span><span class="reg-pct">0%</span></div>
+                                <div class="reg-bar"><div class="reg-bar-fill" style="width:0.3%"></div></div>
+                            </div>
+                        </td>
+                        <td><span class="status-badge published"><i class="bi bi-eye-fill"></i> Published</span></td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="action-btn view" onclick="showDetail()"><i class="bi bi-eye"></i></button>
+                                <button class="action-btn edit" onclick="openEditModal({title:'Cultural Arts & Heritage Showcase',desc:'Celebrating university cultural diversity.',date:'2026-05-20',category:'Cultural',start:'10:00',end:'21:00',location:'University Courtyard & Open Grounds',capacity:'1000',approval:false})"><i class="bi bi-pencil"></i></button>
+                                <button class="action-btn delete" onclick="openDeleteModal()"><i class="bi bi-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="event-cell">
+                                <div class="event-thumb academic"><i class="bi bi-mortarboard-fill"></i></div>
+                                <div class="event-name-col">
+                                    <div class="name">Graduation Ceremony — Cl...</div>
+                                    <div class="location">University Great Hall</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="category-badge academic">Academic</span></td>
+                        <td><span class="date-cell">Jun 28, 2026</span></td>
+                        <td>
+                            <div class="reg-cell">
+                                <div class="reg-top"><span class="reg-count">0/800</span><span class="reg-pct">0%</span></div>
+                                <div class="reg-bar"><div class="reg-bar-fill" style="width:0%"></div></div>
+                            </div>
+                        </td>
+                        <td><span class="status-badge published"><i class="bi bi-eye-fill"></i> Published</span></td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="action-btn view" onclick="showDetail()"><i class="bi bi-eye"></i></button>
+                                <button class="action-btn edit" onclick="openEditModal({title:'Graduation Ceremony — Class of 2026',desc:'Annual graduation ceremony for all faculties.',date:'2026-06-28',category:'Academic',start:'09:00',end:'13:00',location:'University Great Hall',capacity:'800',approval:true})"><i class="bi bi-pencil"></i></button>
+                                <button class="action-btn delete" onclick="openDeleteModal()"><i class="bi bi-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===========================
+         PAGE: EVENT DETAIL
+    =========================== -->
+    <div class="page" id="detailPage">
+        <div class="detail-content">
+
+            <button class="back-btn" onclick="showList()">
+                <i class="bi bi-arrow-left"></i> Back to Events
+            </button>
+
+            <!-- Hero -->
+            <div class="event-hero">
+                <div class="event-hero-overlay">
+                    <div class="event-hero-left">
+                        <div class="hero-category-badge">Technology</div>
+                        <div class="hero-title">Annual Tech Innovation Summit 2026</div>
+                    </div>
+                    <div class="hero-actions">
+                        <button class="btn-hero-edit" onclick="openEditModal({title:'Annual Tech Innovation Summit 2026',desc:'A premier technology summit.',date:'2026-03-15',category:'Technology',start:'09:00',end:'17:00',location:'Main Auditorium, Engineering Building',capacity:'300',approval:false})">
+                            <i class="bi bi-pencil"></i> Edit
+                        </button>
+                        <button class="btn-hero-email" onclick="openEmailModal()">
+                            <i class="bi bi-envelope"></i> Send Email
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Meta Bar -->
+            <div class="event-meta-bar">
+                <div class="meta-item">
+                    <div class="meta-label"><i class="bi bi-calendar3 blue"></i> Date</div>
+                    <div class="meta-value">Sun, March 15, 2026</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label"><i class="bi bi-clock purple"></i> Time</div>
+                    <div class="meta-value">09:00 – 17:00</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label"><i class="bi bi-geo-alt red"></i> Location</div>
+                    <div class="meta-value">Main Auditorium, Engineering Building</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label"><i class="bi bi-people green"></i> Capacity</div>
+                    <div class="meta-value">7/300</div>
+                </div>
+            </div>
+
+            <!-- Detail Tabs -->
+            <div class="detail-tabs">
+                <button class="detail-tab active" data-dtab="registrations">
+                    <i class="bi bi-person-lines-fill"></i> Registrations <span class="tab-count">7</span>
+                </button>
+                <button class="detail-tab" data-dtab="attendance">
+                    <i class="bi bi-person-check"></i> Attendance <span class="tab-count">5</span>
+                </button>
+                <button class="detail-tab" data-dtab="emaillogs">
+                    <i class="bi bi-envelope"></i> Email Logs <span class="tab-count">1</span>
+                </button>
+                <button class="detail-tab" data-dtab="files">
+                    <i class="bi bi-file-earmark"></i> Files <span class="tab-count">3</span>
+                </button>
+            </div>
+
+            <!-- Registrations Panel -->
+            <div class="detail-panel active" id="panel-registrations">
+                <div class="reg-tab-header">
+                    <div class="reg-search-wrap">
+                        <i class="bi bi-search"></i>
+                        <input type="text" class="reg-search" placeholder="Search students...">
+                    </div>
+                    <button class="btn-email-all" onclick="openEmailModal()">
+                        <i class="bi bi-envelope"></i> Email All Registrants
+                    </button>
+                </div>
+                <div class="reg-table-wrap">
+                    <table class="reg-table">
+                        <thead>
+                        <tr>
+                            <th>STUDENT</th><th>STUDENT ID</th>
+                            <th>DEPARTMENT</th><th>REGISTERED ON</th><th>STATUS</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr><td colspan="5"><div class="empty-state">No students match your search</div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Attendance Panel -->
+            <div class="detail-panel" id="panel-attendance">
+                <div class="attendance-stats">
+                    <div class="att-stat blue">7 <div class="att-stat-label">Registered</div></div>
+                    <div class="att-stat green">5 <div class="att-stat-label">Present</div></div>
+                    <div class="att-stat red">2 <div class="att-stat-label">Absent</div></div>
+                    <div class="att-stat orange">71% <div class="att-stat-label">Rate</div></div>
+                </div>
+                <div class="reg-table-wrap">
+                    <div class="att-sheet-header" style="padding: 16px 20px;">
+                        <h3>Attendance Sheet</h3>
+                        <span class="att-hint">Click to toggle attendance status</span>
+                    </div>
+                    <table class="reg-table">
+                        <thead>
+                        <tr>
+                            <th>STUDENT</th><th>DEPARTMENT</th>
+                            <th>CHECK-IN TIME</th><th>ATTENDANCE</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr><td colspan="4"><div class="empty-state">No registrations</div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Email Logs Panel -->
+            <div class="detail-panel" id="panel-emaillogs">
+                <div class="email-logs-header">
+                    <span>1 email sent for this event</span>
+                    <button class="btn-send-new" onclick="openEmailModal()">
+                        <i class="bi bi-envelope"></i> Send New Email
+                    </button>
+                </div>
+                <div class="email-log-card">
+                    <div class="email-log-top">
+                        <div style="display:flex; align-items:flex-start; gap:12px;">
+                            <div class="email-log-icon"><i class="bi bi-envelope-fill"></i></div>
+                            <div class="email-log-info">
+                                <div class="email-log-subject">Reminder: Tech Innovation Summit — Tomorrow!</div>
+                                <div class="email-log-meta">Mar 14, 2026 · 10:00 AM · Sent by Admin</div>
+                            </div>
+                        </div>
+                        <div class="recipients-badge"><i class="bi bi-people-fill"></i> 247 recipients</div>
+                    </div>
+                    <div class="email-log-body">
+                        Dear Student, this is a reminder that the Annual Tech Innovation Summit 2026 is scheduled for tomorrow, March 15. Please arrive by 8:45 AM.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Files Panel -->
+            <div class="detail-panel" id="panel-files">
+                <div class="files-header">
+                    <span>3 files attached</span>
+                    <button class="btn-manage-files"><i class="bi bi-folder"></i> Manage Files</button>
+                </div>
+                <div class="files-grid">
+                    <div class="file-card">
+                        <div class="file-icon"><i class="bi bi-file-earmark-text"></i></div>
+                        <div class="file-info">
+                            <div class="file-name">Summit_Schedule_2026.pdf</div>
+                            <div class="file-meta">2.4 MB · Uploaded 2026-01-15</div>
+                        </div>
+                        <button class="btn-download"><i class="bi bi-download"></i> Download</button>
+                    </div>
+                    <div class="file-card">
+                        <div class="file-icon"><i class="bi bi-file-earmark-text"></i></div>
+                        <div class="file-info">
+                            <div class="file-name">Speaker_Bios.pdf</div>
+                            <div class="file-meta">1.1 MB · Uploaded 2026-01-20</div>
+                        </div>
+                        <button class="btn-download"><i class="bi bi-download"></i> Download</button>
+                    </div>
+                    <div class="file-card">
+                        <div class="file-icon" style="color:#DB2777; background:#fdf2f8;"><i class="bi bi-file-earmark-word"></i></div>
+                        <div class="file-info">
+                            <div class="file-name">Workshop_Registration_Form.docx</div>
+                            <div class="file-meta">340 KB · Uploaded 2026-02-01</div>
+                        </div>
+                        <button class="btn-download"><i class="bi bi-download"></i> Download</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ===========================
+         CREATE/EDIT EVENT MODAL
+    =========================== -->
+    <div class="modal-overlay" id="createEventModal">
+        <div class="modal-box">
+            <div class="modal-header-custom">
+                <div>
+                    <h2 id="modalTitle">Create New Event</h2>
+                    <p>Fill in the details for the new event</p>
+                </div>
+                <button class="modal-close-btn" onclick="closeEventModal()"><i class="bi bi-x-lg"></i></button>
+            </div>
+            <div class="modal-tabs">
+                <button class="modal-tab active" data-step="1">📋 Basic Info</button>
+                <button class="modal-tab" data-step="2">📝 Details</button>
+                <button class="modal-tab" data-step="3">📎 Files</button>
+            </div>
+            <div class="modal-body-custom">
+
+                <!-- Step 1 -->
+                <div class="step-panel active" id="step1">
+                    <div class="form-group">
+                        <label class="form-label-custom">Event Title <span class="req">*</span></label>
+                        <input type="text" class="form-input" id="fTitle" placeholder="e.g. Annual Tech Innovation Summit 2026">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label-custom">Short Description <span class="req">*</span></label>
+                        <textarea class="form-textarea" id="fDesc" style="min-height:90px;" placeholder="Brief description shown in event cards"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div>
+                            <div class="field-icon-label"><i class="bi bi-calendar3"></i><span>Date <span style="color:#9F0712;">*</span></span></div>
+                            <input type="date" class="form-input" id="fDate">
+                        </div>
+                        <div>
+                            <label class="form-label-custom">Category</label>
+                            <select class="form-select-custom" id="fCategory">
+                                <option>Academic</option><option>Technology</option>
+                                <option>Career</option><option>Sports</option><option>Cultural</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div>
+                            <div class="field-icon-label"><i class="bi bi-clock"></i><span>Start Time <span style="color:#9F0712;">*</span></span></div>
+                            <input type="time" class="form-input" id="fStart">
+                        </div>
+                        <div>
+                            <label class="form-label-custom">End Time</label>
+                            <input type="time" class="form-input" id="fEnd">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="field-icon-label"><i class="bi bi-geo-alt"></i><span>Location <span style="color:#9F0712;">*</span></span></div>
+                        <input type="text" class="form-input" id="fLocation" placeholder="e.g. Main Auditorium, Engineering Building">
+                    </div>
+                    <div class="form-row" style="margin-bottom:18px;">
+                        <div>
+                            <div class="field-icon-label"><i class="bi bi-people"></i><span>Capacity <span style="color:#9F0712;">*</span></span></div>
+                            <input type="number" class="form-input" id="fCapacity" value="100">
+                        </div>
+                        <div></div>
+                    </div>
+                    <label class="approval-checkbox-wrap">
+                        <input type="checkbox" id="fApproval">
+                        <div>
+                            <label for="fApproval">Approval Required</label>
+                            <span>Registrations will need admin approval before confirmation</span>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step-panel" id="step2">
+                    <div class="form-group">
+                        <label class="form-label-custom">Full Description</label>
+                        <textarea class="form-textarea" placeholder="Detailed description visible on the event page..."></textarea>
+                    </div>
+                    <div class="organizer-section">
+                        <div class="organizer-header">
+                            <label class="form-label-custom" style="margin:0;">Organizers <span class="req" style="color:#9F0712;">*</span></label>
+                            <button class="btn-add-organizer" id="addOrganizerBtn"><i class="bi bi-plus"></i> Add Organizer</button>
+                        </div>
+                        <div class="organizer-list" id="organizerList">
+                            <div class="organizer-row">
+                                <input type="text" class="form-input" placeholder="e.g. Department of Computer Science">
+                                <input type="email" class="form-input" placeholder="organizer@university.edu">
+                                <button class="btn-remove-organizer" onclick="removeOrganizer(this)"><i class="bi bi-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="field-icon-label"><i class="bi bi-tag"></i><span>Tags</span></div>
+                        <div class="tags-wrapper" id="tagsWrapper">
+                            <input type="text" class="tag-input" id="tagInput" placeholder="Add a tag and press Enter">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step-panel" id="step3">
+                    <div class="file-drop-zone" onclick="document.getElementById('fileInput').click()">
+                        <input type="file" id="fileInput" style="display:none;" multiple
+                               accept=".pdf,.doc,.docx,.ppt,.pptx,.png,.jpg"
+                               onchange="handleFileSelect(this)">
+                        <i class="bi bi-upload"></i>
+                        <div class="drop-title">Click to upload files</div>
+                        <div class="drop-sub">PDF, DOC, DOCX, PPT, PNG, JPG up to 20MB</div>
+                        <button class="btn-upload-demo" type="button"
+                                onclick="event.stopPropagation(); document.getElementById('fileInput').click()">
+                            <i class="bi bi-upload"></i> Upload File (Demo)
+                        </button>
+                    </div>
+                    <div class="no-files-text" id="noFilesText">No files attached yet</div>
+                    <div id="fileList" style="display:none; margin-top:8px;"></div>
+                </div>
+            </div>
+
+            <div class="modal-footer-custom">
+                <div class="step-dots">
+                    <div class="step-dot active" id="dot1"></div>
+                    <div class="step-dot" id="dot2"></div>
+                    <div class="step-dot" id="dot3"></div>
+                </div>
+                <div class="modal-footer-btns">
+                    <button class="btn-cancel" onclick="closeEventModal()">Cancel</button>
+                    <button class="btn-create" id="actionBtn">Next →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===========================
+         DELETE CONFIRMATION MODAL
+    =========================== -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="delete-modal-box">
+            <div class="delete-icon-wrap"><i class="bi bi-trash"></i></div>
+            <h3>Delete Event?</h3>
+            <p>This action cannot be undone. All registrations for this event will also be removed.</p>
+            <div class="delete-modal-btns">
+                <button class="btn-del-cancel" onclick="closeDeleteModal()">Cancel</button>
+                <button class="btn-del-confirm" onclick="closeDeleteModal()">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===========================
+         SEND EMAIL MODAL
+    =========================== -->
+    <div class="modal-overlay" id="emailModal">
+        <div class="email-modal-box">
+            <div class="email-modal-header">
+                <div class="email-modal-title">
+                    <div class="email-icon-wrap"><i class="bi bi-envelope-fill"></i></div>
+                    <div>
+                        <h2>Send Email to Registrants</h2>
+                        <p>Annual Tech Innovation Summit 2026</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeEmailModal()"><i class="bi bi-x-lg"></i></button>
+            </div>
+            <div class="email-modal-body">
+                <div class="recipients-box">
+                    <div class="recipients-box-left">
+                        <i class="bi bi-people-fill"></i> To: 0 registered students
+                    </div>
+                    <i class="bi bi-chevron-down" style="color:#4F6EF7;"></i>
+                </div>
+                <div class="template-label">Use a Template</div>
+                <div class="template-btns">
+                    <button class="template-btn" onclick="setTemplate(this,'Event Reminder','Reminder: [Event Name] is tomorrow! Please arrive 15 minutes early.')">Event Reminder</button>
+                    <button class="template-btn" onclick="setTemplate(this,'Event Update','Important update regarding [Event Name]. Please review the changes below.')">Event Update</button>
+                    <button class="template-btn" onclick="setTemplate(this,'Thank You','Thank you for attending [Event Name]. We hope you had a great experience!')">Thank You</button>
+                    <button class="template-btn" onclick="setTemplate(this,'Custom Message','')">Custom Message</button>
+                </div>
+                <div class="form-group">
+                    <label class="form-label-custom">Subject <span class="req">*</span></label>
+                    <input type="text" class="form-input" id="emailSubject" placeholder="Email subject line">
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                    <label class="form-label-custom">Message <span class="req">*</span></label>
+                    <textarea class="form-textarea" id="emailMessage" style="min-height:180px;" placeholder="Write your email message here..."></textarea>
+                </div>
+            </div>
+            <div class="email-modal-footer">
+                <span>This will send to 0 recipients</span>
+                <div class="email-footer-btns">
+                    <button class="btn-cancel" onclick="closeEmailModal()">Cancel</button>
+                    <button class="btn-send-email" onclick="closeEmailModal()">
+                        <i class="bi bi-send"></i> Send Email
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===========================
+        // PAGE SWITCHING
+        // ===========================
+        function showDetail() {
+            document.getElementById('listPage').classList.remove('active');
+            document.getElementById('detailPage').classList.add('active');
+            window.scrollTo(0, 0);
+        }
+        function showList() {
+            document.getElementById('detailPage').classList.remove('active');
+            document.getElementById('listPage').classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // ===========================
+        // DETAIL PAGE TABS
+        // ===========================
+        document.querySelectorAll('.detail-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.detail-panel').forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById('panel-' + tab.dataset.dtab).classList.add('active');
+            });
+        });
+
+        // ===========================
+        // CREATE / EDIT MODAL
+        // ===========================
+        let currentStep = 1;
+        const totalSteps = 3;
+
+        document.getElementById('openModalBtn').addEventListener('click', () => {
+            document.getElementById('modalTitle').textContent = 'Create New Event';
+            clearForm();
+            openEventModal();
+        });
+
+        function openEditModal(data) {
+            document.getElementById('modalTitle').textContent = 'Edit Event';
+            document.getElementById('fTitle').value    = data.title    || '';
+            document.getElementById('fDesc').value     = data.desc     || '';
+            document.getElementById('fDate').value     = data.date     || '';
+            document.getElementById('fStart').value    = data.start    || '';
+            document.getElementById('fEnd').value      = data.end      || '';
+            document.getElementById('fLocation').value = data.location || '';
+            document.getElementById('fCapacity').value = data.capacity || '100';
+            document.getElementById('fApproval').checked = data.approval || false;
+
+            // Set category
+            const catSel = document.getElementById('fCategory');
+            for (let i = 0; i < catSel.options.length; i++) {
+                if (catSel.options[i].text === data.category) { catSel.selectedIndex = i; break; }
+            }
+            document.getElementById('actionBtn').textContent = 'Next →';
+            openEventModal();
+        }
+
+        function openEventModal() {
+            goToStep(1);
+            document.getElementById('createEventModal').classList.add('open');
+        }
+
+        function closeEventModal() {
+            document.getElementById('createEventModal').classList.remove('open');
+        }
+
+        function clearForm() {
+            document.getElementById('fTitle').value = '';
+            document.getElementById('fDesc').value  = '';
+            document.getElementById('fDate').value  = '';
+            document.getElementById('fStart').value = '';
+            document.getElementById('fEnd').value   = '';
+            document.getElementById('fLocation').value = '';
+            document.getElementById('fCapacity').value = '100';
+            document.getElementById('fApproval').checked = false;
+        }
+
+        // Modal backdrop close
+        document.getElementById('createEventModal').addEventListener('click', function(e) {
+            if (e.target === this) closeEventModal();
+        });
+
+        // Tabs
+        document.querySelectorAll('.modal-tab').forEach(tab => {
+            tab.addEventListener('click', () => goToStep(parseInt(tab.dataset.step)));
+        });
+
+        function goToStep(step) {
+            currentStep = step;
+            document.querySelectorAll('.step-panel').forEach((p, i) => p.classList.toggle('active', i + 1 === step));
+            document.querySelectorAll('.modal-tab').forEach((t, i) => t.classList.toggle('active', i + 1 === step));
+            document.querySelectorAll('.step-dot').forEach((d, i) => d.classList.toggle('active', i + 1 === step));
+            document.getElementById('actionBtn').textContent = step === totalSteps ? 'Save Event' : 'Next →';
+        }
+
+        document.getElementById('actionBtn').addEventListener('click', () => {
+            if (currentStep < totalSteps) { goToStep(currentStep + 1); }
+            else { alert('Event saved! (Demo)'); closeEventModal(); }
+        });
+
+        // ===========================
+        // ORGANIZERS
+        // ===========================
+        document.getElementById('addOrganizerBtn').addEventListener('click', () => {
+            const list = document.getElementById('organizerList');
+            const row  = document.createElement('div');
+            row.className = 'organizer-row';
+            row.innerHTML = `
+            <input type="text"  class="form-input" placeholder="e.g. Department of Computer Science">
+            <input type="email" class="form-input" placeholder="organizer@university.edu">
+            <button class="btn-remove-organizer" onclick="removeOrganizer(this)"><i class="bi bi-trash"></i></button>
+        `;
+            list.appendChild(row);
+        });
+
+        function removeOrganizer(btn) {
+            const list = document.getElementById('organizerList');
+            if (list.children.length > 1) btn.closest('.organizer-row').remove();
+            else alert('At least one organizer is required.');
+        }
+
+        // ===========================
+        // TAGS
+        // ===========================
+        const tags = [];
+        document.getElementById('tagInput').addEventListener('keydown', (e) => {
+            if ((e.key === 'Enter' || e.key === ',') && e.target.value.trim()) {
+                e.preventDefault();
+                addTag(e.target.value.trim().replace(/,$/, ''));
+                e.target.value = '';
+            }
+            if (e.key === 'Backspace' && !e.target.value && tags.length) removeTag(tags[tags.length - 1]);
+        });
+
+        function addTag(text) {
+            if (!text || tags.includes(text)) return;
+            tags.push(text);
+            const chip = document.createElement('div');
+            chip.className = 'tag-chip';
+            chip.dataset.tag = text;
+            chip.innerHTML = `${text} <button onclick="removeTag('${text}')" type="button">&times;</button>`;
+            document.getElementById('tagsWrapper').insertBefore(chip, document.getElementById('tagInput'));
+        }
+
+        function removeTag(text) {
+            const idx = tags.indexOf(text);
+            if (idx > -1) tags.splice(idx, 1);
+            const chip = document.getElementById('tagsWrapper').querySelector(`[data-tag="${CSS.escape(text)}"]`);
+            if (chip) chip.remove();
+        }
+
+        // ===========================
+        // FILE UPLOAD
+        // ===========================
+        function handleFileSelect(input) {
+            const files     = Array.from(input.files);
+            const noFilesEl = document.getElementById('noFilesText');
+            const fileListEl= document.getElementById('fileList');
+            if (!files.length) return;
+            noFilesEl.style.display = 'none';
+            fileListEl.style.display = 'block';
+            fileListEl.innerHTML = '';
+            files.forEach(file => {
+                const item = document.createElement('div');
+                item.style.cssText = 'display:flex;align-items:center;gap:10px;padding:8px 12px;background:#f9fafb;border-radius:8px;margin-bottom:6px;font-size:0.85rem;color:#374151;border:1px solid #e5e7eb;';
+                item.innerHTML = `<i class="bi bi-file-earmark" style="color:#4F6EF7;"></i><span style="flex:1;">${file.name}</span><span style="color:#9ca3af;font-size:0.75rem;">${(file.size/1024).toFixed(1)} KB</span>`;
+                fileListEl.appendChild(item);
+            });
+        }
+
+        // ===========================
+        // DELETE MODAL
+        // ===========================
+        function openDeleteModal() {
+            document.getElementById('deleteModal').classList.add('open');
+        }
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('open');
+        }
+        document.getElementById('deleteModal').addEventListener('click', function(e) {
+            if (e.target === this) closeDeleteModal();
+        });
+
+        // ===========================
+        // EMAIL MODAL
+        // ===========================
+        function openEmailModal() {
+            document.getElementById('emailSubject').value = '';
+            document.getElementById('emailMessage').value = '';
+            document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('emailModal').classList.add('open');
+        }
+        function closeEmailModal() {
+            document.getElementById('emailModal').classList.remove('open');
+        }
+        document.getElementById('emailModal').addEventListener('click', function(e) {
+            if (e.target === this) closeEmailModal();
+        });
+
+        function setTemplate(btn, subject, message) {
+            document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('emailSubject').value = subject;
+            document.getElementById('emailMessage').value = message;
+        }
+    </script>
 </div>
 
 </body>
