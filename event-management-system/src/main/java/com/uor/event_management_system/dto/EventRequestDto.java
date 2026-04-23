@@ -1,7 +1,7 @@
 package com.uor.event_management_system.dto;
 
-import com.uor.event_management_system.enums.EventCategory;
 import com.uor.event_management_system.enums.EventStatus;
+import com.uor.event_management_system.model.EventCategory;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;

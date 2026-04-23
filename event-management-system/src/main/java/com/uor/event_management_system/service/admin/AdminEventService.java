@@ -2,7 +2,7 @@ package com.uor.event_management_system.service.admin;
 
 import com.uor.event_management_system.dto.EventRequestDto;
 import com.uor.event_management_system.dto.EventResponseDto;
-import com.uor.event_management_system.enums.EventCategory;
+import com.uor.event_management_system.model.EventCategory;
 import com.uor.event_management_system.enums.EventRegistrationStatus;
 import com.uor.event_management_system.enums.EventStatus;
 import com.uor.event_management_system.model.EventEntity;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.chrono.ChronoLocalDate;
 import java.util.Arrays;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class EventService {
+public class AdminEventService {
 
     @Autowired
     private EventRepository eventRepository;
@@ -135,31 +136,19 @@ public void deleteEvent(int id) {
     private void copyDtoToEntity(EventRequestDto dto, EventEntity event) {
         event.setTitle(dto.getTitle());
         event.setEventDescription(dto.getEventDescription());
-        event.setFullDescription(dto.getFullDescription());
         event.setEventLocation(dto.getEventLocation());
 
         if(dto.getEventDate() != null) {
             event.setEventDate(dto.getEventDate().toLocalDate());
         }
 
-        event.setStartTime(dto.getStartTime());
-        event.setEndTime(dto.getEndTime());
+        event.setStartTime(LocalTime.from(dto.getStartTime()));
+        event.setEndTime(LocalTime.from(dto.getEndTime()));
         event.setEventCategory(dto.getEventCategory());
-        event.setMaxCapacity(dto.getMaxCapacity());
+        event.setSpots(dto.getMaxCapacity());
         event.setImage(dto.getImage());
-        event.setOrganizerName(dto.getOrganizerName());
-        event.setOrganizerEmail(dto.getOrganizerEmail());
+        event.setStatus(EventStatus.PENDING);
 
-        if(dto.getTags() != null && !dto.getTags().isBlank()) {
-            String normalized = Arrays.stream(dto.getTags().split(","))
-                    .map(String::trim)
-                    .filter(t -> !t.isEmpty())
-                    .collect(Collectors.joining(","));
-            event.setTags(normalized);
-
-        }else{
-            event.setTags(null);
-        }
     }
 
 
@@ -180,17 +169,17 @@ public void deleteEvent(int id) {
     }
 
 //    public List<EventEntity> findByEventDateTimeAfter(LocalDateTime dateTime) {
-//        return eventRepository.findByEventDateTimeAfterAndStatus(dateTime, EventStatus.APPROVED);
+//       return eventRepository.findByEventDateTimeAfterAndStatus(dateTime, EventStatus.APPROVED);
+//   }
+//
+//    public List<EventEntity> findByEventDateTimeBefore(LocalDateTime dateTime) {
+//        return eventRepository.findByEventDateTimeBeforeAndStatus(dateTime,EventStatus.APPROVED);
 //    }
-
-    public List<EventEntity> findByEventDateTimeBefore(LocalDateTime dateTime) {
-        return eventRepository.findByEventDateTimeBeforeAndStatus(dateTime,EventStatus.APPROVED);
-    }
 
 
 
     public void prepareEvent(EventEntity event) {
-        int total = event.getMaxCapacity();
+        int total = event.getSpots();
         int registered = event.getAllRegisteredCount();
         int percent = 0;
 
@@ -211,30 +200,32 @@ public void deleteEvent(int id) {
     }
 
     private EventResponseDto toDto(EventEntity eventEntity) {
+
         EventResponseDto dto = new EventResponseDto();
 
         dto.setId(eventEntity.getId());
         dto.setTitle(eventEntity.getTitle());
         dto.setEventDescription(eventEntity.getEventDescription());
-        dto.setFormattedDate(eventEntity.getFullDescription());
+        dto.setFormattedDate(eventEntity.getEventDescription());
         dto.setEventLocation(eventEntity.getEventLocation());
         dto.setEventDate(eventEntity.getEventDate());
 
-        if(eventEntity.getStartTime() != null) dto.setStartTime(eventEntity.getStartTime().toLocalTime());
-        if(eventEntity.getEndTime() != null) dto.setEndTime(eventEntity.getEndTime().toLocalTime());
+        if(eventEntity.getStartTime() != null) dto.setStartTime(eventEntity.getStartTime());
+        if(eventEntity.getEndTime() != null) dto.setEndTime(eventEntity.getEndTime());
 
         dto.setEventCategory(eventEntity.getEventCategory());
         dto.setStatus(eventEntity.getStatus());
         dto.setImage(eventEntity.getImage());
-        dto.setMaxCapacity(eventEntity.getMaxCapacity());
-        dto.setOrganizerName(eventEntity.getOrganizerName());
-        dto.setOrganizerEmail(eventEntity.getOrganizerEmail());
+        dto.setMaxCapacity(eventEntity.getSpots());
 
-        if(eventEntity.getTags() != null && !eventEntity.getTags().isEmpty()) {
-            dto.setTags(Arrays.asList(eventEntity.getTags().split(",")));
-        }else {
-            dto.setTags(Collections.emptyList());
-        }
+//        dto.setOrganizerName(eventEntity.getOrganizerName());
+//        dto.setOrganizerEmail(eventEntity.getOrganizerEmail());
+
+//        if(eventEntity.getTags() != null && !eventEntity.getTags().isEmpty()) {
+//            dto.setTags(Arrays.asList(eventEntity.getTags().split(",")));
+//        }else {
+//           dto.setTags(Collections.emptyList());
+//       }
 
         int fileCount = filesService.getFileCount(eventEntity.getId());
         dto.setFileCount(fileCount);
@@ -242,7 +233,7 @@ public void deleteEvent(int id) {
         int registeredCount = eventRegistrationService.getRegisterEventCount(eventEntity.getId(), EventRegistrationStatus.APPROVED);
         dto.setAllRegisteredCount(registeredCount);
 
-        int max = eventEntity.getMaxCapacity();
+        int max = eventEntity.getSpots();
         int left = Math.max(0,max - registeredCount);
         int percent = max > 0 ? (registeredCount * 100)/ max : 0;
 
@@ -265,7 +256,7 @@ public void deleteEvent(int id) {
         }
 
         if(eventEntity.getEventCategory() != null) {
-            String category = eventEntity.getEventCategory().name();
+            String category = eventEntity.getEventCategory().getCategory();
             dto.setCategoryDisplay(category.charAt(0) + category.substring(1).toLowerCase());
 
         }
@@ -283,18 +274,18 @@ public void deleteEvent(int id) {
         dto.setId(eventEntity.getId());
         dto.setTitle(eventEntity.getTitle());
         dto.setEventDescription(eventEntity.getEventDescription());
-        dto.setFullDescription(eventEntity.getFullDescription());
+        dto.setFullDescription(eventEntity.getEventDescription());
         dto.setEventLocation(eventEntity.getEventLocation());
-        dto.setEventDate(eventEntity.getStartTime());
-        dto.setStartTime(eventEntity.getStartTime());
-        dto.setEndTime(eventEntity.getEndTime());
+        dto.setEventDate(LocalDateTime.from(eventEntity.getStartTime()));
+        dto.setStartTime(LocalDateTime.from(eventEntity.getStartTime()));
+        dto.setEndTime(LocalDateTime.from(eventEntity.getEndTime()));
         dto.setEventCategory(eventEntity.getEventCategory());
-        dto.setMaxCapacity(eventEntity.getMaxCapacity());
+        dto.setMaxCapacity(eventEntity.getSpots());
         dto.setStatus(eventEntity.getStatus());
         dto.setImage(eventEntity.getImage());
-        dto.setOrganizerName(eventEntity.getOrganizerName());
-        dto.setOrganizerEmail(eventEntity.getOrganizerEmail());
-        dto.setTags(eventEntity.getTags());
+//        dto.setOrganizerName(eventEntity.getOrganizerName());
+//        dto.setOrganizerEmail(eventEntity.getOrganizerEmail());
+//        dto.setTags(eventEntity.getTags());
         return dto;
 
 

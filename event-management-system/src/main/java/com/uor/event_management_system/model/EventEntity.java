@@ -1,6 +1,5 @@
 package com.uor.event_management_system.model;
 
-import com.uor.event_management_system.enums.EventCategory;
 import com.uor.event_management_system.enums.EventStatus;
 import jakarta.persistence.*;
 import lombok.Getter;

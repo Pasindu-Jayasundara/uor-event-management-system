@@ -1,19 +1,23 @@
-package com.uor.event_management_system.service;
+package com.uor.event_management_system.service.user;
 
+import com.uor.event_management_system.dto.EventResponseDto;
+import com.uor.event_management_system.enums.EventCategory;
 import com.uor.event_management_system.enums.EventRegistrationStatus;
 import com.uor.event_management_system.enums.EventStatus;
 import com.uor.event_management_system.model.EventEntity;
 import com.uor.event_management_system.repository.EventRepository;
+import com.uor.event_management_system.service.EventRegistrationService;
+import com.uor.event_management_system.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-public class EventService {
+public class UserEventService {
 
     @Autowired
     private EventRepository unieventsRepo;
@@ -22,12 +26,11 @@ public class EventService {
     FileService filesService;
 
     @Autowired
-    EventRegistrationService  eventRegistrationService;
+    EventRegistrationService eventRegistrationService;
 
     public List<EventEntity> searchEvents(String keyword) {
         return unieventsRepo.findByTitleContainingAndStatus(keyword,EventStatus.APPROVED);
     }
-
 
     public List<EventEntity> getallEvents() { //get the all event details with the filecount
 
@@ -44,7 +47,6 @@ public class EventService {
         }
         return events;
     }
-
 
     public List<EventEntity> getByCategory(int category) {
         return unieventsRepo.findByEventCategory_IdAndStatus(category,EventStatus.APPROVED);
@@ -121,8 +123,6 @@ public class EventService {
 
     }
 
-
-
     public void prepareEvent(EventEntity event) {
 
         int total = event.getSpots();
@@ -147,7 +147,6 @@ public class EventService {
             event.setPercentageStatus("low");
         }
     }
-
 
 
 

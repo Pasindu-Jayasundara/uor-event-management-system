@@ -4,10 +4,11 @@ import com.uor.event_management_system.dto.EventRequestDto;
 import com.uor.event_management_system.dto.EventResponseDto;
 import com.uor.event_management_system.dto.PlatformUserDTO;
 import com.uor.event_management_system.dto.UserSummaryDto;
-import com.uor.event_management_system.enums.EventCategory;
+import com.uor.event_management_system.model.EventCategory;
 import com.uor.event_management_system.enums.EventStatus;
 import com.uor.event_management_system.model.UserEntity;
-import com.uor.event_management_system.service.admin.EventService;
+import com.uor.event_management_system.service.EventCategoryService;
+import com.uor.event_management_system.service.admin.AdminEventService;
 import com.uor.event_management_system.service.admin.ManageUserService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
@@ -33,7 +34,11 @@ public class AdminPagePathMapping {
     private ManageUserService  manageUserService;
 
     @Autowired
-    private EventService eventService;
+    private AdminEventService adminEventService;
+
+    @Autowired
+    private EventCategoryService eventCategoryService;
+
 
     @GetMapping("/dashboard")
     public String dashboard(Model model, @AuthenticationPrincipal UserDetails userDetails) {
@@ -148,19 +153,19 @@ public class AdminPagePathMapping {
 
         List<EventResponseDto> events;
         if (search != null && !search.isBlank()) {
-            events = eventService.searchEvent(search);
+            events = adminEventService.searchEvent(search);
         } else if (category != null) {
-            events = eventService.filterByCategory(category);
+            events = adminEventService.filterByCategory(category);
         }else {
-            events = eventService.getAllEvents();
+            events = adminEventService.getAllEvents();
         }
 
         model.addAttribute("page", "manage-event");
         model.addAttribute("user", userDetails);
         model.addAttribute("events", events);
-        model.addAttribute("totalEvents", eventService.getTotalCount());
+        model.addAttribute("totalEvents", adminEventService.getTotalCount());
         model.addAttribute("search",search);
-        model.addAttribute("categories", EventCategory.values());
+        model.addAttribute("category",category);
         model.addAttribute("statuses", EventStatus.values());
         model.addAttribute("currentView", view);
         model.addAttribute("selectedCategory", category);
@@ -181,9 +186,9 @@ public class AdminPagePathMapping {
         if (result.hasErrors()) {
             model.addAttribute("page", "manage-event");
             model.addAttribute("user", userDetails);
-            model.addAttribute("events", eventService.getAllEvents());
-            model.addAttribute("totalEvents", eventService.getTotalCount());
-            model.addAttribute("categories", EventCategory.values());
+            model.addAttribute("events", adminEventService.getAllEvents());
+            model.addAttribute("totalEvents", adminEventService.getTotalCount());
+            model.addAttribute("categories", eventCategoryService.getAllCategories());
             model.addAttribute("statuses", EventStatus.values());
             model.addAttribute("currentView", "Table");
             model.addAttribute("newEvent", dto);
@@ -191,7 +196,7 @@ public class AdminPagePathMapping {
             return "admin/dashboard";
         }
         try{
-            eventService.createEvent(dto);
+            adminEventService.createEvent(dto);
             redirectionAttributes.addFlashAttribute("successMessage","Event \"" + dto.getTitle() + "\"  created successfully");
         } catch (Exception e) {
             redirectionAttributes.addFlashAttribute("errorMessage", "Failed to create event : " + e.getMessage());
@@ -211,9 +216,10 @@ public class AdminPagePathMapping {
         if(result.hasErrors()) {
             model.addAttribute("page", "manage-event");
             model.addAttribute("user", userDetails);
-            model.addAttribute("events", eventService.getAllEvents());
-            model.addAttribute("totalEvents", eventService.getTotalCount());
-            model.addAttribute("categories", EventCategory.values());
+            model.addAttribute("events", adminEventService.getAllEvents());
+            model.addAttribute("totalEvents", adminEventService.getTotalCount());
+            //model.addAttribute("categories", EventCategory.values());
+
             model.addAttribute("statuses", EventStatus.values());
             model.addAttribute("currentView", "Table");
             model.addAttribute("newEvent", dto);
@@ -222,7 +228,7 @@ public class AdminPagePathMapping {
             return "admin/dashboard";
         }
         try{
-            eventService.updateEvent(id, dto);
+            adminEventService.updateEvent(id, dto);
             redirectAttributes.addFlashAttribute("successMessage","Event \"" + dto.getTitle() + "\"  updated successfully");
 
         } catch (Exception e) {
@@ -236,7 +242,7 @@ public class AdminPagePathMapping {
     @DeleteMapping("/manage-event/delete/{id}")
     public String deleteEvent(@RequestParam int id, RedirectAttributes redirectAttributes) {
         try {
-            eventService.deleteEvent(id);
+            adminEventService.deleteEvent(id);
             redirectAttributes.addFlashAttribute("successMessage", "Event deleted successfully");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Failed to delete event : " + e.getMessage());
@@ -250,7 +256,7 @@ public class AdminPagePathMapping {
         model.addAttribute("user", userDetails);
 
         try{
-            model.addAttribute("page",eventService.getEventById(id));
+            model.addAttribute("page", adminEventService.getEventById(id));
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Failed to view event : " + e.getMessage());
         }
@@ -261,7 +267,7 @@ public class AdminPagePathMapping {
     @ResponseBody
     public ResponseEntity<?> getEventApi(@PathVariable int id){
         try{
-            return ResponseEntity.ok(eventService.getEventForEdit(id));
+            return ResponseEntity.ok(adminEventService.getEventForEdit(id));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
