@@ -29,7 +29,7 @@
 
     div.innerHTML = `
                   ${title}<br>
-                  <small>${event.eventDateTime}</small>
+                  <small>${event.eventDate}</small>
                 `;
 
     div.onclick = () => {

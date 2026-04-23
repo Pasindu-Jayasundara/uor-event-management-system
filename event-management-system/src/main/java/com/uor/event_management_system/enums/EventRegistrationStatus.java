@@ -4,7 +4,8 @@ public enum EventRegistrationStatus {
 
     PENDING,
     APPROVED,
-    REJECTED
+    REJECTED,
+    WAITLIST
 
 
 

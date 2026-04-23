@@ -1,9 +1,16 @@
 package com.uor.event_management_system.service;
 
 import com.uor.event_management_system.enums.EventRegistrationStatus;
+import com.uor.event_management_system.model.EventRegistration;
+import com.uor.event_management_system.model.UserEntity;
 import com.uor.event_management_system.repository.EventRegistrationRep;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class EventRegistrationService {
@@ -16,6 +23,27 @@ public class EventRegistrationService {
         return eventRegistrationRep.countByEvent_IdAndStatus(eventId, status);
 
     }
+
+    @Transactional
+    public void cancelRegistration(int userId, int eventId) {
+        eventRegistrationRep.deleteByUser_IdAndEvent_Id(userId, eventId);
+    }
+
+    public Map<Integer,String> getUserRegistrationStatus(UserEntity user) {
+
+        Map<Integer,String> map = new HashMap<>();
+        List <EventRegistration> registrations = eventRegistrationRep.findByUser_id(user.getId());
+
+        for(EventRegistration reg : registrations){
+
+            map.put(reg.getEvent().getId(),reg.getStatus().name());
+
+        }
+
+        return map;
+    }
+
+
 
 
 
