@@ -14,22 +14,17 @@ import com.uor.event_management_system.repository.EventRepository;
 
 import com.uor.event_management_system.repository.UserRepository;
 import com.uor.event_management_system.service.EventRegistrationService;
-import com.uor.event_management_system.service.EventService;
+import com.uor.event_management_system.service.user.UserEventService;
 import com.uor.event_management_system.service.FileService;
 import com.uor.event_management_system.service.OrganizeByService;
 import com.uor.event_management_system.service.user.UserService;
-import org.apache.catalina.UserDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +34,7 @@ import java.util.Optional;
 @Controller
 public class HomePagePathMapping {
     @Autowired
-    private EventService service;
+    private UserEventService service;
 
 
     @Autowired

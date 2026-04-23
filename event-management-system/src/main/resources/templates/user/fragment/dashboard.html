@@ -1,13 +1,209 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Fragment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Dashboard</title>
+
 </head>
 <body>
 
 <div th:fragment="dashboard">
-    dashboard fragment
+
+    <!-- Profile Banner -->
+    <div class="profile-banner">
+        <div class="profile-banner-inner">
+            <div class="profile-left">
+                <div class="avatar-circle">
+                    <span>AJ</span>
+                </div>
+                <div class="profile-info">
+                    <h2>Alex Johnson</h2>
+                    <p>S2021045 · Computer Science</p>
+                    <p>Year 3 · alex.johnson@student.edu</p>
+                </div>
+            </div>
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <span class="stat-number yellow">0</span>
+                    <span class="stat-label">Registered</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number green">1</span>
+                    <span class="stat-label">Attended</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number white">0%</span>
+                    <span class="stat-label">Attendance Rate</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dashboard-container">
+
+        <!-- Tabs -->
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="registrations">
+                <i class="fa-regular fa-calendar"></i>
+                My Registrations
+                <span class="tab-badge">0</span>
+            </button>
+            <button class="tab-btn" data-tab="attendance">
+                <i class="fa-regular fa-circle-check"></i>
+                Attendance
+                <span class="tab-badge">1</span>
+            </button>
+            <button class="tab-btn" data-tab="profile">
+                <i class="fa-regular fa-user"></i>
+                My Profile
+            </button>
+        </div>
+        <div class="tab-divider"></div>
+
+        <!-- Tab 1: My Registrations -->
+        <div class="tab-content active" id="tab-registrations">
+
+            <!-- Upcoming Events -->
+            <div class="section-title">
+                <i class="fa-regular fa-clock" style="color:#1a73e8;"></i>
+                <span>Upcoming Events (0)</span>
+            </div>
+            <div class="empty-card">
+                <i class="fa-regular fa-calendar-days empty-icon"></i>
+                <p class="empty-text">No upcoming events</p>
+                <a href="#" class="browse-link">Browse events →</a>
+            </div>
+
+            <!-- Past Events -->
+            <div class="section-title" style="margin-top: 2rem;">
+                <i class="fa-solid fa-trophy" style="color:#f59e0b;"></i>
+                <span>Past Events (0)</span>
+            </div>
+            <div class="empty-card">
+                <p class="empty-text muted">No past events yet</p>
+            </div>
+
+        </div>
+
+        <!-- Tab 2: Attendance -->
+        <div class="tab-content" id="tab-attendance">
+
+            <!-- Stats Cards -->
+            <div class="attendance-stats">
+                <div class="att-card blue-bg">
+                    <i class="fa-regular fa-calendar-days att-icon blue-icon"></i>
+                    <div class="att-number">0</div>
+                    <div class="att-label">Events Registered</div>
+                </div>
+                <div class="att-card green-bg">
+                    <i class="fa-regular fa-circle-check att-icon green-icon"></i>
+                    <div class="att-number">1</div>
+                    <div class="att-label">Events Attended</div>
+                </div>
+                <div class="att-card red-bg">
+                    <i class="fa-regular fa-circle-xmark att-icon red-icon"></i>
+                    <div class="att-number">0</div>
+                    <div class="att-label">Missed</div>
+                </div>
+                <div class="att-card yellow-bg">
+                    <i class="fa-solid fa-arrow-trend-up att-icon yellow-icon"></i>
+                    <div class="att-number">0%</div>
+                    <div class="att-label">Attendance Rate</div>
+                </div>
+            </div>
+
+            <!-- Attendance History Table -->
+            <div class="history-card">
+                <h3 class="history-title">Attendance History</h3>
+                <table class="history-table">
+                    <thead>
+                    <tr>
+                        <th>EVENT</th>
+                        <th>DATE</th>
+                        <th>STATUS</th>
+                        <th>CHECK-IN TIME</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div class="event-cell">
+                                <img src="https://via.placeholder.com/40" alt="event" class="event-thumb"/>
+                                <div>
+                                    <div class="event-name">Annual Tech Innovation Summit 2026</div>
+                                    <span class="event-tag">Technology</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>Sun, Mar 15, 2026</td>
+                        <td><span class="status-badge present"><i class="fa-regular fa-circle-check"></i> Present</span></td>
+                        <td>9:15 AM</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- Tab 3: My Profile -->
+        <div class="tab-content" id="tab-profile">
+            <div class="profile-card">
+
+                <!-- Profile Header -->
+                <div class="profile-card-header">
+                    <div class="profile-avatar-blue">AJ</div>
+                    <div>
+                        <div class="profile-card-name">Alex Johnson</div>
+                        <div class="profile-card-dept">Computer Science</div>
+                    </div>
+                </div>
+
+                <hr class="profile-divider"/>
+
+                <!-- Profile Details -->
+                <div class="profile-detail-row">
+                    <span class="detail-label">Student ID</span>
+                    <span class="detail-value">S2021045</span>
+                </div>
+                <hr class="profile-divider"/>
+                <div class="profile-detail-row">
+                    <span class="detail-label">Email Address</span>
+                    <span class="detail-value bold">alex.johnson@student.edu</span>
+                </div>
+                <hr class="profile-divider"/>
+                <div class="profile-detail-row">
+                    <span class="detail-label">Department</span>
+                    <span class="detail-value bold">Computer Science</span>
+                </div>
+                <hr class="profile-divider"/>
+                <div class="profile-detail-row">
+                    <span class="detail-label">Year of Study</span>
+                    <span class="detail-value bold">Year 3</span>
+                </div>
+                <hr class="profile-divider"/>
+
+                <!-- Badge -->
+                <div class="profile-badge-row">
+                    <div class="badge-icon-wrap">
+                        <i class="fa-solid fa-trophy" style="color:#f59e0b;"></i>
+                    </div>
+                    <div>
+                        <div class="badge-title">Active Participant</div>
+                        <div class="badge-sub">0 events registered · 1 attended</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div><!-- end dashboard-container -->
+
+    <script th:src="@{/js/user/dashboard.js}"></script>
+
 </div>
 
 </body>

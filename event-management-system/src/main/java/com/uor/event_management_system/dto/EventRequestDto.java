@@ -1,7 +1,7 @@
 package com.uor.event_management_system.dto;
 
-import com.uor.event_management_system.enums.EventCategory;
 import com.uor.event_management_system.enums.EventStatus;
+import com.uor.event_management_system.model.EventCategory;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -52,5 +52,9 @@ public class EventRequestDto {
     @Max(value = 500, message = "Capacity can not be exceed 500")
     private int maxCapacity;
 
+    private String organizerEmail;
+    private String organizerName;
+    private String fullDescription;
+    private String tags;
 
 }

@@ -49,6 +49,7 @@ public class EventEntity {
         @Column(nullable = false)
         private EventStatus status;
 
+
         @Transient
         private int fileCount;
 

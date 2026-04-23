@@ -1,13 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>My Registration Fragment</title>
 </head>
 <body>
 
 <div th:fragment="my-registration">
-    my registration fragment
+
+    <div class="page-wrapper">
+
+        <!-- Header -->
+        <div class="page-header">
+            <h1>My Event Registrations</h1>
+            <p>Manage and track all your event registrations</p>
+        </div>
+
+        <!-- Stat Cards -->
+        <div class="stat-cards">
+            <div class="stat-card red">
+                <div class="stat-card-top">
+                    <span class="stat-label">Total</span>
+                    <span class="stat-icon">📅</span>
+                </div>
+                <div class="stat-value" th:text="${totalCount}">0</div>
+            </div>
+            <div class="stat-card blue">
+                <div class="stat-card-top">
+                    <span class="stat-label">Upcoming</span>
+                    <span class="stat-icon">🕐</span>
+                </div>
+                <div class="stat-value" th:text="${upcomingCount}">0</div>
+            </div>
+            <div class="stat-card green">
+                <div class="stat-card-top">
+                    <span class="stat-label">Attended</span>
+                    <span class="stat-icon">✅</span>
+                </div>
+                <div class="stat-value" th:text="${attendedCount}">0</div>
+            </div>
+            <div class="stat-card plain">
+                <div class="stat-card-top">
+                    <span class="stat-label">Cancelled</span>
+                    <span class="stat-icon">🚫</span>
+                </div>
+                <div class="stat-value" th:text="${cancelledCount}">0</div>
+            </div>
+        </div>
+
+        <!-- Search + Filter -->
+        <div class="search-filter-bar">
+            <span class="sf-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Search events..." />
+            <div class="divider-v"></div>
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="upcoming">Upcoming</button>
+                <button class="filter-tab" data-filter="past">Past</button>
+                <button class="filter-tab" data-filter="cancelled">Cancelled</button>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state-card" id="emptyState"
+             th:if="${registrations == null or #lists.isEmpty(registrations)}">
+            <div class="empty-icon">⛛</div>
+            <h3>No registrations found</h3>
+            <p>You haven't registered for any events yet</p>
+            <a href="/" class="browse-btn">Browse Events</a>
+        </div>
+
+        <!-- Registration List -->
+        <div class="reg-list-card" id="regList"
+             th:if="${registrations != null and not #lists.isEmpty(registrations)}">
+
+            <div class="reg-item"
+                 th:each="reg : ${registrations}"
+                 th:data-filter="${reg.filterTag}">
+
+                <img class="reg-item-img"
+                     th:src="${reg.event.image}"
+                     alt="event" />
+
+                <div class="reg-item-info">
+                    <div class="reg-item-title" th:text="${reg.event.title}">Event Title</div>
+                    <div class="reg-item-meta">
+                        <span>📅 <span th:text="${#temporals.format(reg.event.eventDate,'dd MMM yyyy')}"></span></span>
+                        <span>📍 <span th:text="${reg.event.eventLocation}"></span></span>
+                        <span>🕐 <span th:text="${#temporals.format(reg.event.startTime,'hh:mm a')}"></span></span>
+                    </div>
+                </div>
+
+                <div class="reg-item-status">
+                <span class="status-badge"
+                      th:classappend="${reg.status == 'APPROVED'} ? 'approved'
+                                    : (${reg.status == 'PENDING'}  ? 'pending'
+                                    : (${reg.status == 'REJECTED'} ? 'rejected' : 'waitlist'))"
+                      th:text="${reg.status}">STATUS</span>
+                </div>
+
+                <div class="reg-item-actions">
+                    <a th:href="@{'/user/attendance/' + ${reg.event.id}}"
+                       class="action-btn attend">🎯 Attendance</a>
+                    <a th:href="@{'/event/' + ${reg.event.id}}"
+                       class="action-btn details">Details →</a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script th:src="@{/js/dashboard/dashboard.js}"></script>
+
 </div>
 
 </body>
