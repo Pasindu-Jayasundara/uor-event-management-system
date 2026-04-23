@@ -6,428 +6,205 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Dashboard</title>
-    <link rel="stylesheet" th:href="@{/css/user/dashboard.css}"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet"/>
+
 </head>
 <body>
 
 <div th:fragment="dashboard">
 
-    <!-- ===== PAGE WRAPPER ===== -->
-    <div class="page-wrapper">
-        <!-- ===== PAGE WRAPPER ===== -->
-        <div class="page-wrapper">
-
-            <!-- ===== PROFILE HERO ===== -->
-            <div class="profile-hero">
-                <div class="hero-avatar">AJ</div>
-                <div class="hero-info">
+    <!-- Profile Banner -->
+    <div class="profile-banner">
+        <div class="profile-banner-inner">
+            <div class="profile-left">
+                <div class="avatar-circle">
+                    <span>AJ</span>
+                </div>
+                <div class="profile-info">
                     <h2>Alex Johnson</h2>
-                    <p class="h-sub1">S2021045 · Computer Science</p>
-                    <p class="h-sub2">Year 3 · alex.johnson@student.edu</p>
-                </div>
-                <div class="hero-stats">
-                    <div class="hero-stat">
-                        <div class="hero-stat-val yellow">3</div>
-                        <div class="hero-stat-lbl">Registered</div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-val green">2</div>
-                        <div class="hero-stat-lbl">Attended</div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-val white">67%</div>
-                        <div class="hero-stat-lbl">Attendance Rate</div>
-                    </div>
+                    <p>S2021045 · Computer Science</p>
+                    <p>Year 3 · alex.johnson@student.edu</p>
                 </div>
             </div>
-
-            <!-- ===== TABS ===== -->
-            <div class="tabs-container">
-                <div class="tabs-row">
-                    <button class="tab-btn active" data-tab="registrations">
-                        <svg viewBox="0 0 24 24">
-                            <rect x="3" y="4" width="18" height="18" rx="2"/>
-                            <line x1="16" y1="2" x2="16" y2="6"/>
-                            <line x1="8"  y1="2" x2="8"  y2="6"/>
-                            <line x1="3"  y1="10" x2="21" y2="10"/>
-                        </svg>
-                        My Registrations
-                        <span class="tab-count">3</span>
-                    </button>
-                    <button class="tab-btn" data-tab="attendance">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                            <polyline points="22 4 12 14.01 9 11.01"/>
-                        </svg>
-                        Attendance
-                        <span class="tab-count">2</span>
-                    </button>
-                    <button class="tab-btn" data-tab="profile">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8
-                             a4 4 0 0 0-4 4v2"/>
-                            <circle cx="12" cy="7" r="4"/>
-                        </svg>
-                        My Profile
-                    </button>
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <span class="stat-number yellow">0</span>
+                    <span class="stat-label">Registered</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number green">1</span>
+                    <span class="stat-label">Attended</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number white">0%</span>
+                    <span class="stat-label">Attendance Rate</span>
                 </div>
             </div>
-
-            <!-- ===== TAB: MY REGISTRATIONS ===== -->
-            <div class="tab-panel active" id="tab-registrations">
-
-                <!-- Upcoming heading -->
-                <div class="section-heading upcoming">
-                    <svg viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10"/>
-                        <polyline points="12 6 12 12 16 14"/>
-                    </svg>
-                    Upcoming Events (2)
-                </div>
-
-                <!-- Upcoming event 1 -->
-                <div class="event-card-row">
-                    <img class="event-row-img"
-                         src="https://placehold.co/56x56/4f46e5/ffffff?text=E1"
-                         alt="event"/>
-                    <div class="event-row-info">
-                        <div class="event-row-title">
-                            Annual Tech Innovation Summit 2026
-                        </div>
-                        <div class="event-row-meta">
-                    <span>
-                        <svg viewBox="0 0 24 24">
-                            <rect x="3" y="4" width="18" height="18" rx="2"/>
-                            <line x1="16" y1="2" x2="16" y2="6"/>
-                            <line x1="8"  y1="2" x2="8"  y2="6"/>
-                            <line x1="3"  y1="10" x2="21" y2="10"/>
-                        </svg>
-                        15 Mar 2026
-                    </span>
-                            <span>
-                        <svg viewBox="0 0 24 24">
-                            <path d="M21 10c0 7-9 13-9 13
-                                     S3 17 3 10a9 9 0 0 1 18 0z"/>
-                            <circle cx="12" cy="10" r="3"/>
-                        </svg>
-                        Main Auditorium, Block A
-                    </span>
-                        </div>
-                    </div>
-                    <div class="event-row-status">
-                        <span class="ev-badge approved">APPROVED</span>
-                    </div>
-                    <div class="event-row-actions">
-                        <a href="/user/attendance" class="ev-btn attend">
-                            Attendance
-                        </a>
-                        <a href="/event/1" class="ev-btn detail">Details →</a>
-                    </div>
-                </div>
-
-                <!-- Upcoming event 2 -->
-                <div class="event-card-row">
-                    <img class="event-row-img"
-                         src="https://placehold.co/56x56/0891b2/ffffff?text=E2"
-                         alt="event"/>
-                    <div class="event-row-info">
-                        <div class="event-row-title">
-                            Career Fair & Networking Night
-                        </div>
-                        <div class="event-row-meta">
-                    <span>
-                        <svg viewBox="0 0 24 24">
-                            <rect x="3" y="4" width="18" height="18" rx="2"/>
-                            <line x1="16" y1="2" x2="16" y2="6"/>
-                            <line x1="8"  y1="2" x2="8"  y2="6"/>
-                            <line x1="3"  y1="10" x2="21" y2="10"/>
-                        </svg>
-                        22 Apr 2026
-                    </span>
-                            <span>
-                        <svg viewBox="0 0 24 24">
-                            <path d="M21 10c0 7-9 13-9 13
-                                     S3 17 3 10a9 9 0 0 1 18 0z"/>
-                            <circle cx="12" cy="10" r="3"/>
-                        </svg>
-                        Student Union Hall
-                    </span>
-                        </div>
-                    </div>
-                    <div class="event-row-status">
-                        <span class="ev-badge pending">PENDING</span>
-                    </div>
-                    <div class="event-row-actions">
-                        <a href="/user/attendance" class="ev-btn attend">
-                            Attendance
-                        </a>
-                        <a href="/event/2" class="ev-btn detail">Details →</a>
-                    </div>
-                </div>
-
-                <!-- Past heading -->
-                <div class="section-heading past">
-                    <svg viewBox="0 0 24 24">
-                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-                        <polyline points="17 6 23 6 23 12"/>
-                    </svg>
-                    Past Events (1)
-                </div>
-
-                <!-- Past event 1 -->
-                <div class="event-card-row">
-                    <img class="event-row-img"
-                         src="https://placehold.co/56x56/16a34a/ffffff?text=E3"
-                         alt="event"/>
-                    <div class="event-row-info">
-                        <div class="event-row-title">
-                            Introduction to Machine Learning Workshop
-                        </div>
-                        <div class="event-row-meta">
-                    <span>
-                        <svg viewBox="0 0 24 24">
-                            <rect x="3" y="4" width="18" height="18" rx="2"/>
-                            <line x1="16" y1="2" x2="16" y2="6"/>
-                            <line x1="8"  y1="2" x2="8"  y2="6"/>
-                            <line x1="3"  y1="10" x2="21" y2="10"/>
-                        </svg>
-                        10 Jan 2026
-                    </span>
-                            <span>
-                        <svg viewBox="0 0 24 24">
-                            <path d="M21 10c0 7-9 13-9 13
-                                     S3 17 3 10a9 9 0 0 1 18 0z"/>
-                            <circle cx="12" cy="10" r="3"/>
-                        </svg>
-                        Lab 3, Engineering Block
-                    </span>
-                        </div>
-                    </div>
-                    <div class="event-row-status">
-                        <span class="ev-badge approved">APPROVED</span>
-                    </div>
-                    <div class="event-row-actions">
-                        <a href="/event/3" class="ev-btn detail">Details →</a>
-                    </div>
-                </div>
-
-            </div>
-            <!-- /tab-registrations -->
-
-            <!-- ===== TAB: ATTENDANCE ===== -->
-            <div class="tab-panel" id="tab-attendance">
-
-                <!-- Stat cards -->
-                <div class="att-stat-cards">
-                    <div class="att-stat-card blue">
-                        <div class="att-icon">
-                            <svg viewBox="0 0 24 24">
-                                <rect x="3" y="4" width="18" height="18" rx="2"/>
-                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                <line x1="8"  y1="2" x2="8"  y2="6"/>
-                                <line x1="3"  y1="10" x2="21" y2="10"/>
-                            </svg>
-                        </div>
-                        <div class="att-val">3</div>
-                        <div class="att-lbl">Events Registered</div>
-                    </div>
-                    <div class="att-stat-card green">
-                        <div class="att-icon">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                                <polyline points="22 4 12 14.01 9 11.01"/>
-                            </svg>
-                        </div>
-                        <div class="att-val">2</div>
-                        <div class="att-lbl">Events Attended</div>
-                    </div>
-                    <div class="att-stat-card red">
-                        <div class="att-icon">
-                            <svg viewBox="0 0 24 24">
-                                <circle cx="12" cy="12" r="10"/>
-                                <line x1="15" y1="9"  x2="9"  y2="15"/>
-                                <line x1="9"  y1="9"  x2="15" y2="15"/>
-                            </svg>
-                        </div>
-                        <div class="att-val">1</div>
-                        <div class="att-lbl">Missed</div>
-                    </div>
-                    <div class="att-stat-card yellow">
-                        <div class="att-icon">
-                            <svg viewBox="0 0 24 24">
-                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-                                <polyline points="17 6 23 6 23 12"/>
-                            </svg>
-                        </div>
-                        <div class="att-val">67%</div>
-                        <div class="att-lbl">Attendance Rate</div>
-                    </div>
-                </div>
-
-                <!-- History table -->
-                <div class="history-card">
-                    <div class="history-card-hdr">
-                        <h3>Attendance History</h3>
-                    </div>
-                    <table class="history-tbl">
-                        <thead>
-                        <tr>
-                            <th>EVENT</th>
-                            <th>DATE</th>
-                            <th>STATUS</th>
-                            <th>CHECK-IN TIME</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        <!-- Row 1 -->
-                        <tr>
-                            <td>
-                                <div class="tbl-event-cell">
-                                    <img class="tbl-ev-thumb"
-                                         src="https://placehold.co/44x44/4f46e5/ffffff?text=T"
-                                         alt=""/>
-                                    <div class="tbl-ev-info">
-                                        <div class="tbl-ev-title">
-                                            Annual Tech Innovation Summit 2026
-                                        </div>
-                                        <span class="tbl-ev-tag">Technology</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>Sun, Mar 15, 2026</td>
-                            <td>
-                        <span class="present-badge">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                                <polyline points="22 4 12 14.01 9 11.01"/>
-                            </svg>
-                            Present
-                        </span>
-                            </td>
-                            <td>9:15 AM</td>
-                        </tr>
-
-                        <!-- Row 2 -->
-                        <tr>
-                            <td>
-                                <div class="tbl-event-cell">
-                                    <img class="tbl-ev-thumb"
-                                         src="https://placehold.co/44x44/16a34a/ffffff?text=M"
-                                         alt=""/>
-                                    <div class="tbl-ev-info">
-                                        <div class="tbl-ev-title">
-                                            Introduction to Machine Learning Workshop
-                                        </div>
-                                        <span class="tbl-ev-tag">Academic</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>Sat, Jan 10, 2026</td>
-                            <td>
-                        <span class="present-badge">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                                <polyline points="22 4 12 14.01 9 11.01"/>
-                            </svg>
-                            Present
-                        </span>
-                            </td>
-                            <td>10:02 AM</td>
-                        </tr>
-
-                        <!-- Row 3 -->
-                        <tr>
-                            <td>
-                                <div class="tbl-event-cell">
-                                    <img class="tbl-ev-thumb"
-                                         src="https://placehold.co/44x44/dc2626/ffffff?text=C"
-                                         alt=""/>
-                                    <div class="tbl-ev-info">
-                                        <div class="tbl-ev-title">
-                                            Cultural Night 2025
-                                        </div>
-                                        <span class="tbl-ev-tag">Cultural</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>Fri, Dec 05, 2025</td>
-                            <td>
-                                <span class="absent-badge">Absent</span>
-                            </td>
-                            <td>—</td>
-                        </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-            <!-- /tab-attendance -->
-
-            <!-- ===== TAB: MY PROFILE ===== -->
-            <div class="tab-panel" id="tab-profile">
-
-                <div class="profile-card">
-
-                    <!-- Identity -->
-                    <div class="profile-identity">
-                        <div class="profile-card-avatar">AJ</div>
-                        <div class="profile-name-group">
-                            <h3>Alex Johnson</h3>
-                            <span>Computer Science</span>
-                        </div>
-                    </div>
-
-                    <div class="profile-divider"></div>
-
-                    <!-- Fields -->
-                    <div class="profile-fields">
-                        <div class="pf-row">
-                            <span class="pf-label">Student ID</span>
-                            <span class="pf-value">S2021045</span>
-                        </div>
-                        <div class="pf-row">
-                            <span class="pf-label">Email Address</span>
-                            <span class="pf-value">alex.johnson@student.edu</span>
-                        </div>
-                        <div class="pf-row">
-                            <span class="pf-label">Department</span>
-                            <span class="pf-value">Computer Science</span>
-                        </div>
-                        <div class="pf-row">
-                            <span class="pf-label">Year of Study</span>
-                            <span class="pf-value">Year 3</span>
-                        </div>
-                    </div>
-
-                    <!-- Badge -->
-                    <div class="profile-badge-row">
-                        <div class="badge-box">🏅</div>
-                        <div class="badge-texts">
-                            <div class="badge-title">Active Participant</div>
-                            <div class="badge-sub">
-                                3 events registered · 2 attended
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-            <!-- /tab-profile -->
-
         </div>
     </div>
 
-        <!-- ===== PROFILE HERO ===== -->
+    <!-- Main Content -->
+    <div class="dashboard-container">
+
+        <!-- Tabs -->
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="registrations">
+                <i class="fa-regular fa-calendar"></i>
+                My Registrations
+                <span class="tab-badge">0</span>
+            </button>
+            <button class="tab-btn" data-tab="attendance">
+                <i class="fa-regular fa-circle-check"></i>
+                Attendance
+                <span class="tab-badge">1</span>
+            </button>
+            <button class="tab-btn" data-tab="profile">
+                <i class="fa-regular fa-user"></i>
+                My Profile
+            </button>
+        </div>
+        <div class="tab-divider"></div>
+
+        <!-- Tab 1: My Registrations -->
+        <div class="tab-content active" id="tab-registrations">
+
+            <!-- Upcoming Events -->
+            <div class="section-title">
+                <i class="fa-regular fa-clock" style="color:#1a73e8;"></i>
+                <span>Upcoming Events (0)</span>
+            </div>
+            <div class="empty-card">
+                <i class="fa-regular fa-calendar-days empty-icon"></i>
+                <p class="empty-text">No upcoming events</p>
+                <a href="#" class="browse-link">Browse events →</a>
+            </div>
+
+            <!-- Past Events -->
+            <div class="section-title" style="margin-top: 2rem;">
+                <i class="fa-solid fa-trophy" style="color:#f59e0b;"></i>
+                <span>Past Events (0)</span>
+            </div>
+            <div class="empty-card">
+                <p class="empty-text muted">No past events yet</p>
+            </div>
+
+        </div>
+
+        <!-- Tab 2: Attendance -->
+        <div class="tab-content" id="tab-attendance">
+
+            <!-- Stats Cards -->
+            <div class="attendance-stats">
+                <div class="att-card blue-bg">
+                    <i class="fa-regular fa-calendar-days att-icon blue-icon"></i>
+                    <div class="att-number">0</div>
+                    <div class="att-label">Events Registered</div>
+                </div>
+                <div class="att-card green-bg">
+                    <i class="fa-regular fa-circle-check att-icon green-icon"></i>
+                    <div class="att-number">1</div>
+                    <div class="att-label">Events Attended</div>
+                </div>
+                <div class="att-card red-bg">
+                    <i class="fa-regular fa-circle-xmark att-icon red-icon"></i>
+                    <div class="att-number">0</div>
+                    <div class="att-label">Missed</div>
+                </div>
+                <div class="att-card yellow-bg">
+                    <i class="fa-solid fa-arrow-trend-up att-icon yellow-icon"></i>
+                    <div class="att-number">0%</div>
+                    <div class="att-label">Attendance Rate</div>
+                </div>
+            </div>
+
+            <!-- Attendance History Table -->
+            <div class="history-card">
+                <h3 class="history-title">Attendance History</h3>
+                <table class="history-table">
+                    <thead>
+                    <tr>
+                        <th>EVENT</th>
+                        <th>DATE</th>
+                        <th>STATUS</th>
+                        <th>CHECK-IN TIME</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div class="event-cell">
+                                <img src="https://via.placeholder.com/40" alt="event" class="event-thumb"/>
+                                <div>
+                                    <div class="event-name">Annual Tech Innovation Summit 2026</div>
+                                    <span class="event-tag">Technology</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>Sun, Mar 15, 2026</td>
+                        <td><span class="status-badge present"><i class="fa-regular fa-circle-check"></i> Present</span></td>
+                        <td>9:15 AM</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- Tab 3: My Profile -->
+        <div class="tab-content" id="tab-profile">
+            <div class="profile-card">
+
+                <!-- Profile Header -->
+                <div class="profile-card-header">
+                    <div class="profile-avatar-blue">AJ</div>
+                    <div>
+                        <div class="profile-card-name">Alex Johnson</div>
+                        <div class="profile-card-dept">Computer Science</div>
+                    </div>
+                </div>
+
+                <hr class="profile-divider"/>
+
+                <!-- Profile Details -->
+                <div class="profile-detail-row">
+                    <span class="detail-label">Student ID</span>
+                    <span class="detail-value">S2021045</span>
+                </div>
+                <hr class="profile-divider"/>
+                <div class="profile-detail-row">
+                    <span class="detail-label">Email Address</span>
+                    <span class="detail-value bold">alex.johnson@student.edu</span>
+                </div>
+                <hr class="profile-divider"/>
+                <div class="profile-detail-row">
+                    <span class="detail-label">Department</span>
+                    <span class="detail-value bold">Computer Science</span>
+                </div>
+                <hr class="profile-divider"/>
+                <div class="profile-detail-row">
+                    <span class="detail-label">Year of Study</span>
+                    <span class="detail-value bold">Year 3</span>
+                </div>
+                <hr class="profile-divider"/>
+
+                <!-- Badge -->
+                <div class="profile-badge-row">
+                    <div class="badge-icon-wrap">
+                        <i class="fa-solid fa-trophy" style="color:#f59e0b;"></i>
+                    </div>
+                    <div>
+                        <div class="badge-title">Active Participant</div>
+                        <div class="badge-sub">0 events registered · 1 attended</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div><!-- end dashboard-container -->
+
+    <script th:src="@{/js/user/dashboard.js}"></script>
 
 </div>
 
-<script th:src="@{/js/user/dashboard.js}"></script>
 </body>
 </html>
