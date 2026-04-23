@@ -43,15 +43,19 @@
 <div class="container">
 
     <div class="card1">
+
+        <!-- Anonymous greeting -->
         <span sec:authorize="isAnonymous()">
             <p class="hello">🎓 Welcome</p>
         </span>
+
+        <!-- Authenticated greeting — "Welcome back, FirstName!" -->
         <span sec:authorize="isAuthenticated()">
-            <p class="hello">👋 Hii,&nbsp;<span sec:authentication="principal.firstName"></span></p>
+            <p class="hello">👋 Welcome back, <span sec:authentication="principal.firstName"></span>!</p>
         </span>
 
         <h2>
-            Discover & Join<br />
+            Discover &amp; Join<br />
             University Events
         </h2>
         <p class="content">
@@ -59,42 +63,51 @@
             track your participation — all in one place.
         </p>
 
+        <!-- Search -->
         <div class="input-groups">
-            <img src="./icon/homepage/Icon2.svg" alt="search icon" />
-            <form action="/search" method="GET">
+            <form action="/search" method="GET" style="display:flex; gap:10px; align-items:center; position:relative;">
+
+                <!-- Icon overlaid on input -->
+                <img src="./icon/homepage/Icon2.svg"
+                     alt="search icon"
+                     class="search-icon-input" />
+
                 <input
                         type="text"
                         name="keyword"
-                        placeholder="Search events, topics, locations...."
+                        placeholder="Search events, topics, locations..."
                         class="searchbox"
                         id="searchInput"
+                        autocomplete="off"
                 />
                 <div id="suggestions"></div>
-                <button type="submit" class="search-btn">Search</button>
+
+                <!-- Search button WITH icon -->
+                <button type="submit" class="search-btn">
+                    <img src="./icon/homepage/Icon2.svg" alt="" />
+                    Search
+                </button>
             </form>
         </div>
     </div>
 
+    <!-- Stats Cards -->
     <div class="card2">
         <div>
-            <img src="./icon/homepage/Icon3.svg" alt="" />
-            <span th:text="${eventCount}"></span>
+            <img src="./icon/homepage/Icon3.svg" alt="Total Events" />
+            <span th:text="${eventCount}">0</span>
             <p>Total Events</p>
         </div>
         <div>
-            <img src="./icon/homepage/Icon4.svg" alt="" />
-            <span th:text="${upcomingevents}"></span>
+            <img src="./icon/homepage/Icon4.svg" alt="Upcoming" />
+            <span th:text="${upcomingevents}">0</span>
             <p>Upcoming</p>
         </div>
         <div>
-            <img src="./icon/homepage/Icon5.svg" alt="" />
-            <span sec:authorize="isAnonymous()">
-                <span>0</span>
-            </span>
-            <span sec:authorize="isAuthenticated()">
-                <span th:text="${count}"></span>
-            </span>
-            <p>My Registrations</p>
+            <img src="./icon/homepage/Icon5.svg" alt="My Registrations" />
+            <span sec:authorize="isAnonymous()">0</span>
+            <span sec:authorize="isAuthenticated()" th:text="${count}">0</span>
+            <p>My<br/>Registrations</p>
         </div>
     </div>
 </div>
@@ -104,7 +117,7 @@
 
     <!-- Category + Filter Menu -->
     <div class="menu">
-        <a href="/"               th:classappend="${param.type == null && param.filter == null} ? 'active' : ''">🌟 All</a>
+        <a href="/"                th:classappend="${param.type == null && param.filter == null} ? 'active' : ''">🌟 All</a>
         <a href="/category?type=1" th:classappend="${param.type != null and param.type[0] == '1'} ? 'active' : ''">💻 Technology</a>
         <a href="/category?type=2" th:classappend="${param.type != null and param.type[0] == '2'} ? 'active' : ''">📚 Academic</a>
         <a href="/category?type=3" th:classappend="${param.type != null and param.type[0] == '3'} ? 'active' : ''">🏆 Sports</a>
@@ -114,8 +127,9 @@
 
         <div>
             <p>Filter:</p>
-            <img src="./icon/homepage/Iconcontroll.svg" style="width: 15px; height: 15px; opacity: 0.5;" />
-            <form action="#" th:action="@{/filter}" method="GET">
+            <img src="./icon/homepage/Iconcontroll.svg"
+                 style="width:15px;height:15px;opacity:0.5;" alt="" />
+            <form th:action="@{/filter}" method="GET">
                 <select name="filter" onchange="this.form.submit()">
                     <option value=""         th:selected="${param.filter == null}">All</option>
                     <option value="upcoming" th:selected="${param.filter != null and param.filter[0] == 'upcoming'}">Upcoming only</option>
@@ -179,7 +193,9 @@
                             <span th:text="${event.allRegisteredCount}"></span>/<span th:text="${event.spots}"></span>
                         </label>
                     </div>
-                    <label><span th:text="${event.spots} - ${event.allRegisteredCount}"></span> spots left</label>
+                    <label>
+                        <span th:text="${event.spots} - ${event.allRegisteredCount}"></span> spots left
+                    </label>
                 </div>
 
                 <div class="bar-container">

@@ -161,88 +161,105 @@ h2 {
 /* ===== HERO SECTION ===== */
 .container {
     display: flex;
-    min-height: 340px;
-    background: linear-gradient(95deg, #460809 0%, #82181a 50%, #9f0712 100%);
+    min-height: 300px;
+    background: linear-gradient(135deg, #5a0a0c 0%, #7a1215 30%, #9f0712 60%, #b01015 100%);
     align-items: center;
-    justify-content: space-evenly;
-    padding: 40px;
+    justify-content: space-between;
+    padding: 48px 150px;
     position: relative;
     overflow: hidden;
 }
 
-/* decorative subtle radial overlay */
+/* decorative radial overlays */
 .container::before {
     content: "";
     position: absolute;
-    top: -60px;
-    right: -60px;
-    width: 320px;
-    height: 320px;
-    background: radial-gradient(circle, rgba(255, 185, 0, 0.08) 0%, transparent 70%);
+    top: -80px;
+    right: -80px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(180, 30, 30, 0.4) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.container::after {
+    content: "";
+    position: absolute;
+    bottom: -60px;
+    left: 30%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(150, 20, 20, 0.3) 0%, transparent 70%);
     pointer-events: none;
 }
 
 .card1 {
-    width: 600px;
+    flex: 1;
+    max-width: 580px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
 }
 
 .hello {
     display: inline-flex;
-    padding: 4px 14px;
+    padding: 5px 16px;
     justify-content: center;
     align-items: center;
     gap: 6px;
     border-radius: 999px;
-    border: 0.8px solid rgba(255, 185, 0, 0.3);
-    background: rgba(255, 185, 0, 0.15);
+    border: 1px solid rgba(180, 120, 0, 0.5);
+    background: rgba(120, 80, 0, 0.4);
     color: #ffd230;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 500;
-    line-height: 16px;
+    line-height: 18px;
     width: fit-content;
 }
 
 .content {
-    color: rgba(255, 201, 201, 0.85);
+    color: rgba(255, 210, 210, 0.85);
     font-size: 15px;
     font-weight: 400;
     line-height: 24px;
     margin: 0;
+    max-width: 480px;
 }
 
 /* Search input wrapper */
 .input-groups {
     position: relative;
+    margin-top: 6px;
 }
 
 .input-groups > form {
     display: flex;
     gap: 10px;
+    align-items: center;
     position: relative;
 }
 
-.input-groups > img {
-    height: 16px;
-    width: 16px;
+/* Search icon inside input - handled via padding + pseudo or inline img */
+.search-icon-input {
     position: absolute;
     left: 14px;
     top: 50%;
     transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    opacity: 0.5;
     z-index: 1;
-    opacity: 0.6;
+    pointer-events: none;
 }
 
 .searchbox {
-    display: flex;
-    width: 380px;
-    padding: 12px 16px 12px 40px;
-    align-items: center;
+    flex: 1;
+    width: 100%;
+    max-width: 460px;
+    padding: 13px 16px 13px 42px;
     border-radius: 12px;
-    border: 0.8px solid rgba(255, 255, 255, 0.18);
-    background: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(80, 10, 10, 0.5);
     color: #FFFFFF;
     font-family: "Inter", sans-serif;
     font-size: 14px;
@@ -251,27 +268,27 @@ h2 {
 }
 
 .searchbox::placeholder {
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.38);
     font-size: 13px;
 }
 
 .searchbox:focus {
-    background: rgba(255, 255, 255, 0.14);
-    border-color: rgba(255, 255, 255, 0.45);
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
+    background: rgba(100, 15, 15, 0.6);
+    border-color: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04);
 }
 
 .searchbox:hover {
-    border-color: rgba(255, 255, 255, 0.35);
+    border-color: rgba(255, 255, 255, 0.28);
 }
 
 .search-btn {
     display: flex;
-    height: 45px;
-    padding: 0 18px;
+    height: 46px;
+    padding: 0 22px;
     align-items: center;
     justify-content: center;
-    gap: 7px;
+    gap: 8px;
     border: none;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -280,19 +297,20 @@ h2 {
     color: #7B3306;
     font-family: "Inter", sans-serif;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
     white-space: nowrap;
 }
 
 .search-btn:hover {
     filter: brightness(1.05);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
 }
 
 .search-btn img {
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
+    opacity: 0.85;
 }
 
 .search-btn:active {
@@ -302,7 +320,9 @@ h2 {
 /* ===== STATS CARDS ===== */
 .card2 {
     display: flex;
-    gap: 12px;
+    gap: 14px;
+    flex-shrink: 0;
+    margin-left: 48px;
 }
 
 .card2 > * {
@@ -310,23 +330,24 @@ h2 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 8px;
-    width: 90px;
-    height: 128px;
+    gap: 10px;
+    width: 100px;
+    height: 130px;
     flex-shrink: 0;
-    border-radius: 16px;
-    border: 0.8px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.08);
-    padding: 16px 8px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.07);
+    padding: 18px 10px;
     transition: background 0.2s;
+    backdrop-filter: blur(4px);
 }
 
 .card2 > *:hover {
-    background: rgba(255, 255, 255, 0.13);
+    background: rgba(255, 255, 255, 0.12);
 }
 
 .card2 div p {
-    color: rgba(255, 162, 162, 0.9);
+    color: rgba(255, 180, 180, 0.85);
     text-align: center;
     font-size: 11px;
     font-weight: 400;
@@ -334,15 +355,23 @@ h2 {
 }
 
 .card2 div > span {
-    font-size: 20px;
+    font-size: 22px;
+    font-weight: 700;
+    color: white;
+    line-height: 1;
+}
+
+/* Make nested span (for authenticated count) display correctly */
+.card2 div > span > span {
+    font-size: 22px;
     font-weight: 700;
     color: white;
 }
 
 .card2 div > img {
-    width: 24px;
-    height: 24px;
-    opacity: 0.85;
+    width: 26px;
+    height: 26px;
+    opacity: 0.8;
 }
 
 /* ===== SUGGESTIONS ===== */
@@ -350,7 +379,7 @@ h2 {
     position: absolute;
     top: 100%;
     left: 0;
-    width: calc(380px + 10px + 100px); /* searchbox + gap + rough btn width */
+    width: calc(100% - 120px);
     background: white;
     border-radius: 12px;
     margin-top: 6px;
@@ -384,7 +413,7 @@ h2 {
 .container2 {
     display: flex;
     flex-direction: column;
-    padding: 0 40px 40px 40px;
+    padding: 0 150px 40px 150px;
     background: #F9FAFB;
 }
 
@@ -479,14 +508,14 @@ select:focus {
 .events {
     display: flex;
     flex-wrap: wrap;
-    gap: 24px;
+    gap: 20px;
     margin-top: 8px;
 }
 
 /* ===== EVENT CARD ===== */
 .eventcard {
     display: flex;
-    width: 340px;
+    width: 280px;
     flex-direction: column;
     border-radius: 16px;
     border: 0.8px solid #F3F4F6;
@@ -669,8 +698,7 @@ select:focus {
 .pending-btn    { background: #fef3c7; color: #b45309; }
 .rejected-btn   { background: #fee2e2; color: #b91c1c; }
 .waitlist-btn   { background: #dbeafe; color: #1d4ed8; }
-.register-btn,
-/*button[th\\:case="*"] { background: #FFB900; color: #7B3306; }*/
+.register-btn   { background: #FFB900; color: #7B3306; }
 
 /* Details link button */
 .details-btn {
