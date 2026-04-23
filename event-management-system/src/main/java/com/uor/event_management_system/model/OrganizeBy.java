@@ -4,31 +4,36 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @Setter
-@Table(name="files")
-public class FilesEntity {
+@Table(name = "organized_by")
+public class OrganizeBy {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column(name="date_time")
-    private LocalDateTime FileDateTime;
-
-    private String url;
 
     @ManyToOne
     @JoinColumn(name = "event_id")
     private EventEntity event;
 
-    private String name;
-
-
-
-
-
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
