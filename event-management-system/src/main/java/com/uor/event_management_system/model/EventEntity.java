@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -14,26 +14,31 @@ import java.time.LocalDateTime;
 @Table(name="event")
 public class EventEntity {
 
-
-
-
         @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)  //Auto incremented
         private int id;
 
-        @Column(name = "name")
+        @Column(name = "name" , nullable = false)
         private String title;
 
         @Column(name = "description")
         private String eventDescription;
 
-        @Column(name = "location")
+        @Column(name = "location", nullable = false)
         private String eventLocation;
 
-        @Column(name = "date_time")
-        private LocalDateTime eventDateTime;
+        @Column(name = "date", nullable = false)
+        private LocalDate eventDate;
 
-        @Column(name = "event_category_id")
-        private int eventCategory;
+        @Column(name = "start_time",nullable = false)
+        private LocalTime startTime;
+
+        @Column(name="end_time", nullable = false)
+        private LocalTime endTime;
+
+        @ManyToOne
+        @JoinColumn(name = "event_category_id")
+        private EventCategory eventCategory;
 
         @Column(name = "banner")
         private String image;
@@ -41,19 +46,19 @@ public class EventEntity {
         private int spots;
 
         @Enumerated(EnumType.STRING)
+        @Column(nullable = false)
         private EventStatus status;
 
-
         @Transient
-        private int FileCount;
+        private int fileCount;
 
         @Transient
         private int allRegisteredCount;
 
+        @Transient
+        private int registrationPercent;
 
         @Transient
-        private int percent;
-        @Transient
-        private String PercentageStatus;
+        private String percentageStatus;
 
 }

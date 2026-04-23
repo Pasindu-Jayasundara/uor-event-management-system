@@ -146,12 +146,22 @@
             <div class="event_content">
 
                 <h3 th:text="${event.title}"></h3>
-                <p th:text="${event.eventDescription}"></p>
+                <p th:text="${event.eventDescription != null && #strings.length(event.eventDescription) > 120
+    ? #strings.substring(event.eventDescription, 0, 120) + '...'
+    : event.eventDescription}" class="description"></p>
+                </p>
                 <div class="evcontainer">
 
                     <div>
                         <img src="./icon/homepage/evIcon.svg">
-                        <label th:text="${#temporals.format(event.eventDateTime, 'EEEE, dd MMM yyyy - hh:mm a')}"></label>
+                        <label>
+                            <span th:text="${#temporals.format(event.eventDate, 'dd MMM yyyy')}"></span>
+                            (
+                            <span th:text="${#temporals.format(event.startTime, 'hh:mm a')}"></span>
+                            -
+                            <span th:text="${#temporals.format(event.endTime, 'hh:mm a')}"></span>
+                            )
+                        </label>
                     </div>
                     <div>
                         <img src="./icon/homepage/evIcon2.svg">
@@ -185,7 +195,7 @@
 
                 <div class="bar-container">
                     <div class="bar"
-                         th:style="'width:' + ${event.percent} + '%;'"
+                         th:style="'width:' + ${event.registrationPercent} + '%;'"
                          th:classappend="${event.getPercentageStatus}">
                     </div>
                 </div>
@@ -209,9 +219,17 @@
 
                 <div class="register-event">
                     <div>
-                        <link>Details <img src="./icon/homepage/Iink.svg">
+                        <a th:href="@{'/event/' + ${event.id}}"  class="details-btn">Details </a>
                     </div>
-                    <button>Register</button>
+                    <div th:switch="${registrationStatus[event.id]}" class="register-buttons">
+
+                        <button th:case="'APPROVED'" class="registered-btn">✔ Registered</button>
+                        <button th:case="'PENDING'" class="pending-btn">⏳ Pending</button>
+                        <button th:case="'REJECTED'" class="rejected-btn">❌ Rejected</button>
+                        <button th:case="'WAITLIST'" class="waitlist-btn"> 📋 Waitlisted </button>
+                        <button th:case="*">Register</button>
+
+                    </div>
                 </div>
 
             </div>
