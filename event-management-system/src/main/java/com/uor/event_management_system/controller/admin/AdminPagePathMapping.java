@@ -4,6 +4,7 @@ import com.uor.event_management_system.dto.PlatformUserDTO;
 import com.uor.event_management_system.dto.UserSummaryDto;
 import com.uor.event_management_system.enums.UserRole;
 import com.uor.event_management_system.model.UserEntity;
+import com.uor.event_management_system.service.EventRegistrationService;
 import com.uor.event_management_system.service.admin.ManageUserService;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ public class AdminPagePathMapping {
 
     @Autowired
     private ManageUserService  manageUserService;
-
-
+    @Autowired
+    private EventRegistrationService eventRegistrationService;
 
 
     @GetMapping("/dashboard")

@@ -43,6 +43,7 @@ public class EventEntity {
         @Column(name = "banner")
         private String image;
 
+        @Column(nullable = false)
         private int spots;
 
         @Enumerated(EnumType.STRING)
@@ -60,5 +61,7 @@ public class EventEntity {
 
         @Transient
         private String percentageStatus;
+
+
 
 }
