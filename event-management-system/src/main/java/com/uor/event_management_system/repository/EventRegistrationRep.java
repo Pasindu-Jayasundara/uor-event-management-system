@@ -16,19 +16,9 @@ public interface EventRegistrationRep extends JpaRepository<EventRegistration, I
    // boolean existsByUser_IdAndEvent_IdAndStatus(int userId, int eventId, EventRegistrationStatus status);
 
 
-    Optional<EventRegistration> findByUser_IdAndEvent_Id(int userId, int eventId);
+    Optional<EventRegistration> findByUser_IdAndEvent_Id(Integer userId, Integer eventId);
     void deleteByUser_IdAndEvent_Id(int userId, int eventId);
    List<EventRegistration> findByUser_id(Integer user_id);
 
-   //shashini
-   boolean existsByUser_IdAndEvent_IdAndStatusNot(
-           int userId, int eventId, EventRegistrationStatus status);
-
-
-    Optional<EventRegistration> findFirstByEvent_IdAndStatusOrderByRegisteredAtAsc(
-            int eventId, EventRegistrationStatus status);
-
-    List<EventRegistration>findByEvent_Id(int eventId);
-
-    List<EventRegistration>findByEvent_IdAndStatus(int eventId, EventRegistrationStatus status);
+   int findCountByUser_IdAndStatus(Integer user_id, EventRegistrationStatus status);
 }

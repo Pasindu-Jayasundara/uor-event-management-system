@@ -31,4 +31,10 @@ public class EventRegistration {
 
     @Enumerated(EnumType.STRING)
     private EventRegistrationStatus status;
+
+
+    @Transient
+    private String filterTag;
+
+
 }

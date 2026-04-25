@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<th:block th:insert="~{fragment/header :: header(${user})}"></th:block>
+<th:block th:insert="~{user/fragment/userHeader :: header(${user})}"></th:block>
 
 <th:block th:switch="${page}">
 
@@ -24,9 +24,6 @@
         <div th:replace="~{user/fragment/event :: event}"></div>
     </th:block>
 
-    <th:block th:case="'my-registration'">
-        <div th:replace="~{user/fragment/my-registration :: my-registration}"></div>
-    </th:block>
 
     <th:block th:case="'approval'">
         <div th:replace="~{admin/fragment/approval :: approval}"></div>
