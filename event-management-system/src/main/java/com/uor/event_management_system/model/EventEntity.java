@@ -49,6 +49,11 @@ public class EventEntity {
         @Column(nullable = false)
         private EventStatus status;
 
+        @Column(name = "has_limit" , columnDefinition = "TINYINT(1)")
+        private Boolean hasLimit;
+
+        @Column(name = "request_approval" , columnDefinition = "TINYINT(1)")
+        private Boolean requestApproval;
 
         @Transient
         private int fileCount;

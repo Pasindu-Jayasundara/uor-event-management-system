@@ -211,6 +211,7 @@
                 <div>
                     <a th:href="@{'/event/' + ${event.id}}" class="details-btn">Details →</a>
                 </div>
+                <form th:action="@{/event/{id}/register(id=${event.id})}" method="post">
                 <div th:switch="${registrationStatus[event.id]}" class="register-buttons">
                     <button th:case="'APPROVED'" class="registered-btn">✔ Registered</button>
                     <button th:case="'PENDING'"  class="pending-btn">⏳ Pending</button>
@@ -218,6 +219,7 @@
                     <button th:case="'WAITLIST'" class="waitlist-btn">📋 Waitlisted</button>
                     <button th:case="*"          class="register-btn">Register</button>
                 </div>
+                </form>
             </div>
 
         </div>

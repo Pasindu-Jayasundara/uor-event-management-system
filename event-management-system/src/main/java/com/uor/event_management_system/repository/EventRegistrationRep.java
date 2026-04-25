@@ -19,4 +19,6 @@ public interface EventRegistrationRep extends JpaRepository<EventRegistration, I
     Optional<EventRegistration> findByUser_IdAndEvent_Id(Integer userId, Integer eventId);
     void deleteByUser_IdAndEvent_Id(int userId, int eventId);
    List<EventRegistration> findByUser_id(Integer user_id);
+
+   int findCountByUser_IdAndStatus(Integer user_id, EventRegistrationStatus status);
 }

@@ -18,6 +18,7 @@ import com.uor.event_management_system.service.user.UserEventService;
 import com.uor.event_management_system.service.FileService;
 import com.uor.event_management_system.service.OrganizeByService;
 import com.uor.event_management_system.service.user.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -78,8 +79,12 @@ public class HomePagePathMapping {
 
 
     @GetMapping("/")
-    public String viewHome(Model model, Principal principal) {
+    public String viewHome(Model model, HttpServletResponse response) {
 
+
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
 
         return "homepage";
 
@@ -128,7 +133,15 @@ public class HomePagePathMapping {
 
 
     @GetMapping("/event/{id}")
-    public String viewEventDetails(@PathVariable int id, Model model, Principal principal) {
+    public String viewEventDetails(@PathVariable int id, Model model, Principal principal ,HttpServletResponse response) {
+
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+
+
+
+
 
         EventRegistrationStatus status = null;
 

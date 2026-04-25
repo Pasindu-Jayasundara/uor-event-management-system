@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Header</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css"
+          integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <!--    <link rel="stylesheet" href="../../../static/css/header.css"/>-->
+</head>
+<body>
+
+<div th:fragment="header(user)" class="d-flex justify-content-between align-items-center header-background py-2 px-3">
+    <!--  left  -->
+    <th:block th:replace="~{fragment/logo :: logo}"></th:block>
+    <!--  middle  -->
+    <div class="d-flex justify-content-center align-items-center">
+        <th:block th:if="${user.role.role == 'ROLE_ADMIN'}">
+            <a th:href="@{/admin/dashboard}"
+               class="nav-link-custom d-flex justify-content-center align-items-center selected px-3 py-2 rounded text-decoration-none"
+               role="button">
+                <!--                <img src="../../../static/icon/dashboard-Icon.svg">-->
+                <img th:src="@{/icon/dashboard/dashboard-Icon.svg}">
+                <span class="text-white ps-2">Dashboard</span>
+            </a>
+            <a th:href="@{/admin/manage-event}"
+               class="nav-link-custom d-flex justify-content-center align-items-center px-3 py-2 rounded text-decoration-none"
+               role="button">
+                <!--                <img src="../../../static/icon/manageevent-Icon.svg">-->
+                <img th:src="@{/icon/dashboard/manageevent-Icon.svg}">
+                <span class="text-white ps-2">Events</span>
+            </a>
+            <a th:href="@{/admin/registration}"
+               class="nav-link-custom d-flex justify-content-center align-items-center px-3 py-2 rounded text-decoration-none"
+               role="button">
+                <!--                <img src="../../../static/icon/registration-Icon.svg">-->
+                <img th:src="@{/icon/dashboard/registration-Icon.svg}">
+                <span class="text-white ps-2">Registrations</span>
+            </a>
+            <a th:href="@{/admin/manage-user}"
+               class="nav-link-custom d-flex justify-content-center align-items-center px-3 py-2 rounded text-decoration-none"
+               role="button">
+                <!--                <img src="../../../static/icon/registration-Icon.svg">-->
+                <img width="18" th:src="@{/icon/dashboard/manageevent-Icon.svg}">
+                <span class="text-white ps-2">Users</span>
+            </a>
+            <a th:href="@{/admin/approval}"
+               class="nav-link-custom d-flex justify-content-center align-items-center px-3 py-2 rounded text-decoration-none"
+               role="button">
+                <!--                <img src="../../../static/icon/registration-Icon.svg">-->
+                <img width="18" th:src="@{/icon/dashboard/check-circle.png}">
+                <span class="text-white ps-2">Approvals</span>
+            </a>
+        </th:block>
+        <th:block th:if="${user.role.role == 'ROLE_USER' || user.role.role == 'ROLE_STAFF'}">
+            <a th:href="@{/user/event}"
+               class="nav-link-custom d-flex justify-content-center align-items-center px-3 py-2 rounded selected text-decoration-none"
+               role="button">
+                <!--                <img src="../../../static/icon/manageevent-Icon.svg">-->
+                <img th:src="@{/icon/dashboard/manageevent-Icon.svg}">
+                <span class="text-white ps-2">Events</span>
+            </a>
+            <a th:href="@{/user/dashboard}"
+               class="nav-link-custom d-flex justify-content-center align-items-center px-3 py-2 rounded text-decoration-none"
+               role="button">
+                <!--                <img src="../../../static/icon/dashboard-Icon.svg">-->
+                <img th:src="@{/icon/dashboard/dashboard-Icon.svg}">
+                <span class="text-white ps-2">Dashboard</span>
+            </a>
+<!--            <a th:href="@{/user/my-registration}"-->
+<!--               class="nav-link-custom d-flex justify-content-center align-items-center px-3 py-2 rounded text-decoration-none"-->
+<!--               role="button">-->
+<!--                &lt;!&ndash;                <img src="../../../static/icon/dashboard-Icon.svg">&ndash;&gt;-->
+<!--                <img th:src="@{/icon/dashboard/registration-Icon.svg}">-->
+<!--                <span class="text-white ps-2">My Registrations</span>-->
+<!--            </a>-->
+
+            <th:block th:if="${user.role.role == 'ROLE_STAFF'}">
+                <a th:href="@{/staff/approval}"
+                   class="nav-link-custom d-flex justify-content-center align-items-center px-3 py-2 rounded text-decoration-none"
+                   role="button">
+                    <!--                <img src="../../../static/icon/registration-Icon.svg">-->
+                    <img width="18" th:src="@{/icon/dashboard/check-circle.png}">
+                    <span class="text-white ps-2">Approvals</span>
+                </a>
+            </th:block>
+        </th:block>
+    </div>
+    <!--  right  -->
+    <div class="d-flex justify-content-center align-items-center px-3 py-2 rounded" role="button">
+        <div class="d-flex justify-content-center align-items-center account-type rounded-5 px-3 py-1" role="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear"
+                 viewBox="0 0 16 16">
+                <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
+                <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
+            </svg>
+            <th:block th:if="${user.role.role == 'ROLE_USER'}">
+                <span class="account-type ps-2" th:text="Student"></span>
+            </th:block>
+            <th:block th:if="${user.role.role == 'ROLE_ADMIN'}">
+                <span class="account-type ps-2" th:text="Admin"></span>
+            </th:block>
+            <th:block th:if="${user.role.role == 'ROLE_STAFF'}">
+                <span class="account-type ps-2" th:text="Staff"></span>
+            </th:block>
+        </div>
+        <div class="d-flex justify-content-center align-items-center" role="button">
+            <span class="account-type px-2 py-1 rounded-5 ms-2 fs-6"
+                  th:text="${user.firstName[0]+user.lastName[0]}">AJ</span>
+            <span class="text-white-50 ps-1" th:text="${user.firstName}">Alex</span>
+
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" style="background:none;border:none;padding:0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white"
+                         class="bi bi-box-arrow-right ms-3" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
+                        <path fill-rule="evenodd"
+                              d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+                    </svg>
+                </button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
