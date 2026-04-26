@@ -75,3 +75,25 @@
     }
     });
 
+//email
+
+
+
+
+
+    function openEmailModal(eventId) {
+        document.getElementById("emailModal").style.display = "block";
+        document.getElementById("eventIdInput").value = eventId;
+    }
+
+    function closeEmailModal() {
+        document.getElementById("emailModal").style.display = "none";
+    }
+
+    // Close when clicking outside
+    window.onclick = function(event) {
+        const modal = document.getElementById("emailModal");
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }

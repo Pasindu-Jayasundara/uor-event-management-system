@@ -21,4 +21,5 @@ public interface EventRegistrationRep extends JpaRepository<EventRegistration, I
    List<EventRegistration> findByUser_id(Integer user_id);
 
    int findCountByUser_IdAndStatus(Integer user_id, EventRegistrationStatus status);
-}
+   List<EventRegistration> findByEvent_IdAndStatus(Integer event_id,EventRegistrationStatus status);
+ }
