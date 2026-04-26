@@ -225,9 +225,11 @@
                     </form>
 
                     <!-- Register button (not registered yet) -->
+                    <form th:action="@{/event-details/{id}/register(id=${event.id})}" method="post">
                     <button class="btn-register" th:if="${status == null}">
                         Register Now
                     </button>
+                    </form>
                 </div>
 
             </div>
@@ -258,6 +260,13 @@
 
     </div>
 </div>
+<script>
+    window.addEventListener("pageshow", function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
+</script>
 
 </body>
 </html>

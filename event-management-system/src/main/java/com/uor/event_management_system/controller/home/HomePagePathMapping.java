@@ -14,22 +14,20 @@ import com.uor.event_management_system.repository.EventRepository;
 
 import com.uor.event_management_system.repository.UserRepository;
 import com.uor.event_management_system.service.EventRegistrationService;
-import com.uor.event_management_system.service.EventService;
+import com.uor.event_management_system.service.user.UserEventService;
 import com.uor.event_management_system.service.FileService;
 import com.uor.event_management_system.service.OrganizeByService;
 import com.uor.event_management_system.service.user.UserService;
-import org.apache.catalina.UserDatabase;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +37,7 @@ import java.util.Optional;
 @Controller
 public class HomePagePathMapping {
     @Autowired
-    private EventService service;
+    private UserEventService service;
 
 
     @Autowired
@@ -63,6 +61,7 @@ public class HomePagePathMapping {
     @Autowired
     private EventRegistrationService eventRegistrationService;
 
+
     @ModelAttribute
     public void addAttributes(Model model, Principal principal){
 
@@ -83,9 +82,14 @@ public class HomePagePathMapping {
 
 
     @GetMapping("/")
-    public String viewHome(Model model, Principal principal) {
+    public String viewHome(Model model, HttpServletResponse response) {
 
 
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+
+        model.addAttribute("page", "event");
         return "homepage";
 
     }
@@ -133,12 +137,20 @@ public class HomePagePathMapping {
 
 
     @GetMapping("/event/{id}")
-    public String viewEventDetails(@PathVariable int id, Model model, Principal principal) {
+    public String viewEventDetails(@PathVariable int id, Model model, Principal principal ,HttpServletResponse response) {
+
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+
+
+
+
 
         EventRegistrationStatus status = null;
 
         EventEntity event = eventRepository.findById(id).orElse(null);
-        if(principal != null) {
+        if (principal != null) {
 
             UserEntity user = userRepository.findByEmail(principal.getName()).get();
 
@@ -160,7 +172,7 @@ public class HomePagePathMapping {
 
         List<FilesEntity> evfiles = fileService.getFiles(id);
 
-        model.addAttribute("organizers", organizers );
+        model.addAttribute("organizers", organizers);
 
         model.addAttribute("files", evfiles);
 
@@ -169,20 +181,8 @@ public class HomePagePathMapping {
         model.addAttribute("event", event);
 
         return "event_details";
+
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

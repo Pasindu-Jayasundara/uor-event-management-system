@@ -13,147 +13,179 @@
             rel="stylesheet"
     />
 </head>
+
 <body>
-<div class="container">
 
 
+<!-- ===== TOP NAVBAR ===== -->
+<nav class="navbar">
+    <!-- Logo -->
+    <a href="/" class="navbar-logo">
+        <div class="navbar-logo-icon">E</div>
+        <span class="navbar-logo-text">Event<span>Hub</span></span>
+    </a>
+
+    <!-- Anonymous nav -->
     <div class="navigate" sec:authorize="isAnonymous()">
         <a th:href="@{/login-page}">Login</a>
         <a th:href="@{/register-page}">Signup</a>
     </div>
 
-
+    <!-- Authenticated nav -->
     <div class="user-nav" sec:authorize="isAuthenticated()">
-        <span class="welcome-text">Welcome, <span sec:authentication= "name" class="user-name"></span></span>
+        <span class="welcome-text">Welcome, <span sec:authentication="name" class="user-name"></span></span>
+        <!-- USER DASHBOARD -->
+        <a sec:authorize="hasRole('USER') or hasRole('STAFF')"
+           th:href="@{/user/dashboard}"
+           class="nav-btn">
+            Dashboard
+        </a>
 
-        <a href="/user/dashboard" class="nav-btn">Dashboard</a>
+        <!-- ADMIN DASHBOARD -->
+        <a sec:authorize="hasRole('ADMIN')"
+           th:href="@{/admin/dashboard}"
+           class="nav-btn">
+            Dashboard
+        </a>
+
+
+
+
 
         <form th:action="@{/logout}" method="post" class="logout-form">
             <button type="submit" class="nav-btn">Logout</button>
         </form>
     </div>
+</nav>
 
-
-
-
+<!-- ===== HERO SECTION ===== -->
+<div class="container">
 
     <div class="card1">
-         <span sec:authorize="isAnonymous()">
-        <p class="hello">🎓 Welcome</p>
-          </span>
 
+        <!-- Anonymous greeting -->
+        <span sec:authorize="isAnonymous()">
+            <p class="hello">🎓 Welcome</p>
+        </span>
+
+        <!-- Authenticated greeting — "Welcome back, FirstName!" -->
         <span sec:authorize="isAuthenticated()">
-        <p class="hello">👋 Hii,&nbsp;<span sec:authentication="principal.firstName"></span>
-        </p>
-          </span>
-
-
-
+            <p class="hello">👋 Welcome back, <span sec:authentication="principal.firstName"></span>!</p>
+        </span>
 
         <h2>
-            Discover & Join<br />
+            Discover &amp; Join<br />
             University Events
         </h2>
         <p class="content">
             Browse upcoming events, register to attend, download resources, and
             track your participation — all in one place.
         </p>
-        <div class="input-groups">
 
-            <form action="/search" method="GET">
+        <!-- Search -->
+        <div class="input-groups">
+            <form action="/search" method="GET" style="display:flex; gap:10px; align-items:center; position:relative;">
+
+                <!-- Icon overlaid on input -->
+                <img src="./icon/homepage/Icon2.svg"
+                     alt="search icon"
+                     class="search-icon-input" />
 
                 <input
                         type="text"
                         name="keyword"
-                        placeholder="Search events, topics, locations...."
+                        placeholder="Search events, topics, locations..."
                         class="searchbox"
                         id="searchInput"
+                        autocomplete="off"
                 />
                 <div id="suggestions"></div>
-                <button type="submit" class="search-btn"><img src="./icon/homepage/Icon2.svg" /> Search</button>
+
+                <!-- Search button WITH icon -->
+                <button type="submit" class="search-btn">
+                    <img src="./icon/homepage/Icon2.svg" alt="" />
+                    Search
+                </button>
             </form>
         </div>
     </div>
 
+    <!-- Stats Cards -->
     <div class="card2">
         <div>
-            <img src="./icon/homepage/Icon3.svg" />
-
-            <span th:text="${eventCount}"></span>
-
+            <img src="./icon/homepage/Icon3.svg" alt="Total Events" />
+            <span th:text="${eventCount}">0</span>
             <p>Total Events</p>
         </div>
-
         <div>
-            <img src="./icon/homepage/Icon4.svg" />
-            <span th:text="${upcomingevents}"></span>
+            <img src="./icon/homepage/Icon4.svg" alt="Upcoming" />
+            <span th:text="${upcomingevents}">0</span>
             <p>Upcoming</p>
         </div>
-
         <div>
-            <img src="./icon/homepage/Icon5.svg" />
-
-            <span sec:authorize="isAnonymous()">
-                <span>0</span>
-            </span>
-
-            <span sec:authorize="isAuthenticated()">
-                <span th:text="${count}"></span>
-            </span>
-
-
-
-            <p>My Registrations</p>
+            <img src="./icon/homepage/Icon5.svg" alt="My Registrations" />
+            <span sec:authorize="isAnonymous()">0</span>
+            <span sec:authorize="isAuthenticated()" th:text="${count}">0</span>
+            <p>My<br/>Registrations</p>
         </div>
     </div>
 </div>
 
+<!-- ===== MAIN CONTENT ===== -->
 <div class="container2">
+
+
+    <!-- Category + Filter Menu -->
     <div class="menu">
-        <a href="/"  th:classappend="${param.type == null && param.filter == null} ? 'active' : ''">🌟All</a>
-        <a href="/category?type=1"   th:classappend="${param.type != null and param.type[0] == '1'} ? 'active' : ''">💻Technology</a>
-        <a href="/category?type=2"  th:classappend="${param.type != null and param.type[0] == '2'} ? 'active' : ''">📚Academic</a>
-        <a href="/category?type=3"    th:classappend="${param.type != null and param.type[0] == '3'} ? 'active' : ''">🏆Sports</a>
-        <a href="/category?type=4"   th:classappend="${param.type != null and param.type[0] == '4'} ? 'active' : ''">💼Career</a>
-        <a href="/category?type=5"   th:classappend="${param.type != null and param.type[0] == '5'} ? 'active' : ''">🎨Cultural</a>
-        <a href="/category?type=6"   th:classappend="${param.type != null and param.type[0] == '6'} ? 'active' : ''">🤝Social</a>
+        <a href="/"                th:classappend="${param.type == null && param.filter == null} ? 'active' : ''">🌟 All</a>
+        <a href="/category?type=1" th:classappend="${param.type != null and param.type[0] == '1'} ? 'active' : ''">💻 Technology</a>
+        <a href="/category?type=2" th:classappend="${param.type != null and param.type[0] == '2'} ? 'active' : ''">📚 Academic</a>
+        <a href="/category?type=3" th:classappend="${param.type != null and param.type[0] == '3'} ? 'active' : ''">🏆 Sports</a>
+        <a href="/category?type=4" th:classappend="${param.type != null and param.type[0] == '4'} ? 'active' : ''">💼 Career</a>
+        <a href="/category?type=5" th:classappend="${param.type != null and param.type[0] == '5'} ? 'active' : ''">🎨 Cultural</a>
+        <a href="/category?type=6" th:classappend="${param.type != null and param.type[0] == '6'} ? 'active' : ''">🤝 Social</a>
 
         <div>
-            <p>Upcoming only</p>
-            <img src="./icon/homepage/Iconcontroll.svg" style="width: 16px; height: 16px" />
-            <form action="#" th:action="@{/filter}" method="GET">
+            <p>Filter:</p>
+            <img src="./icon/homepage/Iconcontroll.svg"
+                 style="width:15px;height:15px;opacity:0.5;" alt="" />
+            <form th:action="@{/filter}" method="GET">
                 <select name="filter" onchange="this.form.submit()">
-                    <option value="" th:selected="${param.filter == null}">All</option>
+                    <option value=""         th:selected="${param.filter == null}">All</option>
                     <option value="upcoming" th:selected="${param.filter != null and param.filter[0] == 'upcoming'}">Upcoming only</option>
-                    <option value="past" th:selected="${param.filter != null and param.filter[0] == 'past'}">Past events</option>
+                    <option value="past"     th:selected="${param.filter != null and param.filter[0] == 'past'}">Past events</option>
                 </select>
             </form>
         </div>
     </div>
 
-
+    <!-- Event count -->
     <div class="countevent">
         <p>Total <span th:text="${eventCount}"></span> events found</p>
     </div>
 
+    <!-- Events Grid -->
     <div class="events">
 
         <div class="eventcard" th:each="event : ${events}">
+
+            <!-- Card image -->
             <div class="evemain-image">
-                <img th:src="${event.image}">
+                <img th:src="${event.image}" alt="event image" />
             </div>
 
+            <!-- Card body -->
             <div class="event_content">
-
                 <h3 th:text="${event.title}"></h3>
-                <p th:text="${event.eventDescription != null && #strings.length(event.eventDescription) > 120
-    ? #strings.substring(event.eventDescription, 0, 120) + '...'
-    : event.eventDescription}" class="description"></p>
-                </p>
-                <div class="evcontainer">
 
+                <p th:text="${event.eventDescription != null && #strings.length(event.eventDescription) > 120
+                    ? #strings.substring(event.eventDescription, 0, 120) + '...'
+                    : event.eventDescription}"
+                   class="description"></p>
+
+                <div class="evcontainer">
                     <div>
-                        <img src="./icon/homepage/evIcon.svg">
+                        <img src="./icon/homepage/evIcon.svg" alt="" />
                         <label>
                             <span th:text="${#temporals.format(event.eventDate, 'dd MMM yyyy')}"></span>
                             (
@@ -164,34 +196,27 @@
                         </label>
                     </div>
                     <div>
-                        <img src="./icon/homepage/evIcon2.svg">
+                        <img src="./icon/homepage/evIcon2.svg" alt="" />
                         <label th:text="${event.eventLocation}"></label>
                     </div>
                     <div>
-                        <img src="./icon/homepage/evIcon3.svg">
-                        <label th:text="${event.fileCount}"></label>Files found
+                        <img src="./icon/homepage/evIcon3.svg" alt="" />
+                        <label th:text="${event.fileCount}"></label>&nbsp;Files found
                     </div>
-
-
-
                 </div>
+
+                <!-- Spots / progress -->
                 <div class="percent-container">
                     <div>
-                        <img src="./icon/homepage/evcontact.svg">
-                        <label><span th:text="${event.allRegisteredCount}"></span>/<span th:text="${event.spots}"></span></label>
+                        <img src="./icon/homepage/evcontact.svg" alt="" />
+                        <label>
+                            <span th:text="${event.allRegisteredCount}"></span>/<span th:text="${event.spots}"></span>
+                        </label>
                     </div>
-
-                    <div>
-                        <label><span th:text="${event.spots} - ${event.allRegisteredCount}"></span> spots left</label>
-                    </div>
-
-
-
-
-
+                    <label>
+                        <span th:text="${event.spots} - ${event.allRegisteredCount}"></span> spots left
+                    </label>
                 </div>
-
-              <!--percentage bar !-->
 
                 <div class="bar-container">
                     <div class="bar"
@@ -199,53 +224,30 @@
                          th:classappend="${event.getPercentageStatus}">
                     </div>
                 </div>
+            </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            <!-- Card actions -->
+            <div class="register-event">
+                <div>
+                    <a th:href="@{'/event/' + ${event.id}}" class="details-btn">Details →</a>
                 </div>
-
-                <div class="register-event">
-                    <div>
-                        <a th:href="@{'/event/' + ${event.id}}"  class="details-btn">Details </a>
-                    </div>
-                    <div th:switch="${registrationStatus[event.id]}" class="register-buttons">
-
-                        <button th:case="'APPROVED'" class="registered-btn">✔ Registered</button>
-                        <button th:case="'PENDING'" class="pending-btn">⏳ Pending</button>
-                        <button th:case="'REJECTED'" class="rejected-btn">❌ Rejected</button>
-                        <button th:case="'WAITLIST'" class="waitlist-btn"> 📋 Waitlisted </button>
-                        <button th:case="*">Register</button>
-
-                    </div>
+                <form th:action="@{/event/{id}/register(id=${event.id})}" method="post">
+                <div th:switch="${registrationStatus[event.id]}" class="register-buttons">
+                    <button th:case="'APPROVED'" class="registered-btn">✔ Registered</button>
+                    <button th:case="'PENDING'"  class="pending-btn">⏳ Pending</button>
+                    <button th:case="'REJECTED'" class="rejected-btn">❌ Rejected</button>
+                    <button th:case="'WAITLIST'" class="waitlist-btn">📋 Waitlisted</button>
+                    <button th:case="*"          class="register-btn">Register</button>
                 </div>
-
+                </form>
             </div>
 
         </div>
 
-
-
-
-
-
     </div>
-
 </div>
 
-
 <script th:src="@{/js/home/script.js}"></script>
+
 </body>
 </html>
