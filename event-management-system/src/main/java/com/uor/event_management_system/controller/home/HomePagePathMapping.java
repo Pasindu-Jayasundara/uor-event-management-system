@@ -20,6 +20,8 @@ import com.uor.event_management_system.service.OrganizeByService;
 import com.uor.event_management_system.service.user.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -58,6 +60,7 @@ public class HomePagePathMapping {
 
     @Autowired
     private EventRegistrationService eventRegistrationService;
+
 
     @ModelAttribute
     public void addAttributes(Model model, Principal principal){
@@ -147,7 +150,7 @@ public class HomePagePathMapping {
         EventRegistrationStatus status = null;
 
         EventEntity event = eventRepository.findById(id).orElse(null);
-        if(principal != null) {
+        if (principal != null) {
 
             UserEntity user = userRepository.findByEmail(principal.getName()).get();
 
@@ -169,7 +172,7 @@ public class HomePagePathMapping {
 
         List<FilesEntity> evfiles = fileService.getFiles(id);
 
-        model.addAttribute("organizers", organizers );
+        model.addAttribute("organizers", organizers);
 
         model.addAttribute("files", evfiles);
 
@@ -178,20 +181,8 @@ public class HomePagePathMapping {
         model.addAttribute("event", event);
 
         return "event_details";
+
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
