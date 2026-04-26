@@ -49,7 +49,7 @@ public class EventRegistrationService {
 
     public void register(UserEntity user, EventEntity event) {
 
-        // ❗ prevent duplicate registration
+        //  prevent duplicate registration
         Optional<EventRegistration> existing =
                 eventRegistrationRep.findByUser_IdAndEvent_Id(user.getId(), event.getId());
 
@@ -62,11 +62,14 @@ public class EventRegistrationService {
                         event.getId(), EventRegistrationStatus.APPROVED
                 );
 
-        EventRegistrationStatus status;
+        EventRegistrationStatus status =  EventRegistrationStatus.PENDING;
 
-        if (event.getHasLimit()  && approvedCount >= event.getSpots()) {
-            status = EventRegistrationStatus.WAITLIST;
-        } else if (event.getRequestApproval()) {
+        if (event.getHasLimit()){
+            if (approvedCount >= event.getSpots()) {
+                status = EventRegistrationStatus.WAITLIST;
+            }
+
+        }else if (event.getRequestApproval()) {
             status = EventRegistrationStatus.PENDING;
         } else {
             status = EventRegistrationStatus.APPROVED;
