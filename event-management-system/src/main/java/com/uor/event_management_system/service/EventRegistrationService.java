@@ -5,9 +5,18 @@ import com.uor.event_management_system.model.EventEntity;
 import com.uor.event_management_system.model.EventRegistration;
 import com.uor.event_management_system.model.UserEntity;
 import com.uor.event_management_system.repository.EventRegistrationRep;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.spring6.SpringTemplateEngine;
+
+import org.thymeleaf.context.Context;
+
+
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -49,7 +58,7 @@ public class EventRegistrationService {
 
     public void register(UserEntity user, EventEntity event) {
 
-        // ❗ prevent duplicate registration
+        //  prevent duplicate registration
         Optional<EventRegistration> existing =
                 eventRegistrationRep.findByUser_IdAndEvent_Id(user.getId(), event.getId());
 
@@ -62,11 +71,14 @@ public class EventRegistrationService {
                         event.getId(), EventRegistrationStatus.APPROVED
                 );
 
-        EventRegistrationStatus status;
+        EventRegistrationStatus status =  EventRegistrationStatus.PENDING;
 
-        if (event.getHasLimit()  && approvedCount >= event.getSpots()) {
-            status = EventRegistrationStatus.WAITLIST;
-        } else if (event.getRequestApproval()) {
+        if (event.getHasLimit()){
+            if (approvedCount >= event.getSpots()) {
+                status = EventRegistrationStatus.WAITLIST;
+            }
+
+        }else if (event.getRequestApproval()) {
             status = EventRegistrationStatus.PENDING;
         } else {
             status = EventRegistrationStatus.APPROVED;
@@ -123,6 +135,55 @@ public class EventRegistrationService {
 
         return stats;
     }
+
+
+    @Autowired
+    private JavaMailSender mailSender;
+
+    @Autowired
+    private SpringTemplateEngine templateEngine;
+
+
+    public void sendEmailToRegisteredUsers(EventEntity event, String messageText) {
+
+        List<EventRegistration> registrations =
+                eventRegistrationRep.findByEvent_IdAndStatus(event.getId(), EventRegistrationStatus.APPROVED);
+        for (EventRegistration reg : registrations) {
+
+            try {
+                Context context = new Context();
+                context.setVariable("eventTitle", event.getTitle());
+                context.setVariable("message", messageText);
+                context.setVariable("eventDate", event.getEventDate());
+                context.setVariable("eventLocation", event.getEventLocation());
+
+                String html = templateEngine.process("email/event-mail", context);
+
+                MimeMessage mimeMessage = mailSender.createMimeMessage();
+                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+
+                helper.setTo(reg.getUser().getEmail());
+                helper.setSubject("Event Update: " + event.getTitle());
+                helper.setText(html, true); // HTML enabled
+
+                mailSender.send(mimeMessage);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

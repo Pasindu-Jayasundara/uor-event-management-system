@@ -41,17 +41,17 @@ public class UserProfileService {
         UserEntity user = userRepo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // 🔴 Check old password
+        // Check old password
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
             return false;
         }
 
-        // 🔴 Validate new password
+        // Validate new password
         if (!isValidPassword(newPassword)) {
             throw new IllegalArgumentException("Password must be at least 6 characters with uppercase and lowercase letters");
         }
 
-        // ✅ Save new password
+        // Save new password
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepo.save(user);
 

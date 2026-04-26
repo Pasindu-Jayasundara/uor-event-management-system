@@ -6,8 +6,11 @@ import com.uor.event_management_system.dto.PlatformUserDTO;
 import com.uor.event_management_system.dto.UserSummaryDto;
 import com.uor.event_management_system.model.EventCategory;
 import com.uor.event_management_system.enums.EventStatus;
+import com.uor.event_management_system.model.EventEntity;
 import com.uor.event_management_system.model.UserEntity;
+import com.uor.event_management_system.repository.EventRepository;
 import com.uor.event_management_system.service.EventCategoryService;
+import com.uor.event_management_system.service.EventRegistrationService;
 import com.uor.event_management_system.service.admin.AdminEventService;
 import com.uor.event_management_system.service.admin.ManageUserService;
 import jakarta.annotation.security.RolesAllowed;
@@ -38,6 +41,12 @@ public class AdminPagePathMapping {
 
     @Autowired
     private EventCategoryService eventCategoryService;
+
+    @Autowired
+    private EventRepository eventRepository;
+
+    @Autowired
+    private EventRegistrationService eventRegistrationService;
 
 
     @GetMapping("/dashboard")
@@ -272,5 +281,26 @@ public class AdminPagePathMapping {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/send-email")
+    public String sendEmail(@RequestParam int eventId,
+                            @RequestParam String message,
+                            RedirectAttributes redirectAttributes) {
+
+        EventEntity event = eventRepository.findById(eventId).orElse(null);
+
+        eventRegistrationService.sendEmailToRegisteredUsers(event, message);
+
+        redirectAttributes.addFlashAttribute("success", "Emails sent successfully!");
+
+
+
+        return "redirect:/";
+    }
+
+
+
+
+
 
 }
