@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /* ── Tab switching ── */
     const tabBtns   = document.querySelectorAll(".tab-btn");
-    const tabPanels = document.querySelectorAll(".tab-panel");
+    const tabPanels = document.querySelectorAll(".tab-content"); // ✅ FIXED
 
     tabBtns.forEach(btn => {
         btn.addEventListener("click", () => {

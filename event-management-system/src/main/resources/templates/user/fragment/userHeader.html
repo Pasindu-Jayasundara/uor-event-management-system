@@ -7,16 +7,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css"
           integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+<!--    <link rel="stylesheet" th:href="@{/css/userheader.css}">-->
     <!--    <link rel="stylesheet" href="../../../static/css/header.css"/>-->
 </head>
 <body>
 
-<div th:fragment="header(user)" class="d-flex justify-content-between align-items-center header-background py-2 px-3">
+<div th:fragment="header(user,page)" class="d-flex justify-content-between align-items-center header-background py-2 px-3">
     <!--  left  -->
     <th:block th:replace="~{fragment/logo :: logo}"></th:block>
     <!--  middle  -->
-    <div class="d-flex justify-content-center align-items-center">
+    <div class="d-flex justify-content-center align-items-center nav-center">
         <th:block th:if="${user.role.role == 'ROLE_ADMIN'}">
             <a th:href="@{/admin/dashboard}"
                class="nav-link-custom d-flex justify-content-center align-items-center selected px-3 py-2 rounded text-decoration-none"
@@ -55,16 +55,16 @@
             </a>
         </th:block>
         <th:block th:if="${user.role.role == 'ROLE_USER' || user.role.role == 'ROLE_STAFF'}">
-            <a th:href="@{/user/event}"
-               class="nav-link-custom d-flex justify-content-center align-items-center px-3 py-2 rounded selected text-decoration-none"
-               role="button">
+            <a th:href="@{/}"
+               th:class="'nav-link-custom d-flex align-items-center px-3 py-2 rounded text-decoration-none '
+   + (${page} != null and page == 'event' ? 'selected' : '')">
                 <!--                <img src="../../../static/icon/manageevent-Icon.svg">-->
                 <img th:src="@{/icon/dashboard/manageevent-Icon.svg}">
                 <span class="text-white ps-2">Events</span>
             </a>
             <a th:href="@{/user/dashboard}"
-               class="nav-link-custom d-flex justify-content-center align-items-center px-3 py-2 rounded text-decoration-none"
-               role="button">
+               th:class="'nav-link-custom d-flex align-items-center px-3 py-2 rounded text-decoration-none '
+   + (${page} != null and page == 'dashboard' ? 'selected' : '')">
                 <!--                <img src="../../../static/icon/dashboard-Icon.svg">-->
                 <img th:src="@{/icon/dashboard/dashboard-Icon.svg}">
                 <span class="text-white ps-2">Dashboard</span>

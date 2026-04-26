@@ -26,17 +26,10 @@
             </div>
             <div class="profile-stats">
                 <div class="stat-item">
-                    <span class="stat-number yellow">0</span>
+                    <span class="stat-number yellow" th:text="${registerdcount}">0</span>
                     <span class="stat-label">Registered</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number green">1</span>
-                    <span class="stat-label">Attended</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number white">0%</span>
-                    <span class="stat-label">Attendance Rate</span>
-                </div>
+
             </div>
         </div>
     </div>
@@ -46,20 +39,18 @@
 
         <!-- Tabs -->
         <div class="tab-nav">
+
+            <!-- ✅ My Registrations -->
             <button class="tab-btn active" data-tab="registrations">
-                <i class="fa-regular fa-calendar"></i>
-                My Registrations
+                📅 My Registrations
                 <span th:text="${registerdcount}">0</span>
             </button>
-            <button class="tab-btn" data-tab="attendance">
-                <i class="fa-regular fa-circle-check"></i>
-                Attendance
-                <span class="tab-badge">1</span>
-            </button>
+
+            <!-- ✅ My Profile -->
             <button class="tab-btn" data-tab="profile">
-                <i class="fa-regular fa-user"></i>
-                My Profile
+                👤 My Profile
             </button>
+
         </div>
         <div class="tab-divider"></div>
 
@@ -137,115 +128,123 @@
 
         </div>
 
-        <!-- Tab 2: Attendance -->
-        <div class="tab-content" id="tab-attendance">
 
-            <!-- Stats Cards -->
-            <div class="attendance-stats">
-                <div class="att-card blue-bg">
-                    <i class="fa-regular fa-calendar-days att-icon blue-icon"></i>
-                    <div class="att-number">0</div>
-                    <div class="att-label">Events Registered</div>
-                </div>
-                <div class="att-card green-bg">
-                    <i class="fa-regular fa-circle-check att-icon green-icon"></i>
-                    <div class="att-number">1</div>
-                    <div class="att-label">Events Attended</div>
-                </div>
-                <div class="att-card red-bg">
-                    <i class="fa-regular fa-circle-xmark att-icon red-icon"></i>
-                    <div class="att-number">0</div>
-                    <div class="att-label">Missed</div>
-                </div>
-                <div class="att-card yellow-bg">
-                    <i class="fa-solid fa-arrow-trend-up att-icon yellow-icon"></i>
-                    <div class="att-number">0%</div>
-                    <div class="att-label">Attendance Rate</div>
-                </div>
-            </div>
-
-            <!-- Attendance History Table -->
-            <div class="history-card">
-                <h3 class="history-title">Attendance History</h3>
-                <table class="history-table">
-                    <thead>
-                    <tr>
-                        <th>EVENT</th>
-                        <th>DATE</th>
-                        <th>STATUS</th>
-                        <th>CHECK-IN TIME</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>
-                            <div class="event-cell">
-                                <img src="https://via.placeholder.com/40" alt="event" class="event-thumb"/>
-                                <div>
-                                    <div class="event-name">Annual Tech Innovation Summit 2026</div>
-                                    <span class="event-tag">Technology</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td>Sun, Mar 15, 2026</td>
-                        <td><span class="status-badge present"><i class="fa-regular fa-circle-check"></i> Present</span></td>
-                        <td>9:15 AM</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
 
         <!-- Tab 3: My Profile -->
         <div class="tab-content" id="tab-profile">
-            <div class="profile-card">
 
-                <!-- Profile Header -->
+            <!-- PROFILE FORM -->
+            <form th:action="@{/user/update-profile}" method="post" class="profile-card">
+                <div th:if="${error}" class="error-msg" th:text="${error}"></div>
+                <div th:if="${success}" class="success-msg" th:text="${success}"></div>
+
+                <!-- Header -->
                 <div class="profile-card-header">
-                    <div class="profile-avatar-blue">AJ</div>
+                    <div class="profile-avatar-blue"
+                         th:text="${#strings.substring(user.firstName,0,1) + #strings.substring(user.lastName,0,1)}">
+                    </div>
+
                     <div>
-                        <div class="profile-card-name">Alex Johnson</div>
-                        <div class="profile-card-dept">Computer Science</div>
+                        <div class="profile-card-name"
+                             th:text="${user.firstName + ' ' + user.lastName}">
+                        </div>
                     </div>
                 </div>
 
                 <hr class="profile-divider"/>
 
-                <!-- Profile Details -->
+                <!-- First Name -->
                 <div class="profile-detail-row">
-                    <span class="detail-label">Student ID</span>
-                    <span class="detail-value">S2021045</span>
+                    <span class="detail-label">First Name</span>
+                    <input type="text" name="firstName"
+                           th:value="${user.firstName}" required/>
                 </div>
+
                 <hr class="profile-divider"/>
+
+                <!-- Last Name -->
                 <div class="profile-detail-row">
-                    <span class="detail-label">Email Address</span>
-                    <span class="detail-value bold">alex.johnson@student.edu</span>
+                    <span class="detail-label">Last Name</span>
+                    <input type="text" name="lastName"
+                           th:value="${user.lastName}" required/>
                 </div>
+
                 <hr class="profile-divider"/>
+
+                <!-- Email (readonly) -->
+                <div class="profile-detail-row">
+                    <span class="detail-label">Email</span>
+                    <input type="email" th:value="${user.email}" readonly/>
+                </div>
+
+                <hr class="profile-divider"/>
+
+                <!-- Department -->
                 <div class="profile-detail-row">
                     <span class="detail-label">Department</span>
-                    <span class="detail-value bold">Computer Science</span>
+                    <input type="text" name="department"
+                           th:value="${profile.department.department}" readonly/>
                 </div>
-                <hr class="profile-divider"/>
-                <div class="profile-detail-row">
-                    <span class="detail-label">Year of Study</span>
-                    <span class="detail-value bold">Year 3</span>
-                </div>
+
                 <hr class="profile-divider"/>
 
-                <!-- Badge -->
-                <div class="profile-badge-row">
-                    <div class="badge-icon-wrap">
-                        <i class="fa-solid fa-trophy" style="color:#f59e0b;"></i>
-                    </div>
-                    <div>
-                        <div class="badge-title">Active Participant</div>
-                        <div class="badge-sub">0 events registered · 1 attended</div>
-                    </div>
+                <!-- Year -->
+                <div class="profile-detail-row">
+                    <span class="detail-label">Year</span>
+                    <input type="text" name="year"
+                           th:value="${profile.studyYear.year}" readonly/>
                 </div>
+
+                <hr class="profile-divider"/>
+
+                <!-- SAVE BUTTON -->
+                <button type="submit" class="save-btn">
+                    💾 Save Changes
+                </button>
+
+            </form>
+
+            <div class="profile-card password-section">
+
+                <div class="profile-card-header">
+                    <div class="profile-card-name">🔐 Change Password</div>
+                </div>
+
+                <hr class="profile-divider"/>
+
+                <form th:action="@{/user/change-password}" method="post">
+
+                    <!-- Old Password -->
+                    <div class="profile-detail-row">
+                        <span class="detail-label">Old Password</span>
+                        <input type="password" name="oldPassword"
+                               placeholder="Enter old password" required/>
+                    </div>
+
+                    <hr class="profile-divider"/>
+
+                    <!-- New Password -->
+                    <div class="profile-detail-row">
+                        <span class="detail-label">New Password</span>
+                        <input type="password" name="newPassword"
+                               placeholder="Enter new password" required/>
+
+                    </div>
+                    <small class="password-hint">
+                        Must be at least 6 characters with uppercase & lowercase letters
+                    </small>
+
+                    <hr class="profile-divider"/>
+
+                    <!-- BUTTON -->
+                    <button type="submit" class="save-btn">
+                        🔄 Update Password
+                    </button>
+
+                </form>
 
             </div>
+
         </div>
 
     </div><!-- end dashboard-container -->
