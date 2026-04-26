@@ -3,8 +3,11 @@ package com.uor.event_management_system.controller.admin;
 import com.uor.event_management_system.dto.*;
 import com.uor.event_management_system.model.EventCategory;
 import com.uor.event_management_system.enums.EventStatus;
+import com.uor.event_management_system.model.EventEntity;
 import com.uor.event_management_system.model.UserEntity;
+import com.uor.event_management_system.repository.EventRepository;
 import com.uor.event_management_system.service.EventCategoryService;
+import com.uor.event_management_system.service.EventRegistrationService;
 import com.uor.event_management_system.service.admin.AdminEventService;
 import com.uor.event_management_system.service.admin.DashboardService;
 import com.uor.event_management_system.service.admin.ManageUserService;
@@ -40,6 +43,10 @@ public class AdminPagePathMapping {
     @Autowired
     private DashboardService dashboardService;
 
+    private EventRepository eventRepository;
+
+    @Autowired
+    private EventRegistrationService eventRegistrationService;
 
 
     @GetMapping("/dashboard")
@@ -278,5 +285,26 @@ public class AdminPagePathMapping {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/send-email")
+    public String sendEmail(@RequestParam int eventId,
+                            @RequestParam String message,
+                            RedirectAttributes redirectAttributes) {
+
+        EventEntity event = eventRepository.findById(eventId).orElse(null);
+
+        eventRegistrationService.sendEmailToRegisteredUsers(event, message);
+
+        redirectAttributes.addFlashAttribute("success", "Emails sent successfully!");
+
+
+
+        return "redirect:/";
+    }
+
+
+
+
+
 
 }

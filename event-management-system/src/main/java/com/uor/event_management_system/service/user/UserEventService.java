@@ -8,6 +8,7 @@ import com.uor.event_management_system.model.EventEntity;
 import com.uor.event_management_system.repository.EventRepository;
 import com.uor.event_management_system.service.EventRegistrationService;
 import com.uor.event_management_system.service.FileService;
+import com.uor.event_management_system.service.PercentageFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -136,16 +137,19 @@ public class UserEventService {
 
         event.setRegistrationPercent(percent);
 
+//       //instend of that I use Factory pattern
 
-        if (percent == 100) {
-            event.setPercentageStatus("full");
-        } else if (percent > 70) {
-            event.setPercentageStatus("high");
-        } else if (percent > 40) {
-            event.setPercentageStatus("medium");
-        } else {
-            event.setPercentageStatus("low");
-        }
+//        if (percent == 100) {
+//            event.setPercentageStatus("full");
+//        } else if (percent > 70) {
+//            event.setPercentageStatus("high");
+//        } else if (percent > 40) {
+//            event.setPercentageStatus("medium");
+//        } else {
+//            event.setPercentageStatus("low");
+//        }
+
+        event.setPercentageStatus(PercentageFactory.getStatus(percent));
     }
 
 
