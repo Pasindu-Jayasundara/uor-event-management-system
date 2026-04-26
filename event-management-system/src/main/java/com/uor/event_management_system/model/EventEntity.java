@@ -43,12 +43,19 @@ public class EventEntity {
         @Column(name = "banner")
         private String image;
 
+        @Column(nullable = false)
         private int spots;
+
 
         @Enumerated(EnumType.STRING)
         @Column(nullable = false)
         private EventStatus status;
 
+        @Column(name = "has_limit" , columnDefinition = "TINYINT(1)")
+        private Boolean hasLimit;
+
+        @Column(name = "request_approval" , columnDefinition = "TINYINT(1)")
+        private Boolean requestApproval;
 
         @Transient
         private int fileCount;
@@ -61,5 +68,7 @@ public class EventEntity {
 
         @Transient
         private String percentageStatus;
+
+
 
 }
