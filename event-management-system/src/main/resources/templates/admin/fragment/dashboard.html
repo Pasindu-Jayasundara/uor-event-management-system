@@ -7,8 +7,6 @@
 <body>
 
 <div th:fragment="dashboard">
-
-    <!-- ===== MAIN CONTENT ===== -->
     <div class="main-content">
 
         <!-- Page Header -->
@@ -18,7 +16,7 @@
                 <p>Manage events, registrations, and communications</p>
             </div>
             <div class="header-actions">
-                <a href="#" class="btn-all-events">
+                <a th:href="@{/admin/events}" class="btn-all-events">
                     <i class="bi bi-layers"></i> All Events
                 </a>
                 <a th:href="@{/admin/add-event}" class="btn-new-event">
@@ -27,16 +25,17 @@
             </div>
         </div>
 
-        <!-- Stat Cards -->
+        <!-- ── Stat Cards ─────────────────────────────────────── -->
         <div class="stat-cards">
-            <!-- Total Events -->
+
             <div class="stat-card">
                 <div class="stat-icon blue">
                     <i class="bi bi-calendar3"></i>
                 </div>
-                <div class="stat-number">7</div>
+                <div class="stat-number" th:text="${dashboard.totalEvents}">0</div>
                 <div class="stat-label">Total Events</div>
-                <div class="stat-sub">3 upcoming</div>
+                <div class="stat-sub"
+                     th:text="${dashboard.upcomingEvents} + ' upcoming'">0 upcoming</div>
             </div>
 
 
@@ -46,33 +45,38 @@
                 <div class="stat-icon green">
                     <i class="bi bi-people-fill"></i>
                 </div>
-                <div class="stat-number">23</div>
+                <div class="stat-number" th:text="${dashboard.totalRegistrations}">0</div>
                 <div class="stat-label">Total Registrations</div>
-                <div class="stat-sub">Across 7 events</div>
+                <div class="stat-sub"
+                     th:text="'Across ' + ${dashboard.totalEvents} + ' events'">
+                    Across 0 events
+                </div>
             </div>
 
-            <!-- Total Attended -->
             <div class="stat-card">
                 <div class="stat-icon gray">
                     <i class="bi bi-check-circle"></i>
                 </div>
-                <div class="stat-number">5</div>
+                <div class="stat-number" th:text="${dashboard.totalAttended}">0</div>
                 <div class="stat-label">Total Attended</div>
-                <div class="stat-sub">22% attendance rate</div>
+                <div class="stat-sub"
+                     th:text="${dashboard.attendanceRate} + '% attendance rate'">
+                    0% attendance rate
+                </div>
             </div>
 
-            <!-- Emails Sent -->
             <div class="stat-card">
                 <div class="stat-icon orange">
                     <i class="bi bi-envelope"></i>
                 </div>
-                <div class="stat-number">1</div>
+                <div class="stat-number" th:text="${dashboard.emailsSent}">0</div>
                 <div class="stat-label">Emails Sent</div>
                 <div class="stat-sub">To registered students</div>
             </div>
+
         </div>
 
-        <!-- Bottom Grid -->
+        <!-- ── Bottom Grid ────────────────────────────────────── -->
         <div class="bottom-grid">
 
             <!-- Upcoming Events Panel -->
@@ -82,70 +86,55 @@
                         <i class="bi bi-clock-history"></i>
                         Upcoming Events
                     </div>
-                    <a href="#" class="view-all-link">
+                    <a th:href="@{/admin/events}" class="view-all-link">
                         View all <i class="bi bi-arrow-right"></i>
                     </a>
                 </div>
 
-                <!-- Event 1 -->
-                <div class="event-item">
-                    <div class="event-thumb">
-                        <i class="bi bi-trophy-fill"></i>
-                    </div>
-                    <div class="event-info">
-                        <div class="event-name">Inter-Faculty Sports Championship</div>
-                        <div class="event-meta">
-                            <span><i class="bi bi-calendar3"></i> May 2, 2026</span>
-                            <span><i class="bi bi-people"></i> 3/400</span>
-                        </div>
-                        <div class="event-progress">
-                            <div class="event-progress-bar" style="width: 0.75%"></div>
-                        </div>
-                    </div>
-                    <a href="#" class="btn-manage">Manage</a>
+                <!-- Empty state -->
+                <div th:if="${#lists.isEmpty(dashboard.upcomingEventList)}"
+                     class="empty-state">
+                    <p>No upcoming events.</p>
                 </div>
 
-                <!-- Event 2 -->
-                <div class="event-item">
+                <!-- Dynamic event rows -->
+                <div th:each="ev : ${dashboard.upcomingEventList}"
+                     class="event-item">
+
                     <div class="event-thumb">
-                        <i class="bi bi-palette-fill"></i>
+                        <i th:class="'bi ' + ${ev.iconClass}"></i>
                     </div>
+
                     <div class="event-info">
-                        <div class="event-name">Cultural Arts &amp; Heritage Showcase</div>
+                        <div class="event-name" th:text="${ev.title}">Event Title</div>
                         <div class="event-meta">
-                            <span><i class="bi bi-calendar3"></i> May 20, 2026</span>
-                            <span><i class="bi bi-people"></i> 3/1000</span>
+                            <span>
+                                <i class="bi bi-calendar3"></i>
+                                <span th:text="${ev.formattedDate}">Date</span>
+                            </span>
+                            <span>
+                                <i class="bi bi-people"></i>
+                                <span th:text="${ev.registered} + '/' + ${ev.spots}">
+                                    0/0
+                                </span>
+                            </span>
                         </div>
                         <div class="event-progress">
-                            <div class="event-progress-bar" style="width: 0.3%"></div>
+                            <div class="event-progress-bar"
+                                 th:style="'width: ' + ${ev.progressPercent} + '%'">
+                            </div>
                         </div>
                     </div>
-                    <a href="#" class="btn-manage">Manage</a>
-                </div>
 
-                <!-- Event 3 -->
-                <div class="event-item">
-                    <div class="event-thumb">
-                        <i class="bi bi-mortarboard-fill"></i>
-                    </div>
-                    <div class="event-info">
-                        <div class="event-name">Graduation Ceremony — Class of 2026</div>
-                        <div class="event-meta">
-                            <span><i class="bi bi-calendar3"></i> Jun 28, 2026</span>
-                            <span><i class="bi bi-people"></i> 0/800</span>
-                        </div>
-                        <div class="event-progress">
-                            <div class="event-progress-bar" style="width: 0%"></div>
-                        </div>
-                    </div>
-                    <a href="#" class="btn-manage">Manage</a>
+                    <a th:href="@{/admin/events/{id}(id=${ev.id})}"
+                       class="btn-manage">Manage</a>
                 </div>
-
             </div>
 
             <!-- Right Panels -->
             <div class="right-panels">
 
+                <!-- Events by Category -->
                 <!-- Events by Category -->
                 <div class="card-panel">
                     <div class="card-panel-header">
@@ -155,56 +144,29 @@
                         </div>
                     </div>
 
-                    <div class="category-item">
-                        <div class="category-row">
-                            <span>Technology</span>
-                            <span class="category-count">2</span>
-                        </div>
-                        <div class="category-bar">
-                            <div class="category-bar-fill" style="width: 80%"></div>
-                        </div>
+                    <!-- Empty state -->
+                    <div th:if="${#maps.isEmpty(dashboard.eventsByCategory)}"
+                         class="empty-state">
+                        <p>No events yet.</p>
                     </div>
 
-                    <div class="category-item">
-                        <div class="category-row">
-                            <span>Academic</span>
-                            <span class="category-count">2</span>
-                        </div>
-                        <div class="category-bar">
-                            <div class="category-bar-fill" style="width: 80%"></div>
-                        </div>
-                    </div>
+                    <!-- Category rows — maxCategoryCount comes from Java, no SpEL tricks needed -->
+                    <div th:each="entry : ${dashboard.eventsByCategory}"
+                         class="category-item">
 
-                    <div class="category-item">
                         <div class="category-row">
-                            <span>Career</span>
-                            <span class="category-count">1</span>
+                            <span th:text="${entry.key}">Category</span>
+                            <span class="category-count"
+                                  th:text="${entry.value}">0</span>
                         </div>
-                        <div class="category-bar">
-                            <div class="category-bar-fill" style="width: 45%"></div>
-                        </div>
-                    </div>
 
-                    <div class="category-item">
-                        <div class="category-row">
-                            <span>Sports</span>
-                            <span class="category-count">1</span>
-                        </div>
                         <div class="category-bar">
-                            <div class="category-bar-fill" style="width: 35%"></div>
+                            <div class="category-bar-fill"
+                                 th:style="'width: ' + (${entry.value} * 100 / ${dashboard.maxCategoryCount}) + '%'">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="category-item">
-                        <div class="category-row">
-                            <span>Cultural</span>
-                            <span class="category-count">1</span>
-                        </div>
-                        <div class="category-bar">
-                            <div class="category-bar-fill" style="width: 30%"></div>
-                        </div>
                     </div>
-
                 </div>
 
                 <!-- Recent Registrations -->
@@ -216,47 +178,29 @@
                         </div>
                     </div>
 
-                    <div class="recent-reg-item">
-                        <div class="reg-avatar c1">AK</div>
-                        <div class="reg-info">
-                            <div class="reg-name">Ashan Karunaratne</div>
-                            <div class="reg-event">Inter-Faculty Sports Championship</div>
-                        </div>
-                        <div class="reg-time">2m ago</div>
+                    <div th:if="${#lists.isEmpty(dashboard.recentRegistrations)}"
+                         class="empty-state">
+                        <p>No registrations yet.</p>
                     </div>
 
-                    <div class="recent-reg-item">
-                        <div class="reg-avatar c2">NP</div>
-                        <div class="reg-info">
-                            <div class="reg-name">Nimal Perera</div>
-                            <div class="reg-event">Cultural Arts &amp; Heritage Showcase</div>
-                        </div>
-                        <div class="reg-time">1h ago</div>
-                    </div>
+                    <div th:each="reg : ${dashboard.recentRegistrations}"
+                         class="recent-reg-item">
 
-                    <div class="recent-reg-item">
-                        <div class="reg-avatar c3">SD</div>
-                        <div class="reg-info">
-                            <div class="reg-name">Sithmi De Silva</div>
-                            <div class="reg-event">Tech Innovation Summit</div>
-                        </div>
-                        <div class="reg-time">3h ago</div>
-                    </div>
+                        <div class="reg-avatar"
+                             th:classappend="${reg.avatarClass}"
+                             th:text="${reg.initials}">??</div>
 
-                    <div class="recent-reg-item">
-                        <div class="reg-avatar c4">RM</div>
                         <div class="reg-info">
-                            <div class="reg-name">Ravindu Mendis</div>
-                            <div class="reg-event">Graduation Ceremony 2026</div>
+                            <div class="reg-name"  th:text="${reg.fullName}">Name</div>
+                            <div class="reg-event" th:text="${reg.eventTitle}">Event</div>
                         </div>
-                        <div class="reg-time">5h ago</div>
+
+                        <div class="reg-time" th:text="${reg.timeAgo}">just now</div>
                     </div>
 
                 </div>
-
             </div>
         </div>
-
     </div>
 </div>
 

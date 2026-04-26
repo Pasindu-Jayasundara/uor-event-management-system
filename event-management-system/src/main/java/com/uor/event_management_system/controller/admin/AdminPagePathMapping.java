@@ -1,9 +1,6 @@
 package com.uor.event_management_system.controller.admin;
 
-import com.uor.event_management_system.dto.EventRequestDto;
-import com.uor.event_management_system.dto.EventResponseDto;
-import com.uor.event_management_system.dto.PlatformUserDTO;
-import com.uor.event_management_system.dto.UserSummaryDto;
+import com.uor.event_management_system.dto.*;
 import com.uor.event_management_system.model.EventCategory;
 import com.uor.event_management_system.enums.EventStatus;
 import com.uor.event_management_system.model.EventEntity;
@@ -12,6 +9,7 @@ import com.uor.event_management_system.repository.EventRepository;
 import com.uor.event_management_system.service.EventCategoryService;
 import com.uor.event_management_system.service.EventRegistrationService;
 import com.uor.event_management_system.service.admin.AdminEventService;
+import com.uor.event_management_system.service.admin.DashboardService;
 import com.uor.event_management_system.service.admin.ManageUserService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
@@ -43,6 +41,8 @@ public class AdminPagePathMapping {
     private EventCategoryService eventCategoryService;
 
     @Autowired
+    private DashboardService dashboardService;
+
     private EventRepository eventRepository;
 
     @Autowired
@@ -53,6 +53,10 @@ public class AdminPagePathMapping {
     public String dashboard(Model model, @AuthenticationPrincipal UserDetails userDetails) {
         model.addAttribute("page", "dashboard");
         model.addAttribute("user", userDetails);
+
+        DashboardDto dashboard = dashboardService.buildDashboard();
+        model.addAttribute("dashboard", dashboard);
+
         return "admin/dashboard";
     }
 
