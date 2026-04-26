@@ -125,18 +125,4 @@ public class EventRegistrationService {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
