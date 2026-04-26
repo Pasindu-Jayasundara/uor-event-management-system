@@ -86,6 +86,7 @@ public class HomePagePathMapping {
         response.setHeader("Pragma", "no-cache");
         response.setDateHeader("Expires", 0);
 
+        model.addAttribute("page", "event");
         return "homepage";
 
     }

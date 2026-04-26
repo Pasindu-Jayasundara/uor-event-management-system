@@ -550,6 +550,11 @@ body {
     color: #b0b8c1;
 }
 
+
+
+
+
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1100px) {
     .stat-cards { grid-template-columns: repeat(2, 1fr); }
