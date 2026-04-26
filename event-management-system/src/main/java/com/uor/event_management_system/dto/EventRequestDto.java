@@ -6,7 +6,10 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
 
 //used for the create and edit form
 
@@ -29,15 +32,15 @@ public class EventRequestDto {
     @NotNull(message = "Event date is required.")
     @Future(message = "Event date must be in the future")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime eventDate;
+    private LocalDate eventDate;
 
     @NotNull(message = "Start time is required.")
     @DateTimeFormat(pattern = "HH:mm")
-    private LocalDateTime startTime;
+    private LocalTime startTime;
 
     @NotNull(message = "End time is required.")
     @DateTimeFormat(pattern = "HH:mm")
-    private LocalDateTime endTime;
+    private LocalTime endTime;
 
     @NotNull(message = "Event category is required.")
     private EventCategory eventCategory;
@@ -50,11 +53,10 @@ public class EventRequestDto {
     @NotNull(message = "Max capacity is required.")
     @Min(value = 1, message = "Capacity must be at least 1")
     @Max(value = 500, message = "Capacity can not be exceed 500")
-    private int maxCapacity;
+    private int spots;
 
-    private String organizerEmail;
-    private String organizerName;
-    private String fullDescription;
-    private String tags;
+    private List<Integer> organizerIds;
+
+
 
 }

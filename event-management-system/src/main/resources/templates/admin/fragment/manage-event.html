@@ -32,9 +32,9 @@
                     <option>All</option><option>Technology</option><option>Academic</option>
                     <option>Career</option><option>Sports</option><option>Cultural</option>
                 </select>
-                <div class="view-toggle">
-                    <button class="active">Table</button>
-                    <button>Grid</button>
+                <div class="">
+                    <div class=""></div>
+                    <div></div>
                 </div>
             </div>
             <div class="table-panel">
@@ -46,12 +46,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                    <tr th:each="event : ${events}">
                         <td>
-                            <div class="event-cell">
+                            <div class="event-cell" th:text="${event.title}">
                                 <div class="event-thumb tech"><i class="bi bi-cpu-fill"></i></div>
                                 <div class="event-name-col">
-                                    <div class="name">Annual Tech Innovation Su...</div>
+                                    <div class="name" th:text="${event.title}">Annual Tech Innovation Su...</div>
                                     <div class="location">Main Auditorium, Engineering Building</div>
                                 </div>
                             </div>
@@ -445,9 +445,9 @@
                         <label class="form-label-custom">Event Title <span class="req">*</span></label>
                         <input type="text" class="form-input" id="fTitle" placeholder="e.g. Annual Tech Innovation Summit 2026">
                     </div>
-                    <div class="form-group">
-                        <label class="form-label-custom">Short Description <span class="req">*</span></label>
-                        <textarea class="form-textarea" id="fDesc" style="min-height:90px;" placeholder="Brief description shown in event cards"></textarea>
+                    <div class="">
+                        <label class=""> <span class=""></span></label>
+                        <textarea class="form-textarea" id="fDesc" style="" placeholder="" hidden></textarea>
                     </div>
                     <div class="form-row">
                         <div>
@@ -498,29 +498,42 @@
                         <label class="form-label-custom">Full Description</label>
                         <textarea class="form-textarea" placeholder="Detailed description visible on the event page..."></textarea>
                     </div>
+<!--                    <div class="organizer-section">-->
+<!--                        <div class="organizer-header">-->
+<!--                            <label class="form-label-custom" style="margin:0;">Organizers <span class="req" style="color:#9F0712;">*</span></label>-->
+<!--                            <button class="btn-add-organizer" id="addOrganizerBtn"><i class="bi bi-plus"></i> Add Organizer</button>-->
+<!--                        </div>-->
+<!--                        <div class="organizer-list" id="organizerList">-->
+<!--                            <div class="organizer-row">-->
+<!--                                <input type="text" class="form-input" placeholder="e.g. Department of Computer Science">-->
+<!--                                <input type="email" class="form-input" placeholder="organizer@university.edu">-->
+<!--                                <button class="btn-remove-organizer" onclick="removeOrganizer(this)"><i class="bi bi-trash"></i></button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <div class="organizer-section">
-                        <div class="organizer-header">
-                            <label class="form-label-custom" style="margin:0;">Organizers <span class="req" style="color:#9F0712;">*</span></label>
-                            <button class="btn-add-organizer" id="addOrganizerBtn"><i class="bi bi-plus"></i> Add Organizer</button>
-                        </div>
-                        <div class="organizer-list" id="organizerList">
-                            <div class="organizer-row">
-                                <input type="text" class="form-input" placeholder="e.g. Department of Computer Science">
-                                <input type="email" class="form-input" placeholder="organizer@university.edu">
-                                <button class="btn-remove-organizer" onclick="removeOrganizer(this)"><i class="bi bi-trash"></i></button>
-                            </div>
-                        </div>
+                        <label class="form-label-custom">Organizers *</label>
+
+                        <!-- SEARCH INPUT -->
+                        <input type="text" id="userSearch" class="form-input" placeholder="Search users...">
+
+                        <!-- SEARCH RESULTS -->
+                        <div id="searchResults" style="margin-top:10px;"></div>
+
+                        <!-- SELECTED ORGANIZERS -->
+                        <div id="selectedOrganizers" style="margin-top:10px;"></div>
                     </div>
                     <div class="form-group">
-                        <div class="field-icon-label"><i class="bi bi-tag"></i><span>Tags</span></div>
-                        <div class="tags-wrapper" id="tagsWrapper">
-                            <input type="text" class="tag-input" id="tagInput" placeholder="Add a tag and press Enter">
+                        <div class=""><i class=""></i><span></span></div>
+                        <div class="" id="tagsWrapper">
+                            <input type="text" class="tag-input" id="tagInput" placeholder="">
                         </div>
                     </div>
                 </div>
 
                 <!-- Step 3 -->
                 <div class="step-panel" id="step3">
+                    <p style="color:#9F0712;">Add event banner and rename it as banner.png</p>
                     <div class="file-drop-zone" onclick="document.getElementById('fileInput').click()">
                         <input type="file" id="fileInput" style="display:none;" multiple
                                accept=".pdf,.doc,.docx,.ppt,.pptx,.png,.jpg"
@@ -530,7 +543,7 @@
                         <div class="drop-sub">PDF, DOC, DOCX, PPT, PNG, JPG up to 20MB</div>
                         <button class="btn-upload-demo" type="button"
                                 onclick="event.stopPropagation(); document.getElementById('fileInput').click()">
-                            <i class="bi bi-upload"></i> Upload File (Demo)
+                            <i class="bi bi-upload"></i> Upload File
                         </button>
                     </div>
                     <div class="no-files-text" id="noFilesText">No files attached yet</div>
@@ -650,6 +663,8 @@
         let currentStep = 1;
         const totalSteps = 3;
 
+        let eventData = {};
+
         document.getElementById('openModalBtn').addEventListener('click', () => {
             document.getElementById('modalTitle').textContent = 'Create New Event';
             clearForm();
@@ -686,6 +701,7 @@
         }
 
         function clearForm() {
+            eventData = {};
             document.getElementById('fTitle').value = '';
             document.getElementById('fDesc').value  = '';
             document.getElementById('fDate').value  = '';
@@ -714,10 +730,71 @@
             document.getElementById('actionBtn').textContent = step === totalSteps ? 'Save Event' : 'Next →';
         }
 
+        // document.getElementById('actionBtn').addEventListener('click', () => {
+        //     if (currentStep < totalSteps) { goToStep(currentStep + 1); }
+        //     else { alert('Event saved! (Demo)'); closeEventModal(); }
+        // });
+
         document.getElementById('actionBtn').addEventListener('click', () => {
-            if (currentStep < totalSteps) { goToStep(currentStep + 1); }
-            else { alert('Event saved! (Demo)'); closeEventModal(); }
+            submitStep(currentStep);
         });
+
+        function submitStep(step){
+            const data = collectFormData();
+
+            // merge previous + current
+            eventData = { ...eventData, ...data };
+
+            fetch(`/manage-event/add?step=${getStepName(step)}`,{
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(eventData)
+            })
+                .then(res => {
+                    if(!res.ok) throw  res.text().then(err => {throw err});
+                    return res.json();
+                })
+
+                .then(res => {
+                    console.log("SUCCESS:", res);
+
+                    if(step < 3){
+                        goToStep(step + 1);
+                    }else {
+                        alert("Event Saved Successfully");
+                        closeEventModal();
+                    }
+                })
+                .catch(err => {
+                    alert("ERROR: " + err);
+                });
+
+        }
+
+        function collectFormData(){
+            return {
+                title: document.getElementById('fTitle').value,
+                eventDescription: document.getElementById('fDesc').value,
+                eventDate: document.getElementById('fDate').value,
+                startTime: document.getElementById('fStart').value,
+                endTime: document.getElementById('fEnd').value,
+                eventLocation: document.getElementById('fLocation').value,
+                maxCapacity: document.getElementById('fCapacity').value,
+                organizerIds: selectedOrganizerIds,
+                image: "banner.png", // for now (later handle real file)
+                status: "PUBLISHED",
+                eventCategory: { id: 1 } // adjust later dynamically
+            };
+
+        }
+
+        function getStepName(step){
+            if(step === 1) return "BASIC";
+            if(step === 2) return "DETAILS";
+            if(step === 3) return "FILES";
+        }
 
         // ===========================
         // ORGANIZERS
@@ -733,6 +810,50 @@
         `;
             list.appendChild(row);
         });
+
+        let selectedOrganizerIds = [];
+
+        // SEARCH USERS
+        document.getElementById("userSearch").addEventListener("input", function () {
+            const query = this.value;
+
+            if (query.length < 2) return;
+
+            fetch(`/admin/search?q=${query}`)
+                .then(res => res.json())
+                .then(users => {
+                    const resultsDiv = document.getElementById("searchResults");
+                    resultsDiv.innerHTML = "";
+
+                    users.forEach(user => {
+                        const div = document.createElement("div");
+                        div.style.cursor = "pointer";
+                        div.innerHTML = `${user.firstName} ${user.lastName} (${user.email})`;
+
+                        div.onclick = () => selectOrganizer(user);
+
+                        resultsDiv.appendChild(div);
+                    });
+                });
+        });
+
+        function selectOrganizer(user) {
+
+            // avoid duplicates
+            if (selectedOrganizerIds.includes(user.id)) return;
+
+            selectedOrganizerIds.push(user.id);
+
+            const selectedDiv = document.getElementById("selectedOrganizers");
+
+            const item = document.createElement("div");
+            item.innerHTML = `
+                ${user.firstName} ${user.lastName}
+                <button onclick="removeOrganizer(${user.id}, this)">Remove</button>
+            `;
+
+            selectedDiv.appendChild(item);
+        }
 
         function removeOrganizer(btn) {
             const list = document.getElementById('organizerList');

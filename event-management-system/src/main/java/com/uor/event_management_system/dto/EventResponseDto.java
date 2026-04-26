@@ -28,9 +28,6 @@ public class EventResponseDto {
     private EventCategory eventCategory;
     private EventStatus status;
 
-    // Display strings (already formatted for Thymeleaf th:text)
-    private String categoryDisplay;         // "Technology"
-    private String statusDisplay;           // "Published"
 
     private LocalDate eventDate;
     private LocalTime startTime;
@@ -40,26 +37,14 @@ public class EventResponseDto {
     private int fileCount;
 
     private int allRegisteredCount;
-    private int maxCapacity;
+    private int spots;
     private int spotsLeft;
     private int registrationPercent;
     private String percentageStatus; //capacity status(53 spots left || "FULL")
     private boolean nearlyFull;
 
-    private String formattedDate;           // "Sun, Mar 15, 2026"
-    private String formattedTime;           // "09:00 – 17:00"
 
-// ── Extra fields (for detail page) ───────────────────────────
 
-    private String organizerName;
-    private String organizerEmail;
-    private List<String> tags;              // ["AI","Blockchain","Cloud"]
-    private List<String> participantNames;  // from EventRegistration module
-
-// ── Grid-specific ─────────────────────────────────────────────
-
-    private boolean registeredByCurrentUser; // shows "✓ Registered" badge
-    private String progressBarColor;         // "red", "yellow", "green"
 
 
 

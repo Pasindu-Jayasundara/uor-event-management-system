@@ -18,4 +18,6 @@ public interface UserRepository extends JpaRepository<UserEntity,Integer> {
 
     @Query("SELECT u FROM UserEntity u JOIN u.staffProfile s WHERE s.verified = 0 AND u.enabled = 1")
     List<UserEntity> getNotVerifiedStaffList();
+
+    List<UserEntity> findByFirstNameContainingIgnoreCase(String name);
 }
