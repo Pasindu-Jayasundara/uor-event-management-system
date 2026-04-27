@@ -16,18 +16,27 @@ public class EventHandlerFactory {
     }
 
     public EventHandler getChain(EventStep step) {
+
+        BasicEventHandler basicHandler = new BasicEventHandler();
+        DetailsEventHandler detailsHandler = new DetailsEventHandler();
+        FilesEventHandler filesHandler = new FilesEventHandler();
+
         switch (step) {
             case BASIC:
-                return basic;
+                return basicHandler;
+
             case DETAILS:
-                basic.setNext(details);
-                return details;
+                basicHandler.setNext(detailsHandler);
+                return basicHandler;
+
             case FILES:
-                basic.setNext(details);
-                details.setNext(files);
-                return files;
+                basicHandler.setNext(detailsHandler);
+                detailsHandler.setNext(filesHandler);
+                return basicHandler;
+
             default:
                 throw new RuntimeException("Invalid step");
         }
     }
+
 }

@@ -63,6 +63,7 @@ public class AdminPagePathMapping {
     @GetMapping("/manage-event")
     public String manageEvent(Model model) {
         List<EventResponseDto> events = adminEventService.getAllEvents();
+        model.addAttribute("events", events);
         model.addAttribute("page", "manage-event");
         return "admin/dashboard";
     }
